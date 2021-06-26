@@ -5,6 +5,7 @@ import pymysql
 
 bp = Blueprint('exam', __name__, url_prefix='/exam', static_folder='static')
 
+
 @bp.route('/')
 def main():
     return 'exam blueprint ok'
