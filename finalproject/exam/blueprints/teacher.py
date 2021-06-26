@@ -8,20 +8,34 @@ from sqlalchemy import desc
 from database import db
 from exam.models.answer import ProbAnalysis, Anspaper
 from models import Paper
+from flask_login import current_user
 
 teacher_bp = Blueprint('teacher', __name__)
 
 
 @teacher_bp.route('/', methods=['GET', 'POST'])
 def home():
+    if not current_user.is_authenticated:
+        return redirect('/')
+    if current_user.status not in ['教师', '管理员']:
+        return redirect(url_for('exam.view_exam.home'))
     dt1 = time
-    exams = Paper.query.order_by(desc(Paper.end_t)).all()
+    if current_user.status == '教师':
+        exams = Paper.query.filter_by(teacher_id=current_user.uid).order_by(desc(Paper.end_t)).all()
+    else:
+        exams = Paper.query.order_by(desc(Paper.end_t)).all()
     return render_template('Exam/teacher/view_exam.html', exams=exams, time=dt1)
 
 
 @teacher_bp.route('/information/<int:paper_id>')
 def show_information(paper_id):
+    if not current_user.is_authenticated:
+        return redirect('/')
+    if current_user.status not in ['教师', '管理员']:
+        return redirect(url_for('exam.view_exam.home'))
     exam = Paper.query.filter_by(paper_id=paper_id).first()
+    if current_user.status == '教师' and exam.teacher_id != current_user.uid:  # 该试卷并非该老师发布的
+        return redirect(url_for('exam.teacher.home'))
     dt1 = time.time()
     dt2 = time.mktime(exam.strt_t.timetuple())  # 开始时间
     dt3 = time.mktime(exam.end_t.timetuple())  # 结束时间
@@ -31,7 +45,7 @@ def show_information(paper_id):
         label = 0
     elif dt1>dt3:
         label = 2
-        if anspapers(0).Ranknum == 0:
+        if anspapers.first().Ranknum == 0:
             prescore = -1  # 记录前一人的分数
             rank_count = 1
             for anspaper in anspapers:  # 计算平均分
@@ -49,19 +63,25 @@ def show_information(paper_id):
 
 @teacher_bp.route('/show_exam/<int:paper_id>', methods=['GET', 'POST'])
 def show_exam(paper_id):
+    if not current_user.is_authenticated:
+        return redirect('/')
+    if current_user.status not in ['教师', '管理员']:
+        return redirect(url_for('exam.view_exam.home'))
     exam = Paper.query.filter_by(paper_id=paper_id).first()
+    if current_user.status == '教师' and exam.teacher_id != current_user.uid:  # 该试卷并非该老师发布的
+        return redirect(url_for('exam.teacher.home'))
     problems = exam.problems
-    if exam.anlsflag == False:#每道题的解答结果还未分析
+    if not exam.anlsflag:  # 每道题的解答结果还未分析
         answerpapers = Anspaper.query.filter_by(paper_id=paper_id).all()
         totalnum = Anspaper.query.filter_by(paper_id=paper_id).count()
         totalscore = 0
-        for answerpaper in answerpapers:#计算平均分
+        for answerpaper in answerpapers:  # 计算平均分
             totalscore += answerpaper.score_all
         if totalnum == 0:
             exam.score = 0
         else:
             exam.score = totalscore / totalnum
-        for problem in problems:#计算每道题的解答结果
+        for problem in problems:  # 计算每道题的解答结果
             totalscore = 0
             null_count = 0
             t_count = 0
