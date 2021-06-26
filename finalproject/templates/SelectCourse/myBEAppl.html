@@ -35,7 +35,7 @@
                                         <td>{{ app.student_id }}</td>
                                         <td>{{ app.course_id }}</td>
                                         <td class="text-center">
-                                            <a style = "color: #FFFFFF" class="btn btn-danger" href="{{ url_for('deleteBEappl',course_id=app.course_id) }}">删除</a>
+                                            <a style = "color: #FFFFFF" class="btn btn-danger" href="{{ url_for('selectcourse.deleteBEappl',course_id=app.course_id) }}">删除</a>
                                         </td>
                                     </tr>
                                 {% endfor %}

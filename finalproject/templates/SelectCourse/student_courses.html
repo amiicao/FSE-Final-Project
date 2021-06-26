@@ -264,7 +264,7 @@
                                             {{ course.max_capacity }}
                                         </td>
                                         <td class="text-center">
-                                            <a style = "color: #FFFFFF" class="btn btn-danger"  href="{{ url_for('del_course2',course_id=course.id) }}">退课</a>
+                                            <a style = "color: #FFFFFF" class="btn btn-danger"  href="{{ url_for('selectcourse.del_course2',course_id=course.id) }}">退课</a>
                                         </td>
                                     </tr>
                                 {% endfor %}
