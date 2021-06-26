@@ -16,7 +16,7 @@
     <div class="card bg-primary text-light">
         <div class="card-body row-cols-3 d-flex justify-content-between" style="padding-bottom: 0px; height: 50px">
             <div class="row" style="text-align: left;">
-                <a href="{{ url_for('view_exam.show_information', paper_id=exam.paper_id)}}"><i class="icofont-arrow-left"></i> 返回</a>
+                <a href="{{ url_for('exam.view_exam.show_information', paper_id=exam.paper_id)}}"><i class="icofont-arrow-left"></i> 返回</a>
             </div>
             <div class="row" style="text-align: center;">
                 <h5 class="mb-0 fw-bold ">{{ exam.name }}</h5>
