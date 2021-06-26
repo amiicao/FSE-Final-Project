@@ -1,4 +1,3 @@
-{% extends "sidebar.html" %}
 <!doctype html>
 <html class="no-js" lang="en" dir="ltr">
 
@@ -6,21 +5,68 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>:: My-Task:: Departments</title>
+    <title>:: My-Task:: Employee Profile </title>
     <link rel="icon" href="favicon.ico" type="image/x-icon"> <!-- Favicon-->
     <!-- plugin css file  -->
-    <link rel="stylesheet" href="../static/assets/plugin/datatables/responsive.dataTables.min.css">
-    <link rel="stylesheet" href="../static/assets/plugin/datatables/dataTables.bootstrap5.min.css">
-    <!-- project css file  -->
-    <link rel="stylesheet" href="../static/assets/css/my-task.style.css">
+    <link rel="stylesheet" href="../../static/assets/plugin/nestable/jquery-nestable.css"/>
+    <link rel="stylesheet" href="../../static/assets/css/my-task.style.css">
 </head>
 <body>
 
 <div id="mytask-layout" class="theme-indigo">
+{% block body %}
+    <!-- sidebar -->
+    <div class="sidebar px-4 py-4 py-md-5 me-0">
+        <div class="d-flex flex-column h-100">
+            <a href="index.html" class="mb-0 brand-icon">
+                <span class="logo-icon">
+                    <svg  width="35" height="35" fill="currentColor" class="bi bi-clipboard-check" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+                        <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                        <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+                    </svg>
+                </span>
+                <span class="logo-text">教务管理系统</span>
+            </a>
+            <!-- Menu: main ul -->
+            <ul class="menu-list flex-grow-1 mt-3">
+                <li class="collapsed">
+                    <a class="m-link active" data-bs-toggle="collapse" data-bs-target="#emp-Components" href="#"><i
+                            class="icofont-users-alt-5"></i> <span>信息管理</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
+                    <!-- Menu: Sub menu ul -->
+                    <ul class="sub-menu collapse show" id="emp-Components">
+                        <li><a class="ms-link" href="personal-center.html"> <span>个人中心</span></a></li>
+                        <li><a class="ms-link active" href="course-search.html"> <span>课程搜索</span></a></li>
+                        <li><a class="ms-link" href="user-search.html"> <span>用户搜索</span></a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Theme: Switch Theme -->
+            <ul class="list-unstyled mb-0">
+                <li class="d-flex align-items-center justify-content-center">
+                    <div class="form-check form-switch theme-switch">
+                        <input class="form-check-input" type="checkbox" id="theme-switch">
+                        <label class="form-check-label" for="theme-switch">深色模式</label>
+                    </div>
+                </li>
+                <li class="d-flex align-items-center justify-content-center">
+                    <div class="form-check form-switch theme-rtl">
+                        <input class="form-check-input" type="checkbox" id="theme-rtl">
+                        <label class="form-check-label" for="theme-rtl">侧栏位置</label>
+                    </div>
+                </li>
+            </ul>
+            <!-- Menu: menu collepce btn -->
+            <button type="button" class="btn btn-link sidebar-mini-btn text-light">
+                <span class="ms-2"><i class="icofont-bubble-right"></i></span>
+            </button>
+        </div>
+    </div>
 
     <!-- main body area -->
     <div class="main px-lg-4 px-md-4">
-        {% block body %}
+
         <!-- Body: Body -->
         <div class="body d-flex py-lg-3 py-md-2">
             <div class="container-xxl">
@@ -52,11 +98,11 @@
                         <div class="row g-3">
                             <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-24">
                                 <div class="card">
-                                    
+
                                     <div class="card-body">
                                         <ul class="list-unstyled mb-0">
                                             <li class="row flex-wrap mb-3">
-                                                <div class="col-6"> 
+                                                <div class="col-6">
                                                     <span class="fw-bold">课程名</span>
                                                 </div>
                                                 <div class="col-6">
@@ -64,7 +110,7 @@
                                                 </div>
                                             </li>
                                             <li class="row flex-wrap mb-3">
-                                                <div class="col-6"> 
+                                                <div class="col-6">
                                                     <span class="fw-bold">课程编号</span>
                                                 </div>
                                                 <div class="col-6">
@@ -72,7 +118,7 @@
                                                 </div>
                                              </li>
                                              <li class="row flex-wrap mb-3">
-                                                <div class="col-6"> 
+                                                <div class="col-6">
                                                     <span class="fw-bold">课程类型</span>
                                                 </div>
                                                 <div class="col-6">
@@ -80,7 +126,7 @@
                                                 </div>
                                              </li>
                                              <li class="row flex-wrap mb-3">
-                                                <div class="col-6"> 
+                                                <div class="col-6">
                                                     <span class="fw-bold">任课教师</span>
                                                 </div>
                                                 <div class="col-6">
@@ -88,7 +134,7 @@
                                                 </div>
                                              </li>
                                              <li class="row flex-wrap mb-3">
-                                                <div class="col-6"> 
+                                                <div class="col-6">
                                                     <span class="fw-bold">学分</span>
                                                 </div>
                                                 <div class="col-6">
@@ -96,7 +142,7 @@
                                                 </div>
                                              </li>
                                              <li class="row flex-wrap mb-3">
-                                                <div class="col-6"> 
+                                                <div class="col-6">
                                                     <span class="fw-bold">上课时间</span>
                                                 </div>
                                                 <div class="col-6">
@@ -104,7 +150,7 @@
                                                 </div>
                                              </li>
                                              <li class="row flex-wrap mb-3">
-                                                <div class="col-6"> 
+                                                <div class="col-6">
                                                     <span class="fw-bold">教室</span>
                                                 </div>
                                                 <div class="col-6">
@@ -112,7 +158,7 @@
                                                 </div>
                                              </li>
                                              <li class="row flex-wrap mb-3">
-                                                <div class="col-6"> 
+                                                <div class="col-6">
                                                     <span class="fw-bold">容量</span>
                                                 </div>
                                                 <div class="col-6">
@@ -120,13 +166,13 @@
                                                 </div>
                                              </li>
                                              <li class="row flex-wrap mb-3">
-                                                <div class="col-6"> 
+                                                <div class="col-6">
                                                     <span class="fw-bold">课程描述</span>
                                                 </div>
                                                 <div class="col-6">
                                                     <span class="text-muted">{{course.description}}</span>
                                                 </div>
-                                             </li>                                                                           
+                                             </li>
                                         </ul>
                                     </div>
                                 </div>
@@ -134,7 +180,7 @@
                         </div>
                     </div>
                 </div><!-- Row End -->
-               
+
             </div>
         </div>
 
@@ -197,10 +243,10 @@
                                               <li>
                                                   <a class="dropdown-item" href="#">
                                                     <i class="icofont-check-circled"></i>
-                                                      
+
                                                     <span>All operations permission</span>
                                                    </a>
-                                                   
+
                                                 </li>
                                                 <li>
                                                      <a class="dropdown-item" href="#">
@@ -239,7 +285,7 @@
                                               <li>
                                                   <a class="dropdown-item" href="#">
                                                     <i class="icofont-check-circled"></i>
-                                                      
+
                                                     <span>All operations permission</span>
                                                    </a>
                                                 </li>
@@ -272,7 +318,7 @@
                 </div>
             </div>
             </div>
-        </div> 
+        </div>
 
         <!-- Edit Employee Personal Info-->
         <div class="modal fade" id="edit1" tabindex="-1"  aria-hidden="true">
@@ -288,11 +334,11 @@
                                 <div class="row g-3 mb-3">
                                     <div class="col">
                                         <label for="exampleFormControlInput877" class="form-label">姓名</label>
-                                        <input type="text" class="form-control" id="exampleFormControlInput877" value="张三"> 
+                                        <input type="text" class="form-control" id="exampleFormControlInput877" value="张三">
                                     </div>
                                     <div class="col">
                                         <label for="exampleFormControlInput977" class="form-label">性别</label>
-                                        <input type="text" class="form-control" id="exampleFormControlInput977" value="男"> 
+                                        <input type="text" class="form-control" id="exampleFormControlInput977" value="男">
                                     </div>
                                     <div class="col">
                                         <label for="exampleFormControlInput9777" class="form-label">学工号</label>
@@ -324,15 +370,15 @@
                                     <label for="exampleFormControlInput9777" class="form-label">身份证号</label>
                                     <input type="text" class="form-control" id="exampleFormControlInput9777" value="430181200102232671">
                                 </div>
-                                </div> 
+                                </div>
                             </form>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Done</button>
                         <button type="button" class="btn btn-primary">Create</button>
-                    </div> 
-                </div>  
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -350,11 +396,11 @@
                                 <div class="row g-3 mb-3">
                                     <div class="col">
                                         <label for="exampleFormControlInput8775" class="form-label">院系</label>
-                                        <input type="text" class="form-control" id="exampleFormControlInput8775" value="软件工程学院"> 
+                                        <input type="text" class="form-control" id="exampleFormControlInput8775" value="软件工程学院">
                                     </div>
                                     <div class="col">
                                         <label for="exampleFormControlInput977" class="form-label">专业</label>
-                                        <input type="text" class="form-control" id="exampleFormControlInput9775" value="软件工程"> 
+                                        <input type="text" class="form-control" id="exampleFormControlInput9775" value="软件工程">
                                     </div>
                                 </div>
                                 <div class="row g-3 mb-3">
@@ -362,26 +408,27 @@
                                     <label for="exampleFormControlInput97775" class="form-label">班级</label>
                                     <input type="text" class="form-control" id="exampleFormControlInput97775" value="软工1902">
                                 </div>
-                                </div> 
+                                </div>
                             </form>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Done</button>
                         <button type="button" class="btn btn-primary">Create</button>
-                    </div> 
-                </div>  
+                    </div>
+                </div>
             </div>
         </div>
-        
+
     </div>
 </div>
 
 <!-- Jquery Core Js -->
-<script src="../static/assets/bundles/libscripts.bundle.js"></script>
+<script src="../../static/assets/bundles/libscripts.bundle.js"></script>
 
 <!-- Jquery Page Js -->
-<script src="../static/assets/js/template.js"></script>
+<script src="../../static/assets/js/template.js"></script>
 {% endblock %}
 </body>
 </html>
+

@@ -213,4 +213,4 @@ class Major(db.Model):
     __tablename__ = 'major'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(20), unique=True)
-    students = db.relationship("Student", backref="major")
+    # students = db.relationship("Student", backref="major")
