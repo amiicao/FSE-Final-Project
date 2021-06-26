@@ -39,7 +39,7 @@
                                     {{ message }}
                                     </div>
                                     {% endfor %}
-                                    <form action="{{ url_for('inquiry_courses') }}" method="POST" style= "text-align: center;">
+                                    <form action="{{ url_for('selectcourse.inquiry_courses') }}" method="POST" style= "text-align: center;">
                                         <h3>搜索引擎</h3>
                                         <select id="Option" name = "Option" >
                                             <option>选搜索方式</option>
@@ -129,13 +129,13 @@
                                                     {{ course.max_capacity }}
                                                 </td>
                                                 <td class="text-center">
-                                                    <a style = "color: #FFFFFF" class="btn btn-primary" href="{{ url_for('sel_course',course_id=course.id) }}">选课</a>
+                                                    <a style = "color: #FFFFFF" class="btn btn-primary" href="{{ url_for('selectcourse.sel_course',course_id=course.id) }}">选课</a>
                                                 </td>
                                                 <td class="text-center">
-                                                    <a style = "color: #FFFFFF" class="btn btn-success"  href="{{ url_for('BEsel_course',course_id=course.id) }}">补选</a>
+                                                    <a style = "color: #FFFFFF" class="btn btn-success"  href="{{ url_for('selectcourse.BEsel_course',course_id=course.id) }}">补选</a>
                                                 </td>
                                                 <td class="text-center">
-                                                    <a style = "color: #FFFFFF" class="btn btn-danger"  href="{{ url_for('del_course',course_id=course.id) }}">退课</a>
+                                                    <a style = "color: #FFFFFF" class="btn btn-danger"  href="{{ url_for('selectcourse.del_course',course_id=course.id) }}">退课</a>
                                                 </td>
                                             </tr>
                                         {% endfor %}

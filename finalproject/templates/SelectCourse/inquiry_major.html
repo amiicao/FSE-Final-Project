@@ -33,7 +33,7 @@
                         <div class="card mb-3">
                             <div class="card-body">
                                 <div class = "inquiry">
-                                    <form action="{{ url_for('inquiry_major') }}" method="POST" style="text-align: center;" >
+                                    <form action="{{ url_for('selectcourse.inquiry_major') }}" method="POST" style="text-align: center;" >
                                         <h3>专业查询</h3>
                                         <select id="Option" name = "Option" >
                                             <option>选搜索方式</option>
@@ -61,7 +61,7 @@
                                             <tr>
                                                 <td><span class="fw-bold ms-1">{{ major.name }}</span></td>
                                                 <td class="text-center" >
-                                                    <a style = "color: #FFFFFF" class="btn btn-primary" href="{{ url_for('download',filename=major.name+'.docx') }}">下载</a>
+                                                    <a style = "color: #FFFFFF" class="btn btn-primary" href="{{ url_for('selectcourse.download',filename=major.name+'.docx') }}">下载</a>
                                                 </td>
                                             </tr>
                                         {% endfor %}
