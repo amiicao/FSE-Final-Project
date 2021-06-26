@@ -1,0 +1,21 @@
+<tr>
+    <td><span class="fw-bold">{{ problem.problem_id }}</span></td>
+    <td>
+        {% if problem.type == 0 %}判断{% endif %}
+        {% if problem.type == 1 %}单选{% endif %}
+        {% if problem.type == 2 %}多选{% endif %}
+    </td>
+    <td>{{ problem.text | truncate(25) }}</td>
+    <td>
+        {% for tag in problem.tags %}
+            <span class="badge bg-success">{{ tag.tag_name }}</span>
+        {% endfor %}
+    </td>
+    <td>{{ problem.papers | length }}</td>
+    <td>
+        <span class="item-body">
+            <input id="choose-{{ problem.problem_id }}" type="checkbox" name="{{ problem.problem_id }}" value="{{ problem.problem_id }}" />
+        </span>
+    </td>
+</tr>
+

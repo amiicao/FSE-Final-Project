@@ -1,0 +1,72 @@
+{% extends 'Exam/base.html' %}
+
+{% block title %}考试信息{% endblock %}
+
+{% block content %}
+    <div class="body d-flex py-3">
+        <div class="container-xxl">
+            <div class="row clearfix g-3">
+                <a href="{{ url_for('exam.teacher.home') }}" class="btn bg-light lift" style="width:60pt;"><i class="icofont-arrow-left"></i> 返回</a>
+                <div class="card color-bg-100">
+                    <div class="card-header py-3 d-flex justify-content-between bg-transparent border-bottom-0">
+                        <h5 class="mb-0 fw-bold ">{{ exam.name }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3 row-cols-2 top-perfomer">
+                            <div class="col">
+                                <p><strong>考试科目</strong>　{{ exam.subject }}</p>
+                                <p><strong>开放时间</strong>　{{ exam.strt_t }}</p>
+                                <p><strong>总分　　</strong>　{{ length }} 分</p>
+                            </div>
+                            <div class="col">
+                                <p><strong>考试时长</strong>　{{ t }} 分钟</p>
+                                <p><strong>结束时间</strong>　{{ exam.end_t }}</p>
+                                <p><strong>题目数　</strong>　{{ length }} 题</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% if label == 0 %}
+                    <div>考试尚未开始</div>
+                {% elif label == 1 %}
+                    <div>考试正在进行，请耐心等候</div>
+                {% elif label == 2 %}
+                    <a href="{{ url_for('.show_exam', paper_id=exam.paper_id) }}" class="btn bg-primary text-light btn-lg lift" style="width:150pt;">查看考试结果</a>
+                    <div class="row clearfix g-3"  style="margin-top:10pt;">
+                    <div class="col-sm-12">
+                        <div class="card mb-3">
+							<div class="card-header py-3 d-flex justify-content-between bg-transparent border-bottom-0">
+                                <h6 class="mb-0 fw-bold">学生表现</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover align-middle mb-0" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>排名</th>
+                                                <th>学号</th>
+												<th>分数</th>
+												<th>详细表现</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for anspaper in anspapers %}
+                                            <tr>
+												<td>{{ loop.index }}</td>
+												<td>{{ anspaper.student_id }}</td>
+												<td>{{ anspaper.score_all }}</td>
+												<td><i class="icofont-binoculars"></i></td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                  </div>
+                </div><!-- Row End -->
+                {% endif %}
+            </div><!-- Row End -->
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% block jump %}{% endblock %}
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="icon" href="{{ url_for('exam.static', filename='images/favicon.ico') }}" type="image/x-icon">
+
+    {% block plugin_css %}{% endblock %}
+    <!-- project css file  -->
+    <link rel="stylesheet" href="{{ url_for('exam.static', filename='css/my-task.style.css') }}">
+
+</head>
+<body onload="time()">
+
+<div id="mytask-layout" class="theme-indigo">
+
+    {% include 'Exam/_sidebar.html' %}
+
+    <!-- main body area -->
+    <div class="main px-lg-4 px-md-4">
+
+        {% include 'Exam/_header.html' %}
+
+
+        {% block content %}{% endblock %}
+
+    </div>
+</div>
+
+<!-- Jquery Core Js -->
+<script src="{{ url_for('exam.static', filename='bundles/libscripts.bundle.js') }}"></script>
+
+{% block plugin_js %}{% endblock %}
+
+<!-- Jquery Page Js -->
+<script src="{{ url_for('exam.static', filename='js/template.js') }}"></script>
+<script src="{{ url_for('exam.static', filename='js/g_9.js') }}"></script>
+<script src="{{ url_for('exam.static', filename='js/time.js') }}"></script>
+
+
+{% block custom_js %}{% endblock %}
+
+</body>
+
+</html>
+
