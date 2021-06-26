@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'Exam/base.html' %}
 
 {% block title %}显示考试{% endblock %}
 
@@ -16,7 +16,7 @@
                         <div class="card-header no-bg bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap">
                             <h3 class="fw-bold mb-0 py-3 pb-2">我发布的考试</h3>
                             <div class="col-auto d-flex w-sm-100">
-                            <a href="../manage_exam/gen_exam_home" class="btn btn-dark btn-set-task w-sm-100"><i class="icofont-plus-circle me-2 fs-6"></i>添加试卷</a>
+                            <a href="{{ url_for('exam.manage_exam.home') }}" class="btn btn-dark btn-set-task w-sm-100"><i class="icofont-plus-circle me-2 fs-6"></i>添加试卷</a>
                             </div>
                             <div class="col-auto py-2 w-sm-100">
                                 <ul class="nav nav-tabs tab-body-header rounded invoice-set" role="tablist">

@@ -2,8 +2,8 @@ from flask import Blueprint, render_template_string
 from flask_sqlalchemy import SQLAlchemy
 
 import pymysql
-pymysql.install_as_MySQLdb()
-bp = Blueprint('exam', __name__, url_prefix='/exam')
+
+bp = Blueprint('exam', __name__, url_prefix='/exam', static_folder='static')
 
 @bp.route('/')
 def main():

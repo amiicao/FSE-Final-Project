@@ -7,7 +7,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form action="{{ url_for('problem.edit_problem') }}" method="post" id="edit-form">
+            <form action="{{ url_for('exam.problem.edit_problem') }}" method="post" id="edit-form">
                 {{ form.csrf_token }}{{ form.adder }}{{ form.problem_id }}
                 <div class="row mb-2">
                     <div class="col-4">

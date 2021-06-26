@@ -1,10 +1,10 @@
-{% extends 'base.html' %}
+{% extends 'Exam/base.html' %}
 
 {% block title %}教师题库管理{% endblock %}
 
 {% block plugin_css %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='plugin/datatables/responsive.dataTables.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='plugin/datatables/dataTables.bootstrap5.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('exam.static', filename='plugin/datatables/responsive.dataTables.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('exam.static', filename='plugin/datatables/dataTables.bootstrap5.min.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -69,7 +69,7 @@
                                                 <div class="btn-group" role="group" aria-label="Basic outlined example">
                                                     <button problem-id="{{ problem.problem_id }}" class="btn btn-outline-secondary problem-edit"><i class="icofont-edit text-success"></i></button>
                                                     {% if problem.papers | length == 0 %}
-                                                        <form class="inline-form" method="post" action="{{ url_for('problem.delete_problem', problem_id=problem.problem_id) }}">
+                                                        <form class="inline-form" method="post" action="{{ url_for('exam.problem.delete_problem', problem_id=problem.problem_id) }}">
                                                             <button type="submit" class="btn btn-outline-secondary" onclick="return confirm('确定删除？')"><i class="icofont-ui-delete text-danger"></i></button>
                                                         </form>
                                                     {% else %}
@@ -101,7 +101,7 @@
 {% endblock %}
 
 {% block plugin_js %}
-<script src="{{ url_for('static', filename='bundles/dataTables.bundle.js') }}"></script>
+<script src="{{ url_for('exam.static', filename='bundles/dataTables.bundle.js') }}"></script>
 {% endblock %}
 
 {% block custom_js %}
@@ -130,7 +130,7 @@
 
         $(document).on('click', '.problem-edit', function(){
             let id = $(this).attr("problem-id");
-            $.post("{{ url_for('problem.render_edit_form') }}", {
+            $.post("{{ url_for('exam.problem.render_edit_form') }}", {
                 id: id
             }, function(data, status) {
                 $('#problem-edit-pane').html(data).modal("show");
@@ -139,7 +139,7 @@
         });
 
         $(document).on('click', '#problem-edit-submit', function() {  // 在 Modal 中必须这么写，不知道为什么……
-           $.post("{{ url_for('problem.edit_problem') }}", $('#edit-form').serialize(), function(data, status) {
+           $.post("{{ url_for('exam.problem.edit_problem') }}", $('#edit-form').serialize(), function(data, status) {
                if (data === 'OK') {
                    window.location.reload();
                }
@@ -152,7 +152,7 @@
 
         $(document).on('change', '#problem-type', function() {
             let x = $(this).val();
-            if (x == '0') {
+            if (x === '0') {
                 $('#choice-fields').hide();
             }
             else {

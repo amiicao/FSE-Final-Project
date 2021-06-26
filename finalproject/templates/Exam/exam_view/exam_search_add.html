@@ -1,8 +1,8 @@
-{% extends 'base.html' %}
+{% extends 'Exam/base.html' %}
 {% block title %}添加题目至试卷{% endblock %}
 {% block plugin_css %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='plugin/datatables/responsive.dataTables.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='plugin/datatables/dataTables.bootstrap5.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('exam.static', filename='plugin/datatables/responsive.dataTables.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('exam.static', filename='plugin/datatables/dataTables.bootstrap5.min.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -34,7 +34,7 @@
                                 </thead>
                                 <tbody>
                                     {% for problem in problems %}
-                                        {% include 'exam_view/_problem.html' %}
+                                        {% include 'Exam/exam_view/_problem.html' %}
                                     {% endfor %}
                                 </tbody>
                             </table>
@@ -53,7 +53,7 @@
 
 
 {% block plugin_js %}
-<script src="{{ url_for('static', filename='bundles/dataTables.bundle.js') }}"></script>
+<script src="{{ url_for('exam.static', filename='bundles/dataTables.bundle.js') }}"></script>
 {% endblock %}
 
 {% block custom_js %}

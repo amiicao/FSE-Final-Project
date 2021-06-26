@@ -1,5 +1,4 @@
-
-{% extends 'base.html' %}
+{% extends 'Exam/base.html' %}
 
 {% block title %}修改题目{% endblock %}
 
@@ -118,7 +117,7 @@
                                     </tr>
                                 {% else %}
                                     {% for problem in problems %}
-                                        {% include 'exam_view/_problem_display.html' %}
+                                        {% include 'Exam/exam_view/_problem_display.html' %}
                                     {% endfor %}
                             {% endif %}
                         </div>
@@ -129,6 +128,6 @@
     </form>
 {% endblock %}
 {% block plugin_js %}
-<script src="{{ url_for('static', filename='bundles/dataTables.bundle.js') }}"></script>
+<script src="{{ url_for('exam.static', filename='bundles/dataTables.bundle.js') }}"></script>
 {% endblock %}
 
