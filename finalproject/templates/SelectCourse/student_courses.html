@@ -7,16 +7,10 @@
 </head>
 <body>
 {% block body %}
-    <div class="tab">
-        <button class="tablinks" onclick="openCity(event, 'Spring')">春学期</button>
-        <button class="tablinks" onclick="openCity(event, 'Summer')">夏学期</button>
-        <button class="tablinks" onclick="openCity(event, 'Fall')">秋学期</button>
-        <button class="tablinks" onclick="openCity(event, 'Winter')">冬学期</button>
-        <button class="tablinks" onclick="reset()">清除</button>
-    </div>
 
-    <div id="Spring" class="tabcontent">
-        <h3>春学期</h3>
+
+    <div id="Spring">
+        <h3>学生课程表</h3>
         <div class="row clearfix g-3">
             <div class="col-sm-12">
                 <div class="card mb-3">
@@ -39,10 +33,10 @@
                                     <tr>
                                         <td>{{ i + 1 }}</td>
                                         {% for j in range (0, 7) %}
-                                            {% if timetable[0][j][i] != ' ' %}
-                                                <td>{{ timetable[0][j][i] }}</td>
+                                            {% if timetable[j][i] != ' ' %}
+                                                <td>{{ timetable[j][i] }}</td>
                                             {% else %}
-                                                <td>{{ timetable[0][j][i] }}</td>
+                                                <td>{{ timetable[j][i] }}</td>
                                             {% endif %}
                                         {% endfor %}
                                     </tr>
@@ -54,133 +48,6 @@
             </div>
         </div>
     </div>
-
-    <div id="Summer" class="tabcontent">
-        <h3>夏学期</h3>
-        <div class="row clearfix g-3">
-            <div class="col-sm-12">
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <table id="Class_Schedule_Summer" class="table table-hover borderless mb-0" style="width:100%;text-align: center">
-                            <thead>
-                                <tr style="">
-                                    <th style="width:100px">节次</th>
-                                    <th style="width:150px">星期一</th>
-                                    <th style="width:150px">星期二</th>
-                                    <th style="width:150px">星期三</th>
-                                    <th style="width:150px">星期四</th>
-                                    <th style="width:150px">星期五</th>
-                                    <th style="width:150px">星期六</th>
-                                    <th style="width:150px">星期日</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for i in range(0, 13) %}
-                                <tr>
-                                    <td>{{ i + 1 }}</td>
-                                    {% for j in range (0, 7) %}
-                                        {% if timetable[1][j][i] != ' ' %}
-                                            <td>{{ timetable[1][j][i] }}</td>
-                                        {% else %}
-                                            <td>{{ timetable[1][j][i] }}</td>
-                                        {% endif %}
-                                    {% endfor %}
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="Fall" class="tabcontent">
-        <h3>秋学期</h3>
-        <div class="row clearfix g-3">
-            <div class="col-sm-12">
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <table id="Class_Schedule_Fall" class="table table-hover borderless mb-0" style="width:100%;text-align: center">
-                            <thead>
-                                <tr style="">
-                                    <th style="width:100px">节次</th>
-                                    <th style="width:150px">星期一</th>
-                                    <th style="width:150px">星期二</th>
-                                    <th style="width:150px">星期三</th>
-                                    <th style="width:150px">星期四</th>
-                                    <th style="width:150px">星期五</th>
-                                    <th style="width:150px">星期六</th>
-                                    <th style="width:150px">星期日</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for i in range(0, 13) %}
-                                    <tr>
-                                        <td>{{ i + 1 }}</td>
-                                        {% for j in range (0, 7) %}
-                                            {% if timetable[2][j][i] != ' ' %}
-                                                <td>{{ timetable[2][j][i] }}</td>
-                                            {% else %}
-                                                <td>{{ timetable[2][j][i] }}</td>
-                                            {% endif %}
-                                        {% endfor %}
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="Winter" class="tabcontent">
-        <h3>冬学期</h3>
-        <div class="row clearfix g-3">
-            <div class="col-sm-12">
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <table id="Class_Schedule_Winter" class="table table-hover borderless mb-0" style="width:100%;text-align: center">
-                            <thead>
-                                <tr style="">
-                                    <th style="width:100px">节次</th>
-                                    <th style="width:150px">星期一</th>
-                                    <th style="width:150px">星期二</th>
-                                    <th style="width:150px">星期三</th>
-                                    <th style="width:150px">星期四</th>
-                                    <th style="width:150px">星期五</th>
-                                    <th style="width:150px">星期六</th>
-                                    <th style="width:150px">星期日</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for i in range(0, 13) %}
-                                    <tr>
-                                    <td>{{ i + 1 }}</td>
-                                    {% for j in range (0, 7) %}
-                                        {% if timetable[3][j][i] != ' ' %}
-                                            <td>{{ timetable[3][j][i] }}</td>
-                                        {% else %}
-                                            <td>{{ timetable[3][j][i] }}</td>
-                                        {% endif %}
-                                    {% endfor %}
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        var i, tabcontent;
-        tabcontent = document.getElementsByClassName("tabcontent");
-        for (i = 0; i < tabcontent.length; i++)
-        tabcontent[i].style.display = "none";
-    </script>
 
     <div class="row clearfix g-3">
         <div class="col-sm-12">
@@ -197,7 +64,6 @@
                             <tr>
                                 <th>课程ID</th>
                                 <th>课程名称</th>
-                                <th>学期</th>
                                 <th>课程时间</th>
                                 <th>课程容量</th>
                                 <th scope="col" class="text-center">
@@ -209,23 +75,8 @@
                             {% if courses %}
                                 {% for course in courses %}
                                     <tr>
-                                        <td>{{ course.id }}</td>
+                                        <td>{{ course.cid }}</td>
                                         <td>{{ course.name }}</td>
-                                        <td>
-                                            {% if course.time[2:4] == "11" %}
-                                                春
-                                            {% elif course.time[2:4] == "12" %}
-                                                春夏
-                                            {% elif course.time[2:4] == "22" %}
-                                                夏
-                                            {% elif course.time[2:4] == "33" %}
-                                                秋
-                                            {% elif course.time[2:4] == "34" %}
-                                                秋冬
-                                            {% else %}
-                                                冬
-                                            {% endif %}
-                                        </td>
                                         <td>
                                             {{ days[course.time[4]] }}
 
@@ -261,7 +112,7 @@
                                         <td>
                                             {{ course.curr_capacity }}
                                             /
-                                            {{ course.max_capacity }}
+                                            {{ course.capacity }}
                                         </td>
                                         <td class="text-center">
                                             <a style = "color: #FFFFFF" class="btn btn-danger"  href="{{ url_for('selectcourse.del_course2',course_id=course.id) }}">退课</a>
@@ -279,30 +130,6 @@
             </div>
         </div>
     </div>
-
-    <script>
-        function reset ()
-        {
-            var i, tabcontent;
-            tabcontent = document.getElementsByClassName("tabcontent");
-            for (i = 0; i < tabcontent.length; i++)
-                tabcontent[i].style.display = "none";
-        }
-        function openCity(evt, cityName)
-        {
-              var i, tabcontent, tablinks;
-              tabcontent = document.getElementsByClassName("tabcontent");
-              for (i = 0; i < tabcontent.length; i++)
-                    tabcontent[i].style.display = "none";
-
-              tablinks = document.getElementsByClassName("tablinks");
-              for (i = 0; i < tablinks.length; i++)
-                    tablinks[i].className = tablinks[i].className.replace(" active", "");
-
-              document.getElementById(cityName).style.display = "block";
-              evt.currentTarget.className += " active";
-        }
-    </script>
 {% endblock %}
 </body>
 </html>

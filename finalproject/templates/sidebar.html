@@ -54,6 +54,7 @@
                         {% endif %}
                     </ul>
                 </li>
+                {% if current_user.is_authenticated and current_user.status !="学生" %}
                 <li class="collapsed">
                     <a class="m-link" data-bs-toggle="collapse" data-bs-target="#course-management" href="#">
                         <i class="icofont-home fs-5"></i> <span>课程安排模块</span> <span
@@ -74,6 +75,7 @@
                         {% endif %}
                     </ul>
                 </li>
+                {% endif %}
                 <li class="collapsed">
                     <a class="m-link" data-bs-toggle="collapse" data-bs-target="#course-choose" href="#">
                         <i class="icofont-home fs-5"></i> <span>课程选择模块</span> <span
