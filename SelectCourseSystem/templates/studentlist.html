@@ -1,0 +1,185 @@
+{% extends "sidebar.html" %}
+<!doctype html>
+<html class="no-js" lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>:: My-Task:: Invoices </title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon"> <!-- Favicon-->
+
+    <!-- project css file  -->
+    <link rel="stylesheet" href="../static/assets/css/my-task.style.css">
+</head>
+<body>
+{% block body %}
+<div id="mytask-layout" class="theme-indigo">
+
+    <!-- main body area -->
+    <div class="main px-lg-4 px-md-4">
+
+        <!-- Body: Body -->
+        <div class="body d-flex py-lg-3 py-md-2">
+            <div class="container-xxl">
+
+                <div class="row align-items-center">
+                    <div class="border-0 mb-4">
+                        <div class="card-header no-bg bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap">
+                            <h3 class="fw-bold mb-0 py-3 pb-2">学生列表</h3>
+                            <div class="col-auto py-2 w-sm-100">
+                                <ul class="nav nav-tabs tab-body-header rounded invoice-set" role="tablist">
+                                    {% if astudents %}
+                                    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#studentlist" role="tab">学生列表</a></li>
+                                    <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#astudentlist" role="tab">补选学生列表</a></li>
+                                    {% else %}
+                                    <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#studentlist" role="tab">学生列表</a></li>
+                                    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#astudentlist" role="tab">补选学生列表</a></li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- Row end  -->
+
+                <div class="row justify-content-center">
+
+                    <div class="col-lg-12 col-md-12">
+                        <div class="tab-content">
+                            {% if astudents %}
+                            <div class="tab-pane fade" id="studentlist">
+                                <div class="row clearfix g-3">
+                                    <div class="col-sm-12">
+                                        <div class="card mb-3">
+                                            <div class="card-body">
+                                                <table id="myProjectTable" class="table table-hover align-middle mb-0" style="width:100%">
+                                                    <thead>
+                                                         <tr>
+                                                            <th>学号</th>
+                                                            <th>姓名</th>
+                                                            <th>性别</th>
+                                                         </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for student in students %}
+                                                        <tr>
+                                                            <td>{{ student.id }}</td>
+                                                            <td>{{ student.name }}</td>
+                                                            <td>{{ student.gender }}</td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!-- Row End -->
+                            </div> <!-- tab end  -->
+                            <div class="tab-pane fade show active" id="astudentlist">
+                                <div class="row clearfix g-3">
+                                    <div class="col-sm-12">
+                                        <div class="card mb-3">
+                                            <div class="card-body">
+                                                <table id="myProjectTable1" class="table table-hover align-middle mb-0" style="width:100%">
+                                                    <thead>
+                                                         <tr>
+                                                            <th>学号</th>
+                                                            <th>姓名</th>
+                                                            <th>性别</th>
+                                                            <th>操作</th>
+                                                         </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for astudent in astudents %}
+                                                        <tr>
+                                                            <td>{{ astudent.id }}</td>
+                                                            <td>{{ astudent.name }}</td>
+                                                            <td>{{ astudent.gender }}</td>
+                                                            <td>
+                                                                <a class="btn btn-success" href="{{ url_for("acceptapp",course_id=course_id, student_id=astudent.id) }}">同意</a>
+                                                                <a class="btn btn-danger" href="{{ url_for("rejectapp",course_id=course_id, student_id=astudent.id) }}">拒绝</a>
+                                                            </td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!-- Row End -->
+                            </div> <!-- tab end  -->
+                            {% else %}
+                            <div class="tab-pane fade show active" id="studentlist">
+                                <div class="row clearfix g-3">
+                                    <div class="col-sm-12">
+                                        <div class="card mb-3">
+                                            <div class="card-body">
+                                                <table id="myProjectTable" class="table table-hover align-middle mb-0" style="width:100%">
+                                                    <thead>
+                                                         <tr>
+                                                            <th>学号</th>
+                                                            <th>姓名</th>
+                                                            <th>性别</th>
+                                                         </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for student in students %}
+                                                        <tr>
+                                                            <td>{{ student.id }}</td>
+                                                            <td>{{ student.name }}</td>
+                                                            <td>{{ student.gender }}</td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!-- Row End -->
+                            </div> <!-- tab end  -->
+                            <div class="tab-pane fade" id="astudentlist">
+                                <div class="row clearfix g-3">
+                                    <div class="col-sm-12">
+                                        <div class="card mb-3">
+                                            <div class="card-body">
+                                                <table id="myProjectTable1" class="table table-hover align-middle mb-0" style="width:100%">
+                                                    <thead>
+                                                         <tr>
+                                                            <th>学号</th>
+                                                            <th>姓名</th>
+                                                            <th>性别</th>
+                                                            <th>操作</th>
+                                                         </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for astudent in astudents %}
+                                                        <tr>
+                                                            <td>{{ astudent.id }}</td>
+                                                            <td>{{ astudent.name }}</td>
+                                                            <td>{{ astudent.gender }}</td>
+                                                            <td>
+                                                                <a class="btn btn-success" href="{{ url_for("acceptapp",course_id=course_id, student_id=astudent.id) }}">同意</a>
+                                                                <a class="btn btn-danger" href="{{ url_for("rejectapp",course_id=course_id, student_id=astudent.id) }}">拒绝</a>
+                                                            </td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!-- Row End -->
+                            </div> <!-- tab end  -->
+                            {% endif %}
+                        </div>
+                    </div>
+
+                </div> <!-- Row end  -->
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,49 @@
+{% extends "sidebar.html" %}
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>手动退课</title>
+        <br>
+    </head>
+<body>
+
+
+    {% block body %}
+        {% for message in get_flashed_messages() %}
+        <div class="alert alert-info alert-dismissible" aria-hidden="true" >
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            {{ message }}
+        </div>
+        {% endfor %}
+        <!-- Body: Body -->
+        <h3 class="fw-bold mb-0">手动退课</h3>
+            <br>
+                <div class="row clearfix g-3">
+                    <div class="col-sm-12">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <table id="table" class="table table-hover align-middle mb-0" style="width:100%">
+                                    <form action="{{ url_for("admin_del_course")}}" method="post">
+                                            <label for="Student">输入学生ID：</label>
+                                            <input type="str" id="Student_ID" name="Student_ID" placeholder="学生号码">
+                                            <br />
+                                            <label for="Course">输入课程ID：</label>
+                                            <input type="str" id="Course_ID" name="Course_ID" placeholder="课程号码">
+                                            <br /><br/>
+                                            <button class = 'btn btn-primary' type= 'submit'> 手动退课 </button>
+                                    </form>
+                                </table>
+                            </div>
+                        </div>
+                  </div>
+                </div><!-- Row End -->
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+</body>
+</html>
