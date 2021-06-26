@@ -291,7 +291,7 @@
         </form>
 
 
-         <form action="{{url_for('.EditCourse')}}" method="POST">
+         <form action="{{url_for('.EditCourse')}}" method="POST" name = {{ course }}>
          <div class="modal fade" id="edittickit" tabindex="-1"  aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-md modal-dialog-scrollable">
             <div class="modal-content">
@@ -307,10 +307,6 @@
                     <div class="deadline-form">
                         <form>
                             <div class="row g-3 mb-3">
-                              <div class="col">
-                                <label for="depone" class="form-label">课程编号</label>
-                                <input type="text" class="form-control" id="deepone" name="cid">
-                              </div>
                               <div class="col">
                                 <label for="deptwo" class="form-label">课程容量</label>
                                 <input type="text" class="form-control" id="deeptwo" name="capacity">
