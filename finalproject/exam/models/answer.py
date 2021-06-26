@@ -15,6 +15,7 @@ class Anspaper(db.Model):
     paper_id = db.Column(db.Integer, db.ForeignKey('paper.paper_id'))
     student_id = db.Column(db.Integer)
     score_all = db.Column(db.Integer)
+    Ranknum = db.Column(db.Integer, default=0)
     Answers = db.relationship("Anspa_prob_answer", lazy='dynamic')
 
 
