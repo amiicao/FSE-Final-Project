@@ -77,23 +77,33 @@ def login():
     if current_user.is_authenticated:
         return redirect(url_for('login.hello_world'))
     # 如果尚未登录，则渲染绑定表单
+    error = None
     form = LoginForm()
-    # 希望从表单中得到返回的信息
-    if form.validate_on_submit():
-        # 首先验证验证码是否输入正确
-        if form.verify_code.data == session['code'] or 1:
-            user = User.query.filter_by(uid=form.username.data).first()
-            # (未详细设计)当前状态是只要数据库中有这个用户名，我们就能登陆，这里需要加上的是密码哈希的对比
-            user.set_password(user.password)
-            if user is None or not user.check_password(form.password.data):
-                flash('用户不存在或密码错误！')
-                return redirect(url_for('login.login'))
-            # 将该用户注册到当前
-            login_user(user, remember=form.remember_me.data)
-            return redirect(url_for('login.hello_world'))
-        else:
-            flash("验证码错误", 'error')
-            return redirect(url_for('login.login'))
+    if form:
+        # 希望从表单中得到返回的信息
+        if form.validate_on_submit():
+            # 首先验证验证码是否输入正确
+            if 1 or form.verify_code.data == session['code']:
+                if form.username.data:
+                    user = User.query.filter_by(uid=form.username.data).first()
+                    if user is None:
+                        error = "用户不存在！"
+                    else:
+                # (未详细设计)当前状态是只要数据库中有这个用户名，我们就能登陆，这里需要加上的是密码哈希的对比
+                        user.set_password(user.password)
+                        if not user.check_password(form.password.data):
+                            error = "密码错误！"
+                else:
+                    error = "输入不合法！"
+                if not error:
+                 # 将该用户注册到当前
+                    login_user(user, remember=form.remember_me.data)
+                    return redirect(url_for('login.hello_world'))
+            else:
+                error = "验证码错误"
+
+    if error is not None:
+        flash(error, "error")
     return render_template('login.html', title='Sign In', form=form)
 
 
