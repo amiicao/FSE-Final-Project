@@ -8,6 +8,7 @@ from datetime import datetime
 from exam.models.answer import Anspa_prob_answer, Anspaper
 import time
 
+
 view_exam_bp = Blueprint('view_exam', __name__)
 
 
@@ -15,7 +16,7 @@ view_exam_bp = Blueprint('view_exam', __name__)
 def home():
     dt1 = time
     exams = Paper.query.order_by(desc(Paper.end_t)).all()
-    return render_template('exam/view_exam.html', exams=exams, time=dt1)
+    return render_template('Exam/exam/view_exam.html', exams=exams, time=dt1)
 
 
 # 0 表示考试未开始， 1 表示考试已结束， 2 表示考试可以开始， 3 表示考试已结束
@@ -37,4 +38,4 @@ def show_information(paper_id):
         label = 2
     t = int(int(dt3-dt2)/60)
     # print(t)
-    return render_template('exam/exam_info.html', exam=exam, label=label, length=length, t=t, anspapers=anspapers)
+    return render_template('Exam/exam/exam_info.html', exam=exam, label=label, length=length, t=t, anspapers=anspapers)

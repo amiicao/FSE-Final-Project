@@ -16,7 +16,7 @@ teacher_bp = Blueprint('teacher', __name__)
 def home():
     dt1 = time
     exams = Paper.query.order_by(desc(Paper.end_t)).all()
-    return render_template('teacher/view_exam.html', exams=exams, time=dt1)
+    return render_template('Exam/teacher/view_exam.html', exams=exams, time=dt1)
 
 
 @teacher_bp.route('/information/<int:paper_id>')
@@ -34,7 +34,7 @@ def show_information(paper_id):
     else:
         label = 1
     t = int(int(dt3 - dt2) / 60)
-    return render_template('teacher/exam_info.html', exam=exam, label=label, length=length, t=t, anspapers=anspapers)
+    return render_template('Exam/teacher/exam_info.html', exam=exam, label=label, length=length, t=t, anspapers=anspapers)
 
 
 @teacher_bp.route('/show_exam/<int:paper_id>', methods=['GET', 'POST'])
@@ -110,7 +110,7 @@ def show_exam(paper_id):
         exam.anlsflag = True
         db.session.commit()
     exam = Paper.query.filter_by(paper_id=paper_id).first()
-    return render_template('teacher/show_exam.html', exam=exam)
+    return render_template('Exam/teacher/show_exam.html', exam=exam)
 
 
 

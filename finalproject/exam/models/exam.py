@@ -1,17 +1,18 @@
 from datetime import datetime
 
-from exam import db
+from database import db
 from exam.models.answer import exam_has_anspaper
 
 exam_has_problem = db.Table(
     'exam_has_problem',
     db.Column('problem_id', db.Integer, db.ForeignKey('problem.problem_id')),
-    db.Column('paper_id', db.Integer, db.ForeignKey('paper.paper_id'))
+    db.Column('paper_id', db.Integer, db.ForeignKey('paper.paper_id')),
+    info={'bind_key': 'exam'}
 )
 
 
-
 class Paper(db.Model):
+    __bind_key__ = 'exam'
     name = db.Column(db.String(50), nullable=False)
     paper_id = db.Column(db.Integer, primary_key=True, nullable=False)
     subject = db.Column(db.String(40), nullable=False)

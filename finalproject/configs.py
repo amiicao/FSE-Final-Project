@@ -7,6 +7,7 @@ PORT = '3306'
 DATABASE1 = 'message_management_system'
 DATABASE2 = 'course_arrangement_system'
 DATABASE3 = 'select_course'
+DATABASE4 = 'exam'
 USERNAME = 'fse_g7'
 PASSWORD = 'FSE_group7'
 
@@ -22,11 +23,17 @@ DB_URI_II = "mysql+pymysql://{username}:{password}@{host}:{port}/{db}?charset=ut
 DB_URI_III = "mysql+pymysql://{username}:{password}@{host}:{port}/{db}?charset=utf8".format(username=USERNAME,
                                                                                         password=PASSWORD, host=HOST,
                                                                                         port=PORT, db=DATABASE3)
+
+DB_URI_IV = "mysql+pymysql://{username}:{password}@{host}:{port}/{db}?charset=utf8".format(username=USERNAME,
+                                                                                        password=PASSWORD, host=HOST,
+                                                                                        port=PORT, db=DATABASE4)
+
 SQLALCHEMY_DATABASE_URI = DB_URI_I
 SQLALCHEMY_BINDS = {
     'course_arrangement_system':        DB_URI_II,
     'message_management_system':        DB_URI_I,
-    'select_course':                    DB_URI_III
+    'select_course':                    DB_URI_III,
+    'exam':                             DB_URI_IV
 }
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 SQLALCHEMY_ECHO = False

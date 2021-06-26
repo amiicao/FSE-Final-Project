@@ -11,7 +11,7 @@ problem_bp = Blueprint('problem', __name__)
 @problem_bp.route('/')
 def home():
     problems = Problem.query.all()
-    return render_template('problem/index.html', problems=problems)
+    return render_template('Exam/problem/index.html', problems=problems)
 
 
 @problem_bp.route('/render-problem-edit', methods=['POST'])
@@ -33,7 +33,7 @@ def render_edit_form():
         form.adder.data = problem.adder
         form.tags.data = ' '.join([x.tag_name for x in problem.tags])
 
-    return render_template('problem/problem_edit_form.html', form=form)
+    return render_template('Exam/problem/problem_edit_form.html', form=form)
 
 
 @problem_bp.route('/delete-problem/<int:problem_id>', methods=['POST'])
@@ -47,7 +47,7 @@ def delete_problem(problem_id):
         db.session.delete(problem)
         db.session.commit()
     flash('删除题目成功。')
-    return redirect(url_for('.home'))
+    return redirect(url_for('exam.problem.home'))
 
 
 @problem_bp.route('/edit-problem', methods=['POST'])
@@ -89,4 +89,4 @@ def edit_problem():
         flash('题目更新成功。')
         return 'OK'
 
-    return render_template('problem/problem_edit_form.html', form=form)
+    return render_template('Exam/problem/problem_edit_form.html', form=form)

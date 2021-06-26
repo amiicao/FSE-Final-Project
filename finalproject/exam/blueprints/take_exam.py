@@ -14,7 +14,7 @@ take_exam_bp = Blueprint('take_exam', __name__)
 
 @take_exam_bp.route('/', methods=['GET', 'POST'])
 def home():
-    return redirect(url_for('view_exam.home'))
+    return redirect(url_for('exam.view_exam.home'))
 
 
 @take_exam_bp.route('/<int:exam_id>', methods=['GET', 'POST'])
@@ -56,8 +56,8 @@ def take_exam(exam_id):
         paper.end = True
         db.session.commit()
         flash('提交成功.')
-        return redirect(url_for('view_exam.home'))
-    return render_template('exam/take_exam.html', exam=paper, problems=problems, exam_id=exam_id, length=length, t=t)
+        return redirect(url_for('exam.view_exam.home'))
+    return render_template('Exam/exam/take_exam.html', exam=paper, problems=problems, exam_id=exam_id, length=length, t=t)
 
 
 @take_exam_bp.route('/show_exam/<int:exam_id>')
@@ -71,5 +71,5 @@ def show_exam(exam_id):
     #     right = problem.solution
         # if answer==right:
 
-    return render_template('exam/show_list.html', problems=problems, exam=paper, answerpaper=answerpaper)
+    return render_template('Exam/exam/show_list.html', problems=problems, exam=paper, answerpaper=answerpaper)
 

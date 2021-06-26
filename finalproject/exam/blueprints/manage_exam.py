@@ -16,7 +16,7 @@ manage_exam_bp = Blueprint('manage_exam', __name__)
 def home():
     chosen_proid = [0, 0]  # 保证传入的是列表
     print(chosen_proid)
-    return redirect(url_for('manage_exam.paper_has_pro', chosen_proid=chosen_proid))
+    return redirect(url_for('exam.manage_exam.paper_has_pro', chosen_proid=chosen_proid))
 
 
 @manage_exam_bp.route('/problem_add/<chosen_proid>', methods=['GET', 'POST'])
@@ -30,9 +30,9 @@ def exam_search_add(chosen_proid):
             if len(proid):
                 print(proid)
                 chosen_proid.append(proid[0])
-        return redirect(url_for('manage_exam.paper_has_pro', chosen_proid=chosen_proid))
+        return redirect(url_for('exam.manage_exam.paper_has_pro', chosen_proid=chosen_proid))
     print(chosen_proid)
-    return render_template('exam_view/exam_search_add.html', chosen_proid=chosen_proid, problems=problems)
+    return render_template('Exam/exam_view/exam_search_add.html', chosen_proid=chosen_proid, problems=problems)
 
 
 @manage_exam_bp.route('/added_paper/<chosen_proid>', methods=['GET', 'POST'])
@@ -48,7 +48,7 @@ def paper_has_pro(chosen_proid):
     if request.method == 'POST':
         if request.form.get('cancel'):
             print("取消")
-            return redirect(url_for('manage_exam.paper_has_pro', chosen_proid=chosen_proid))
+            return redirect(url_for('exam.manage_exam.paper_has_pro', chosen_proid=chosen_proid))
         if request.form.get('gen_exam'):
             print("提交生成测试")
             if request.method == 'POST':
@@ -79,12 +79,12 @@ def paper_has_pro(chosen_proid):
 
                     flash('生成成功')
                     chosen_proid = [0,0]
-                    return redirect(url_for('manage_exam.paper_has_pro', chosen_proid=chosen_proid))
+                    return redirect(url_for('exam.manage_exam.paper_has_pro', chosen_proid=chosen_proid))
                 elif len(chosen_proid) == 2:
                     flash('请添加题目')
                 else:
                     flash('请填入完整信息')
-                    return redirect(url_for('manage_exam.paper_has_pro', chosen_proid=chosen_proid))
+                    return redirect(url_for('exam.manage_exam.paper_has_pro', chosen_proid=chosen_proid))
         if request.form.get('auto_select_submit'):
             print("提交自动选择条件")
             chosen_tag = Tag.query.filter(Tag.tag_id == request.form.get('chosenTag')).first()
@@ -103,7 +103,7 @@ def paper_has_pro(chosen_proid):
                 if problem.type == chosen_type:
                     i = i + 1
                     chosen_proid.append(problem.problem_id)
-            return redirect(url_for('manage_exam.paper_has_pro', chosen_proid=chosen_proid))
+            return redirect(url_for('exam.manage_exam.paper_has_pro', chosen_proid=chosen_proid))
         else:
             print("删除题目")
             for problem in problems:
@@ -111,5 +111,5 @@ def paper_has_pro(chosen_proid):
                 if request.form.get(str(name)):
                     chosen_proid.remove(str(problem.problem_id))
                     break
-            return redirect(url_for('manage_exam.paper_has_pro', chosen_proid=chosen_proid))
-    return render_template('exam_view/gen_exam.html', tags=tags, chosen_proid=chosen_proid, problems=problems)
+            return redirect(url_for('exam.manage_exam.paper_has_pro', chosen_proid=chosen_proid))
+    return render_template('Exam/exam_view/gen_exam.html', tags=tags, chosen_proid=chosen_proid, problems=problems)

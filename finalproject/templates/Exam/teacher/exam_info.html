@@ -6,7 +6,7 @@
     <div class="body d-flex py-3">
         <div class="container-xxl">
             <div class="row clearfix g-3">
-                <a href="{{ url_for('view_exam.home') }}" class="btn bg-light lift" style="width:60pt;"><i class="icofont-arrow-left"></i> 返回</a>
+                <a href="{{ url_for('teacher.home') }}" class="btn bg-light lift" style="width:60pt;"><i class="icofont-arrow-left"></i> 返回</a>
                 <div class="card color-bg-100">
                     <div class="card-header py-3 d-flex justify-content-between bg-transparent border-bottom-0">
                         <h5 class="mb-0 fw-bold ">{{ exam.name }}</h5>
@@ -29,12 +29,14 @@
                 {% if label == 0 %}
                     <div>考试尚未开始</div>
                 {% elif label == 1 %}
-                    <a href="{{ url_for('take_exam.show_exam', exam_id=exam.paper_id) }}" class="btn bg-primary text-light btn-lg lift" style="width:100pt;" target="_blank" >查看试卷</a>
+                    <div>考试正在进行，请耐心等候</div>
+                {% elif label == 2 %}
+                    <a href="{{ url_for('.show_exam', paper_id=exam.paper_id) }}" class="btn bg-primary text-light btn-lg lift" style="width:150pt;">查看考试结果</a>
                     <div class="row clearfix g-3"  style="margin-top:10pt;">
                     <div class="col-sm-12">
                         <div class="card mb-3">
 							<div class="card-header py-3 d-flex justify-content-between bg-transparent border-bottom-0">
-                                <h6 class="mb-0 fw-bold">排名信息</h6>
+                                <h6 class="mb-0 fw-bold">学生表现</h6>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -61,15 +63,10 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                  </div>
                 </div><!-- Row End -->
-                {% elif label == 2 %}
-                    <a href="{{ url_for('take_exam.take_exam', exam_id=exam.paper_id) }}" class="btn bg-primary text-light btn-lg lift" style="width:100pt;" target="_blank" >开始答题</a>
-                {% elif label == 3 %}
-                    <div>考试已结束</div>
                 {% endif %}
             </div><!-- Row End -->
         </div>
     </div>
-
 {% endblock %}
