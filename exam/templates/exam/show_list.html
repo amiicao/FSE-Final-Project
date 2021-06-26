@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block title %}题目列表{% endblock %}
+
+{% block content %}
+    <div class="card bg-primary text-light">
+        <div class="card-body row-cols-3 d-flex justify-content-between" style="padding-bottom: 0px;">
+            <div class="row" style="text-align: left;">
+                <a href="{{ url_for('view_exam.show_information', paper_id=exam.paper_id)}}"><i class="icofont-arrow-left"></i> 返回</a>
+            </div>
+            <div class="row" style="text-align: center;">
+                <h5 class="mb-0 fw-bold ">{{ exam.name }}</h5>
+            </div>
+            <div class="row" style="text-align: right">
+                <p>得分：{{ answerpaper.score_all }}</p>
+            </div>
+        </div>
+    </div>
+
+<form method="get">
+    <br />
+    {% for problem in problems %}
+        {% if problem.type == 0 %}
+            <div class="card-body justify-content-between ">
+                <p>{{ loop.index}}<span class="text-muted">[判断]</span>{{problem.text}}<span class="text-muted">(2分)</span></p>
+                <p>
+                    T
+                </p>
+                <p style="margin-bottom: 0px">
+                    F
+                </p>
+            </div>
+        {% elif problem.type == 1 %}
+            <div class="card-body justify-content-between ">
+                <p>{{ loop.index}}<span class="text-muted">[单选]</span>{{problem.text}}<span class="text-muted">(2分)</span></p>
+                <p>
+                    A. {{problem.choice_A}}
+                </p>
+                <p>
+                     B. {{problem.choice_B}}
+                </p>
+                <p>
+                    C. {{problem.choice_C}}
+                </p>
+                <p style="margin-bottom: 0px">
+                    D. {{problem.choice_D}}
+                </p>
+            </div>
+        {% else %}
+            <div class="card-body justify-content-between ">
+                <p>{{ loop.index}}<span class="text-muted">[多选]</span>{{problem.text}}<span class="text-muted">(2分)</span></p>
+                <p>
+                    A. {{ problem.choice_A}}
+                </p>
+                <p>
+                     B. {{ problem.choice_B}}
+                </p>
+                <p>
+                    C. {{ problem.choice_C}}
+                </p>
+                <p style="margin-bottom: 0px">
+                    D. {{ problem.choice_D}}
+                </p>
+            </div>
+        {% endif %}
+        <p style="margin-bottom: 0px">
+            正确答案：{{ problem.solution }}
+        </p>
+        <p style="margin-bottom: 0px">
+            您选择的答案：{{ answerpaper.Answers.filter_by(problem_id=problem.problem_id).first().answer }}
+        </p>
+        <p style="margin-bottom: 0px">
+            您的得分为：{{ answerpaper.Answers.filter_by(problem_id=problem.problem_id).first().score }}
+        </p>
+    {% endfor %}
+
+    <br />
+</form>
+{% endblock %}
