@@ -3,7 +3,7 @@ from flask import (
     current_app, Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
 from flask_sqlalchemy import SQLAlchemy
-import configs01
+# import configs01
 import os
 UPLOAD_FOLDER = 'uploads'
 bp = Blueprint('messagearrange', __name__,url_prefix='/messagearrange')
@@ -79,10 +79,11 @@ def EditInfo():
     age = request.form.get('age')
     sex = request.form.get('sex')
 
-    print(uid,name,age,sex)
+    flash(uid,name,age,sex)
 
     u = User('123','男','200','shx','Stu')
-    return render_template("personal-center.html", user = u)
+    u = User(uid=uid,name=name)
+    return redirect(url_for('personal_center'))
 
 @bp.route('/course-information.html/<cid>', methods=['GET', 'POST'])
 def course_information(cid):

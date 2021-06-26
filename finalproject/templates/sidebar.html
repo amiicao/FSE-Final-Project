@@ -41,9 +41,13 @@
                         <i class="icofont-home fs-5"></i> <span>信息管理模块</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
                     <!-- Menu: Sub menu ul -->
                     <ul class="sub-menu collapse" id="dashboard-Components">
+                        {% if current_user.is_authenticated and current_user.status =="管理员" %}
                         <li><a class="ms-link" href={{ url_for('messagearrange.personal_center') }}> <span>个人中心</span></a></li>
-                        <li><a class="ms-link active" href={{ url_for('messagearrange.course_search') }}> <span>课程搜索</span></a></li>
+                        <li><a class="ms-link" href={{ url_for('messagearrange.course_search') }}> <span>课程搜索</span></a></li>
                         <li><a class="ms-link" href={{ url_for('messagearrange.user_search') }}> <span>用户搜索</span></a></li>
+                        {% elif  current_user.is_authenticated%}
+                        <li><a class="ms-link" href={{ url_for('messagearrange.personal_center') }}> <span>个人中心</span></a></li>
+                        {% endif %}
                     </ul>
                 </li>
                 <li class="collapsed">
@@ -52,10 +56,13 @@
                     <!-- Menu: Sub menu ul -->
                     <ul class="sub-menu collapse" id="dashboard-Components">
                         <li><a class="ms-link" href="ClassArrange/index.html"> <span></span></a></li>
+                        {% if current_user.is_authenticated and current_user.status =="管理员" %}
                         <li><a class="ms-link" href={{ url_for('classarrange.application') }}> <span>申请处理</span></a></li>
                         <li><a class="ms-link"  href={{ url_for('classarrange.classroomarrange') }}> <span>教学资源管理</span></a></li>
                         <li><a class="ms-link" href={{ url_for('classarrange.department') }}> <span>课程管理</span></a></li>
+                        {% elif current_user.is_authenticated and current_user.status =="教师" %}
                         <li><a class="ms-link" href={{ url_for('classarrange.TeacherCourse') }}> <span>教师主界面</span></a></li>
+                        {% endif %}
                     </ul>
                 </li>
 
@@ -116,14 +123,23 @@
                                     </div>
                                 </div>
                             </div>
+                            {% if current_user.is_authenticated %}
                             <div class="dropdown user-profile ml-2 ml-sm-3 d-flex align-items-center zindex-popover">
+
                                 <div class="u-info me-2">
 {#                                    <p class="mb-0 text-end line-height-sm "><span class="font-weight-bold">{{ admin.name }}</span></p>#}
-                                    <p class="mb-0 text-end line-height-sm "><span class="font-weight-bold">章文</span></p>
+                                    <p class="mb-0 text-end line-height-sm "><span class="font-weight-bold">{{ current_user.name }}</span></p>
+
                                     <small>管理员</small>
+
                                 </div>
+
                                 <a class="nav-link dropdown-toggle pulse p-0" href="#" role="button" data-bs-toggle="dropdown" data-bs-display="static">
                                     <img class="avatar lg rounded-circle img-thumbnail" src="../static/assets/images/profile_av.png" alt="profile">
+                                </a>
+
+                                <a href={{ url_for('login.logout') }}>
+                                    注销
                                 </a>
                                 <div class="dropdown-menu rounded-lg shadow border-0 dropdown-animation dropdown-menu-end p-0 m-0">
                                     <div class="card border-0 w280">
@@ -147,6 +163,7 @@
                                 </div>
                             </div>
                         </div>
+                         {% endif %}
 
                         <!-- menu toggler -->
                         <button class="navbar-toggler p-0 border-0 menu-toggle order-3" type="button" data-bs-toggle="collapse" data-bs-target="#mainHeader">

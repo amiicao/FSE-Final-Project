@@ -5,6 +5,7 @@ import os.path
 import time
 
 import xlrd
+from flask_login import login_required
 from sqlalchemy import or_, and_, text
 # from openpyxl import load_workbook
 from flask import send_from_directory
@@ -46,6 +47,7 @@ def test():
 
 
 @bp.route('/class_schedule')
+@login_required
 def class_schedule():
     a = []
     period = ["08:00~09:35", "09:50~11:25", "11:30~12:15", "13:15~14:50",
@@ -76,7 +78,7 @@ def class_schedule():
                     if (c.time[i] == "3"):
                         a[b[int(c.time[i + 2]) - 1]][int(c.time[i + 1])] = c.course_name
     print(a)
-    return render_template(('class_schedule.html'), tables=a)
+    return render_template('ClassArrange/class_schedule.html', tables=a)
 
 
 def decoder(s):  # 解码器
@@ -100,6 +102,7 @@ def decoder(s):  # 解码器
 
 
 @bp.route('/classmodify', methods=['POST', 'GET'])
+@login_required
 def classmodify():
     period = ["08:00~09:35", "09:50~11:25", "11:30~12:15", "13:15~14:50",
               "14:55~15:40", "15:55~17:30", "18:30~20:05", "20:10~20:55"]
@@ -191,6 +194,7 @@ def connect():
 
 
 @bp.route('/deleteclassroom')
+@login_required
 def deleteclassroom():
     location = request.args.get('location')
     db = get_db()
@@ -221,6 +225,7 @@ def deleteclassroom():
 
 
 @bp.route('/classroommodify', methods=['POST', 'GET'])
+@login_required
 def classroommodify():
     if request.method == 'POST':
         error = None
@@ -292,7 +297,7 @@ def teacher_schedule():
 
 
 @bp.route('/add', methods=['POST', 'GET'])
-# @login_required
+@login_required
 def add():
     # form1 = Form1()
     # form2 = Form2()
@@ -338,6 +343,7 @@ def add():
 
 
 @bp.route('/muladd', methods=['POST', 'GET'])
+@login_required
 def muladd():
     if request.method == 'POST':
         print(request.files)
@@ -426,7 +432,7 @@ def uploaded_file(filename):
 
 
 @bp.route('/query', methods=['POST', 'GET'])
-# @login_required
+@login_required
 def query():
     urls = "department"
     if request.method == 'POST':
@@ -457,7 +463,7 @@ def query():
 
 
 @bp.route('/delete', methods=['POST', 'GET'])
-# @login_required
+@login_required
 @bp.before_app_request
 def load_logged_in_query():
     query = session.get('query')
@@ -487,6 +493,7 @@ def load_logged_in_query():
 
 
 @bp.route('/autorange', methods=['POST', 'GET'])
+@login_required
 def autoarrange(bd="紫金港"):
     # flash("删除成功")
     error = "排课成功！"
@@ -789,6 +796,7 @@ def TeacherCourse():
 
 
 @bp.route('/submitapply', methods=['POST', 'GET'])
+@login_required
 def submitapply():
     if request.method == 'POST':
         error = None
@@ -814,6 +822,7 @@ def submitapply():
 
 
 @bp.route('/processapplication', methods=['POST', 'GET'])
+@login_required
 def processapplication():
     if request.method == 'POST':
         # *********************************这里要用教师名！！！！*****************************************#
@@ -843,6 +852,7 @@ def processapplication():
 
 
 @bp.route('/prints')
+@login_required
 def prints():
     import pandas as pd
     a = []
@@ -880,6 +890,7 @@ def prints():
 
 
 @bp.route('/printtable', methods=['POST'])
+@login_required
 def printtable():
     import pandas as pd
     a = []

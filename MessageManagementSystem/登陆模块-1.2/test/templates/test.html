@@ -1,0 +1,14 @@
+<html>
+    <head>
+        {% if title %}
+        <title>{{ title }} - Microblog</title>
+        {% else %}
+        <title>Welcome to Microblog!</title>
+        {% endif %}
+    </head>
+    <body>
+        <h1>Hello, {{ current_user.uid}}!</h1>
+        <h1>你当前的登陆状态为： {{ current_user.is_authenticated }}!</h1>
+    </body>
+    {% extends "base.html" %}
+</html>

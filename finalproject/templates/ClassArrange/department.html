@@ -59,9 +59,9 @@
                                             <tr>
                                                 {% for i in range(5) %}
                                                     {% if i == 2 %}
-                                                        <td><a href="/TeacherCourse?name={{ TermCourse[i] }}" style="color: #0d6efd">{{ TermCourse[i] }}</a></td>
+                                                        <td><a href="TeacherCourse?name={{ TermCourse[i] }}" style="color: #0d6efd">{{ TermCourse[i] }}</a></td>
                                                     {% elif i == 4 %}
-                                                        <td><a href="/class_schedule?name={{ TermCourse[i] }}" style="color: #0d6efd">{{ TermCourse[i] }}</a></td>
+                                                        <td><a href="class_schedule?name={{ TermCourse[i] }}" style="color: #0d6efd">{{ TermCourse[i] }}</a></td>
                                                     {%  elif i == 3 %}
                                                         <td>{{ TermCourse[i][0] }} &nbsp {{ TermCourse[i][1] }} </td>
                                                     {% else %}

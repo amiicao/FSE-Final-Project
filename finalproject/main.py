@@ -1,9 +1,12 @@
 import os
+
+from flask_login import LoginManager
+
 import configs
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from database import db
-
+from models import User
 
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
@@ -13,6 +16,11 @@ def create_app(test_config=None):
     app.config.from_object(configs)
     app.config['UPLOAD_FOLDER'] = 'uploads'
     db.init_app(app)
+    login_manager = LoginManager()
+    login_manager.session_protection = 'strong'
+    login_manager.login_view = 'login'  # 这个是我们没有登录的时候重定向到的地方
+    login_manager.init_app(app)
+
     if test_config is None:
         app.config.from_pyfile('config.py', silent=True)
     else:
@@ -23,15 +31,17 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    @app.route('/hello')
-    def hello():
-        return 'Hello, World!'
+
+    # @app.route('/')
+    # def hello():
+    #     return 'Hello, World!'
 
     import messagearrange
     app.register_blueprint(messagearrange.bp)
     import classarrange
     app.register_blueprint(classarrange.bp)
-
+    import login
+    app.register_blueprint(login.bp)
     # import eduresource
     # app.register_blueprint(eduresource.bp)
     # import class_teacher
@@ -39,5 +49,8 @@ def create_app(test_config=None):
 
     # import classroom
     # app.register_blueprint(classroom.bp)
+    @login_manager.user_loader
+    def load_user(id):
+        return User.query.get(int(id))
 
     return app
