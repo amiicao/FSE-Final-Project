@@ -96,8 +96,8 @@
                                                             <td>{{ astudent.name }}</td>
                                                             <td>{{ astudent.gender }}</td>
                                                             <td>
-                                                                <a class="btn btn-success" href="{{ url_for("acceptapp",course_id=course_id, student_id=astudent.id) }}">同意</a>
-                                                                <a class="btn btn-danger" href="{{ url_for("rejectapp",course_id=course_id, student_id=astudent.id) }}">拒绝</a>
+                                                                <a class="btn btn-success" href="{{ url_for("selectcourse.acceptapp",course_id=course_id, student_id=astudent.id) }}">同意</a>
+                                                                <a class="btn btn-danger" href="{{ url_for("selectcourse.rejectapp",course_id=course_id, student_id=astudent.id) }}">拒绝</a>
                                                             </td>
                                                         </tr>
                                                         {% endfor %}
@@ -158,8 +158,8 @@
                                                             <td>{{ astudent.name }}</td>
                                                             <td>{{ astudent.gender }}</td>
                                                             <td>
-                                                                <a class="btn btn-success" href="{{ url_for("acceptapp",course_id=course_id, student_id=astudent.id) }}">同意</a>
-                                                                <a class="btn btn-danger" href="{{ url_for("rejectapp",course_id=course_id, student_id=astudent.id) }}">拒绝</a>
+                                                                <a class="btn btn-success" href="{{ url_for("selectcourse.acceptapp",course_id=course_id, student_id=astudent.id) }}">同意</a>
+                                                                <a class="btn btn-danger" href="{{ url_for("selectcourse.rejectapp",course_id=course_id, student_id=astudent.id) }}">拒绝</a>
                                                             </td>
                                                         </tr>
                                                         {% endfor %}

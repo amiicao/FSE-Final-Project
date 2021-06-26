@@ -24,8 +24,8 @@ DB_URI_III = "mysql+pymysql://{username}:{password}@{host}:{port}/{db}?charset=u
                                                                                         port=PORT, db=DATABASE3)
 SQLALCHEMY_DATABASE_URI = DB_URI_I
 SQLALCHEMY_BINDS = {
-    'course_arrangement_system':        DB_URI_I,
-    'message_management_system':        DB_URI_II,
+    'course_arrangement_system':        DB_URI_II,
+    'message_management_system':        DB_URI_I,
     'select_course':                    DB_URI_III
 }
 SQLALCHEMY_TRACK_MODIFICATIONS = False
