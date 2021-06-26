@@ -4,10 +4,11 @@ from flask import render_template, request, url_for, redirect, flash
 
 from database import db
 from exam.forms.answer import PaperForm, AnswerForm
-from exam.models.exam import exam_has_problem, Paper
 from exam.models.problem import Problem
 from exam.models.answer import Anspa_prob_answer, Anspaper
 import time
+
+from models import Paper
 
 take_exam_bp = Blueprint('take_exam', __name__)
 

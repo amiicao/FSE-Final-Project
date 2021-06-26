@@ -6,8 +6,8 @@ import time
 from sqlalchemy import desc
 
 from database import db
-from exam.models.exam import Paper
 from exam.models.answer import ProbAnalysis, Anspaper
+from models import Paper
 
 teacher_bp = Blueprint('teacher', __name__)
 

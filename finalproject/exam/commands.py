@@ -1,10 +1,10 @@
 from main import create_app
 from exam.models.problem import Problem, Tag
-from exam.models.exam import Paper
 from flask.cli import FlaskGroup
 from database import db
 import click
 
+from models import Paper
 
 cli = FlaskGroup(create_app=create_app)
 

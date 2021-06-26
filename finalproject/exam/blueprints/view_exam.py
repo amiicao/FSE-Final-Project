@@ -2,12 +2,12 @@ from flask import Blueprint
 from sqlalchemy import desc
 
 from database import db
-from exam.models.exam import Paper, exam_has_problem
 from flask import render_template, request, flash, redirect, url_for
 from datetime import datetime
 from exam.models.answer import Anspa_prob_answer, Anspaper
 import time
 
+from models import Paper
 
 view_exam_bp = Blueprint('view_exam', __name__)
 

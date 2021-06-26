@@ -1,7 +1,7 @@
 from database import db
 
 # 题库
-from exam.models.exam import exam_has_problem
+from models import exam_has_problem
 
 problem_has_tag = db.Table(
     'problem_has_tag',
