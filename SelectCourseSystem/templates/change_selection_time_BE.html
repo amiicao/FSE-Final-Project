@@ -1,0 +1,46 @@
+{% extends "sidebar.html" %}
+<!DOCTYPE html>
+<style>
+.container{
+    font-size: x-small;
+}
+</style>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>更改补选时段</title>
+</head>
+<body>
+    {% block body %}
+        {% for message in get_flashed_messages() %}
+            <div class="alert alert-info alert-dismissible" aria-hidden="true" >
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                {{ message }}
+            </div>
+        {% endfor %}
+    <h3 class="fw-bold mb-0 ">改革补选课时段</h3>
+        <div class="row clearfix g-3">
+            <div class="col-sm-12">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <table id="table" class="table table-hover align-middle mb-0" style="width:100%">
+                            <form action="{{ url_for("changeSelCoursePeriodBE")}}" method="post">
+                            <label for="Course selection START">输入补选时段开始时间:</label>
+                            <input type="str" id="BESelCourseStart" name="BESelCourseStart" placeholder="MM DD YYYY">
+                            <br />
+                            <label for="Course selection END">输入补选时段结束时间:</label>
+                            <input type="str" id="BESelCourseEnd" name="BESelCourseEnd" placeholder="MM DD YYYY">
+                            <br />
+                            <br />
+                            <button class = 'btn btn-primary' type= 'submit'> 更新时间 </button>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    {% endblock %}
+    </body>
+</html>
