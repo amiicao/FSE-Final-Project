@@ -5,7 +5,7 @@ import os.path
 import time
 
 import xlrd
-from flask_login import login_required
+from flask_login import login_required, current_user
 from sqlalchemy import or_, and_, text
 # from openpyxl import load_workbook
 from flask import send_from_directory
@@ -32,7 +32,7 @@ bp = Blueprint('classarrange', __name__, url_prefix='/classarrange')
 # from models import Application,Classroom,Course,Teacher,TermCourse
 
 # bp = Blueprint('classarrange', __name__, url_prefix='/classarrange')
-from models import Classroom, TermCourse, Teacher, Application
+from models import Classroom, TermCourse, Teacher, ModifyApplication
 
 
 @bp.route('/')
@@ -283,7 +283,7 @@ def showroom():
 
 @bp.route('/application', methods=['POST', 'GET'])
 def application():
-    application = Application.query.filter_by().all()
+    application = ModifyApplication.query.filter_by().all()
     return render_template('ClassArrange/application.html', apply=application)
 
 
@@ -292,7 +292,7 @@ def application():
 #     return render_template('teachermain.html')
 @bp.route('/teacher_schedule', methods=['POST', 'GET'])
 def teacher_schedule():
-    application = Application.query.filter_by(teacher_id="00001")
+    application = ModifyApplication.query.filter_by(teacher_id="00001")
     return render_template('ClassArrange/teacher_schedule.html', application=application)
 
 
@@ -771,7 +771,12 @@ def TeacherCourse():
             tmp.append(" ")
         a.append(tmp)
     b = [1, 2, 4, 6, 7]  # 221 212 21
-    application = Application.query.filter_by(teacher_id="叶德仕")
+    try:
+        teacher = Teacher.query.filter(Teacher.teacher_name == request.args.get('name')).first()
+        application = ModifyApplication.query.filter_by(teacher_id=teacher.teacher_id)
+    except:
+        pass
+
     error = None
     if not request.args.get('name'):
         error = 'name is required'
@@ -812,7 +817,7 @@ def submitapply():
         elif content is None:
             error = "未填写内容！"
         else:
-            applcation = Application(teacher_id=teacher_id, content=content, statecode=statecode)
+            applcation = ModifyApplication(teacher_id=teacher_id, content=content, statecode=statecode)
             db = get_db()
             db.session.add(applcation)
             db.session.commit()
@@ -837,7 +842,7 @@ def processapplication():
         handler = '叶德仕'
         # *********************************这里要用管理员名！！！！*****************************************#
 
-        application = Application.query.filter_by(teacher_id=teacher_id, content=content).first()
+        application = ModifyApplication.query.filter_by(teacher_id=teacher_id, content=content).first()
         if application is not None:
             application.statecode = statecode
             application.handler = handler
@@ -902,7 +907,7 @@ def printtable():
             tmp.append(" ")
         a.append(tmp)
     b = [1, 2, 4, 6, 7]  # 221 212 21
-    application = Application.query.filter_by().all()
+    application = ModifyApplication.query.filter_by().all()
     error = None
     # if not g.name:
     if 0:

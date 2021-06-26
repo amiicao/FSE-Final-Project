@@ -8,6 +8,7 @@ from flask_sqlalchemy import SQLAlchemy
 from database import db
 from models import User
 
+
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
@@ -44,6 +45,8 @@ def create_app(test_config=None):
     app.register_blueprint(login.bp)
     import selectcourse
     app.register_blueprint(selectcourse.bp)
+    import exam
+    app.register_blueprint(exam.bp)
     # import eduresource
     # app.register_blueprint(eduresource.bp)
     # import class_teacher
@@ -53,6 +56,10 @@ def create_app(test_config=None):
     # app.register_blueprint(classroom.bp)
     @login_manager.user_loader
     def load_user(id):
-        return User.query.get(int(id))
+        if id:
+            try:
+                return User.query.get(int(id))
+            except:
+                pass
 
     return app

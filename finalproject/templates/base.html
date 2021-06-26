@@ -3,7 +3,7 @@
         {% if title %}
         <title>{{ title }} - microblog</title>
         {% else %}
-        <title>microblog</title>
+        <title>{% block title %}microblog{% endblock %}</title>
         {% endif %}
     </head>
     <body>

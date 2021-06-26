@@ -38,7 +38,6 @@
                                             <th>课程ID</th>
                                             <th>课程名称</th>
                                             <th>课程老师ID</th>
-                                            <th>学期</th>
                                             <th>课程时间</th>
                                             <th>课程容量</th>
                                             <th>操作</th>
@@ -47,24 +46,9 @@
                                     <tbody>
                                         {% for course in courses %}
                                             <tr>
-                                                <td><span class="fw-bold ms-1">{{ course.id }}</span></td>
+                                                <td><span class="fw-bold ms-1">{{ course.cid }}</span></td>
                                                 <td><span class="fw-bold ms-1">{{ course.name }}</span></td>
                                                 <td>{{ course.teacher_id }}</td>
-                                                <td>
-                                                    {% if course.time[2:4] == "11" %}
-                                                        春
-                                                    {% elif course.time[2:4] == "12" %}
-                                                        春夏
-                                                    {% elif course.time[2:4] == "22" %}
-                                                        夏
-                                                    {% elif course.time[2:4] == "33" %}
-                                                        秋
-                                                    {% elif course.time[2:4] == "34" %}
-                                                        秋冬
-                                                    {% else %}
-                                                        冬
-                                                    {% endif %}
-                                                </td>
                                                 <td>
                                                     {{ days[course.time[4]] }}
 
@@ -100,7 +84,7 @@
                                                 <td>
                                                     {{ course.curr_capacity }}
                                                     /
-                                                    {{ course.max_capacity }}
+                                                    {{ course.capacity }}
                                                 </td>
                                                 <td>
                                                     <a class="btn bg-secondary text-light btn-lg lift" href="{{ url_for("selectcourse.studentlist",course_id=course.id) }}">学生查看</a>
