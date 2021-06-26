@@ -1,0 +1,82 @@
+{% extends "sidebar.html" %}
+<!doctype html>
+<html class="no-js" lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>:: My-Task:: Departments</title>
+    <!-- plugin css file  -->
+    <link rel="stylesheet" href="../static/assets/plugin/datatables/responsive.dataTables.min.css">
+    <link rel="stylesheet" href="../static/assets/plugin/datatables/dataTables.bootstrap5.min.css">
+    <!-- project css file  -->
+    <link rel="stylesheet" href="../static/assets/css/my-task.style.css">
+</head>
+<body>
+<div class="theme-indigo">
+    {% block body %}
+    <div class="main px-lg-4 px-md-4">
+        <div class="body d-flex py-lg-3 py-md-2">
+            <div class="container-xxl">
+                <div class="row align-items-center">
+                    <div class="border-0 mb-4">
+                        <div class="card-header py-3 no-bg bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap">
+                            <h3 class="fw-bold mb-0">{{ room }}本学期课表</h3>
+                            <div class="col-auto d-flex w-sm-100">
+                                <button type="button" id="back" class="btn btn-dark w-sm-100"><i class="icofont-close-line me-2 fs-6"></i>返回</button>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- Row end  -->
+                <div class="row clearfix g-3">
+                  <div class="col-sm-12">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <table id="Class_Schedule" class="table table-hover borderless mb-0" style="width:100%;text-align: center">
+                                    <thead>
+                                        <tr style="">
+                                            <th style="width:100px">课程时间</th>
+                                            <th style="width:150px">周一</th>
+                                            <th style="width:150px">周二</th>
+                                            <th style="width:150px">周三</th>
+                                            <th style="width:150px">周四</th>
+                                            <th style="width:150px">周五</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for periods in tables %}
+                                        <tr>
+                                            <td><span class="fw-bold">{{ periods[0] }}</span></td>
+                                            {% for i in range(1, 6) %}
+                                                {% if periods[i] != ' ' %}
+                                                    <td class="table-primary">{{ periods[i] }}</td>
+                                                {% else %}
+                                                    <td>{{ periods[i] }}</td>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                  </div>
+                </div><!-- Row End -->
+            </div>
+        </div>
+    </div>
+    <script src="../static/assets/bundles/libscripts.bundle.js"></script>
+    <script src="../static/assets/bundles/dataTables.bundle.js"></script>
+    <script src="../static/assets/js/template.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#back').on('click', function(){
+                location.href = "/department";
+            } );
+        });
+    </script>
+    {% endblock %}
+</div>
+</body>
+</html>

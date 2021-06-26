@@ -1,0 +1,352 @@
+﻿{% extends "sidebar.html" %}
+<!doctype html>
+<html class="no-js" lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>:: My-Task:: Employee Profile </title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon"> <!-- Favicon-->
+    <!-- plugin css file  -->
+    <link rel="stylesheet" href="../static/../static/assets/plugin/nestable/jquery-nestable.css"/>
+    <link rel="stylesheet" href="../static/../static/assets/css/my-task.style.css">
+</head>
+<body onload="refresh">
+
+<div id="mytask-layout" class="theme-indigo">
+{% block body %}
+    <!-- main body area -->
+    <div class="main px-lg-4 px-md-4">
+        <!-- Body: Body -->
+                <div class="col-auto d-flex w-sm-100">
+                    <div class="col-auto d-flex w-sm-100">
+                        <button type="button" class="btn btn-dark btn-set-task w-sm-100" data-bs-toggle="modal" data-bs-target="#tickadd"><i class="icofont-plus-circle me-2 fs-6"></i>上传照片</button>
+                    </div> 
+                </div>
+        <div class="body d-flex py-lg-3 py-md-2">
+            <div class="container-xxl">
+                <div class="row clearfix">
+                    <div class="col-md-12">
+                        <div class="card border-0 mb-4 no-bg">
+                            <div class="card-header py-3 px-0 d-flex align-items-center  justify-content-between border-bottom">
+                                <h3 class=" fw-bold flex-fill mb-0">个人中心</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- Row End -->
+                <div class="row g-3">
+                    <div class="col-xl-8 col-lg-8 col-md-8">
+                        <div class="card teacher-card  mb-3">
+                            <div class="card-body  d-flex teacher-fulldeatil">
+                                <div class="profile-teacher pe-xl-4 pe-md-2 pe-sm-4 pe-0 text-center w220 mx-sm-0 mx-auto">
+                                    <a href="#">
+                                        <img src="../static/assets/images/lg/{{user.uid}}.jpg" alt="" class="avatar xl rounded-circle img-thumbnail shadow-sm">
+                                    </a>
+                                    <div class="about-info d-flex align-items-center mt-3 justify-content-center flex-column">
+                                        <h6 class="mb-0 fw-bold d-block fs-6">{{user.name}}</h6>
+                                        <span class="text-muted small">{{user.status}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h6 class="fw-bold  py-3 mb-3">个人信息</h6>
+                        <div class="row g-3">
+                            <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-8">
+                                <div class="card">
+                                    <div class="card-header py-3 d-flex justify-content-between">
+                                        <h6 class="mb-0 fw-bold ">基本信息</h6>
+                                        <button type="button" class="btn p-0" data-bs-toggle="modal" data-bs-target="#edit1"><i class="icofont-edit text-primary fs-6"></i></button>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="list-unstyled mb-0">
+                                            <li class="row flex-wrap mb-3">
+                                                <div class="col-6"> 
+                                                    <span class="fw-bold">姓名</span>
+                                                </div>
+                                                <div class="col-6">
+                                                    <span class="text-muted" id="name">{{user.name}}</span>
+                                                </div>
+                                            </li>
+                                            <li class="row flex-wrap mb-3">
+                                                <div class="col-6"> 
+                                                    <span class="fw-bold" >性别</span>
+                                                </div>
+                                                <div class="col-6">
+                                                    <span class="text-muted" id="sex">{{user.sex}}</span>
+                                                </div>
+                                             </li>
+                                             <li class="row flex-wrap mb-3">
+                                                <div class="col-6"> 
+                                                    <span class="fw-bold">学工号</span>
+                                                </div>
+                                                <div class="col-6">
+                                                    <span class="text-muted" id="ID">{{user.uid}}</span>
+                                                </div>
+                                             </li>
+                                             <li class="row flex-wrap mb-3">
+                                                <div class="col-6"> 
+                                                    <span class="fw-bold">年龄</span>
+                                                </div>
+                                                <div class="col-6">
+                                                    <span class="text-muted" id="age">{{user.age}}</span>
+                                                </div>
+                                             </li>                                                                                                                          
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- Row End -->
+               
+            </div>
+        </div>
+
+        <!-- Modal Members-->
+        <div class="modal fade" id="addUser" tabindex="-1" aria-labelledby="addUserLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title  fw-bold" id="addUserLabel">Employee Invitation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="inviteby_email">
+                        <div class="input-group mb-3">
+                            <input type="email" class="form-control" placeholder="Email address" id="exampleInputEmail1" aria-describedby="exampleInputEmail1">
+                            <button class="btn btn-dark" type="button" id="button-addon2">Sent</button>
+                        </div>
+                    </div>
+                    <div class="members_list">
+                        <h6 class="fw-bold ">Employee </h6>
+                        <ul class="list-unstyled list-group list-group-custom list-group-flush mb-0">
+                            <li class="list-group-item py-3 text-center text-md-start">
+                                <div class="d-flex align-items-center flex-column flex-sm-column flex-md-row">
+                                    <div class="no-thumbnail mb-2 mb-md-0">
+                                        <img class="avatar lg rounded-circle" src="../static/assets/images/xs/avatar2.jpg" alt="">
+                                    </div>
+                                    <div class="flex-fill ms-3 text-truncate">
+                                        <h6 class="mb-0  fw-bold">Rachel Carr(you)</h6>
+                                        <span class="text-muted">rachel.carr@gmail.com</span>
+                                    </div>
+                                    <div class="members-action">
+                                        <span class="members-role ">Admin</span>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn bg-transparent dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="icofont-ui-settings  fs-6"></i>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-end">
+                                              <li><a class="dropdown-item" href="#"><i class="icofont-ui-password fs-6 me-2"></i>ResetPassword</a></li>
+                                              <li><a class="dropdown-item" href="#"><i class="icofont-chart-line fs-6 me-2"></i>ActivityReport</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item py-3 text-center text-md-start">
+                                <div class="d-flex align-items-center flex-column flex-sm-column flex-md-row">
+                                    <div class="no-thumbnail mb-2 mb-md-0">
+                                        <img class="avatar lg rounded-circle" src="../static/assets/images/xs/avatar3.jpg" alt="">
+                                    </div>
+                                    <div class="flex-fill ms-3 text-truncate">
+                                        <h6 class="mb-0  fw-bold">Lucas Baker<a href="#" class="link-secondary ms-2">(Resend invitation)</a></h6>
+                                        <span class="text-muted">lucas.baker@gmail.com</span>
+                                    </div>
+                                    <div class="members-action">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn bg-transparent dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Members
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-end">
+                                              <li>
+                                                  <a class="dropdown-item" href="#">
+                                                    <i class="icofont-check-circled"></i>
+                                                      
+                                                    <span>All operations permission</span>
+                                                   </a>
+                                                   
+                                                </li>
+                                                <li>
+                                                     <a class="dropdown-item" href="#">
+                                                        <i class="fs-6 p-2 me-1"></i>
+                                                           <span>Only Invite & manage team</span>
+                                                       </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn bg-transparent dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="icofont-ui-settings  fs-6"></i>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-end">
+                                              <li><a class="dropdown-item" href="#"><i class="icofont-delete-alt fs-6 me-2"></i>Delete Member</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item py-3 text-center text-md-start">
+                                <div class="d-flex align-items-center flex-column flex-sm-column flex-md-row">
+                                    <div class="no-thumbnail mb-2 mb-md-0">
+                                        <img class="avatar lg rounded-circle" src="../static/assets/images/xs/avatar8.jpg" alt="">
+                                    </div>
+                                    <div class="flex-fill ms-3 text-truncate">
+                                        <h6 class="mb-0  fw-bold">Una Coleman</h6>
+                                        <span class="text-muted">una.coleman@gmail.com</span>
+                                    </div>
+                                    <div class="members-action">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn bg-transparent dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Members
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-end">
+                                              <li>
+                                                  <a class="dropdown-item" href="#">
+                                                    <i class="icofont-check-circled"></i>
+                                                      
+                                                    <span>All operations permission</span>
+                                                   </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item" href="#">
+                                                        <i class="fs-6 p-2 me-1"></i>
+                                                           <span>Only Invite & manage team</span>
+                                                       </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="btn-group">
+                                            <div class="btn-group">
+                                                <button type="button" class="btn bg-transparent dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="icofont-ui-settings  fs-6"></i>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-end">
+                                                  <li><a class="dropdown-item" href="#"><i class="icofont-ui-password fs-6 me-2"></i>ResetPassword</a></li>
+                                                  <li><a class="dropdown-item" href="#"><i class="icofont-chart-line fs-6 me-2"></i>ActivityReport</a></li>
+                                                  <li><a class="dropdown-item" href="#"><i class="icofont-delete-alt fs-6 me-2"></i>Suspend member</a></li>
+                                                  <li><a class="dropdown-item" href="#"><i class="icofont-not-allowed fs-6 me-2"></i>Delete Member</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div> 
+
+        <!-- Edit Employee Personal Info-->
+        <form action="{{url_for('.EditInfo')}}" method="POST">
+        <div class="modal fade" id="edit1" tabindex="-1"  aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title  fw-bold" id="edit1Label">基本信息</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="deadline-form">
+                            <form>
+                                <div class="row g-3 mb-3">
+                                    <div class="col">
+                                        <label for="exampleFormControlInput877" class="form-label">姓名</label>
+                                        <input type="text" class="form-control" id="exampleFormControlInput877" name="name"> 
+                                    </div>
+                                    <div class="col">
+                                        <label for="exampleFormControlInput977" class="form-label">性别</label>
+                                        <input type="text" class="form-control" id="exampleFormControlInput977" name="sex"> 
+                                    </div>
+                                    <div class="col">
+                                        <label for="exampleFormControlInput9777" class="form-label">学工号</label>
+                                        <input type="text" class="form-control" id="exampleFormControlInput9777" name="uid">
+                                    </div>
+                                    <div class="col">
+                                        <label for="exampleFormControlInput9777" class="form-label">年龄</label>
+                                        <input type="text" class="form-control" id="exampleFormControlInput9777" name="age">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">提交</button>
+                    </div> 
+                </div>  
+            </div>
+        </div>
+        </form>
+
+        <!-- Edit Bank Personal Info-->
+        <div class="modal fade" id="edit2" tabindex="-1"  aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title  fw-bold" id="edit2Label"> 其他信息</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="deadline-form">
+                            <form>
+                                <div class="row g-3 mb-3">
+                                    <div class="col">
+                                        <label for="exampleFormControlInput8775" class="form-label">院系</label>
+                                        <input type="text" class="form-control" id="exampleFormControlInput8775" value="软件工程学院"> 
+                                    </div>
+                                    <div class="col">
+                                        <label for="exampleFormControlInput977" class="form-label">专业</label>
+                                        <input type="text" class="form-control" id="exampleFormControlInput9775" value="软件工程"> 
+                                    </div>
+                                </div>
+                                <div class="row g-3 mb-3">
+                                <div class="col">
+                                    <label for="exampleFormControlInput97775" class="form-label">班级</label>
+                                    <input type="text" class="form-control" id="exampleFormControlInput97775" value="软工1902">
+                                </div>
+                                </div> 
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Done</button>
+                        <button type="button" class="btn btn-primary">Create</button>
+                    </div> 
+                </div>  
+            </div>
+        </div>
+
+
+        <form action="{{url_for('.SubmitPhoto')}}" method="POST" enctype="multipart/form-data">
+        <div class="modal fade" id="tickadd" tabindex="-1"  aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-md modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title  fw-bold" id="leaveaddLabel">上传照片</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" name="photo"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="subphoto" class="form-label">新照片</label>
+                        <input type="file" class="form-control" id="subphoto" name="photo">
+                        <input type="submit" name="submit" value="提交">
+                    </div>                   
+                </div>
+            </div>
+            </div>
+        </div>
+        </form>
+        
+    </div>
+</div>
+
+<!-- Jquery Core Js -->
+<script src="../static/assets/bundles/libscripts.bundle.js"></script>
+
+<!-- Jquery Page Js -->
+<script src="../static/assets/js/template.js"></script>
+{% endblock %}
+</body>
+</html>
