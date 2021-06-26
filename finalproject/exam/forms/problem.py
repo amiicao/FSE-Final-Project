@@ -77,6 +77,6 @@ class ProblemForm(FlaskForm):
     choice_C = StringField('选项 C', validators=[check_has_choice(), check_len_below_200()])
     choice_D = StringField('选项 D', validators=[check_has_choice(), check_len_below_200()])
     solution = StringField('答案', validators=[check_solution()])
-    adder = HiddenField('添加人', default='Default User')  # TODO: 添加登录验证
+    adder = StringField('添加人', render_kw={'hidden': ''}, default='Default User')  # TODO: 添加登录验证
     tags = StringField('标签（多个标签用空格分隔）', validators=[check_tag_len()])
     submit = SubmitField('添加试题')

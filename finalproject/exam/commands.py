@@ -51,7 +51,6 @@ def forge_problems(count):
             choice_D=fake.sentence(),
             solution=answer,
             adder='Default User',
-            chosen=False
         )
         db.session.add(problem)
         tag_name = random.choice(subjects)
