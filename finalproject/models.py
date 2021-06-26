@@ -36,7 +36,7 @@ from database import db
 
 class Teacher(db.Model):
     __bind_key__ = 'course_arrangement_system'
-    __tablename__ = 'teacher'
+    __tablename__ = 'teacherinclassarrange'
     teacher_name = db.Column(db.String(45))
     teacher_id = db.Column(db.String(10), primary_key=True)
 
@@ -85,9 +85,9 @@ class Classroom(db.Model):
         return '<edu_resource>{}:{}:{}:{}:{}'.format(self.location, self.campus, self.capacity, self.id, self.status)
 
 
-class Application(db.Model):
+class ModifyApplication(db.Model):
     __bind_key__ = 'course_arrangement_system'
-    __tablename__ = 'application'
+    __tablename__ = 'modifyapplication'
     teacher_id = db.Column(db.String(45), primary_key=True)
     content = db.Column(db.UnicodeText, primary_key=True)
     # 0:未处理 1：处理完成 2：被拒绝
@@ -116,12 +116,14 @@ class Course(db.Model):
     cid = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(45))
     credit = db.Column(db.Integer)
-    capacity = db.Column(db.Integer)
+    curr_capacity = db.Column(db.Integer, default=0)
+    capacity = db.Column(db.Integer, default=60)
     instructor = db.Column(db.String(45))
     type = db.Column(db.String(20))
-    time = db.Column(db.String(45))
+    time = db.Column(db.String(14))
     classroom = db.Column(db.String(45))
     description = db.Column(db.String(255))
+    teacher_id = db.Column(db.Integer, db.ForeignKey('teacher.id'))
 
     def __repr__(self):
         return '<course>{}:{}:{}:{}:{}:{}:{}:{}:{}'.format(self.cid, self.name, self.credit, self.capacity,
@@ -162,6 +164,13 @@ class User(db.Model, UserMixin):
         return check_password_hash(self.password, password)
 
 
+# StudentToCourse = db.Table(
+#     'student_to_course',
+#     db.Column('id',db.Integer,primary_key=True),
+#     db.Column('student_id',db.Integer, db.ForeignKey("student.id")),
+#     db.Column('course_id',db.Integer, db.ForeignKey("course.cid"))
+# )
+
 class Student(db.Model):
     __bind_key__ = 'select_course'
     __tablename__ = 'student'
@@ -169,37 +178,25 @@ class Student(db.Model):
     name = db.Column(db.String(16), unique=True)
     gender = db.Column(db.Enum("男", "女"), nullable=False)
     major_id = db.Column(db.Integer, db.ForeignKey('major.id'))
-    courses = db.relationship("Course_3", secondary="student_to_course", backref="students")
-    applications = db.relationship("Course_3", secondary="application", backref="astudents")
+    courses = db.relationship("Course", secondary='student_to_course', backref="students")
+    applications = db.relationship("Course", secondary="application", backref="astudents")
 
 
 class StudentToCourse(db.Model):
-    __bind_key__ = 'select_course'
+    __bind_key__ = 'message_management_system'
     __tablename__ = 'student_to_course'
     id = db.Column(db.Integer, primary_key=True)
     student_id = db.Column(db.Integer, db.ForeignKey("student.id"))
-    course_id = db.Column(db.Integer, db.ForeignKey("course.id"))
-
-
-class Course_3(db.Model):
-    __bind_key__ = 'select_course'
-    __tablename__ = 'course'
-    __table_args__ = {'extend_existing': True}
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(16), unique=True)
-    time = db.Column(db.String(10), nullable=False)
-    curr_capacity = db.Column(db.Integer, default=0)
-    max_capacity = db.Column(db.Integer, default=60)
-    teacher_id = db.Column(db.Integer, db.ForeignKey('teacher.id'))
+    course_id = db.Column(db.Integer, db.ForeignKey("course.cid"))
 
 
 class BEApplication(db.Model):  # student's application for by-election
-    __bind_key__ = 'select_course'
+    __bind_key__ = 'message_management_system'
     __tablename__ = 'application'
     __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True)
     student_id = db.Column(db.Integer, db.ForeignKey("student.id"))
-    course_id = db.Column(db.Integer, db.ForeignKey("course.id"))
+    course_id = db.Column(db.Integer, db.ForeignKey("course.cid"))
 
 
 class Teacher_3(db.Model):
@@ -208,7 +205,7 @@ class Teacher_3(db.Model):
     __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(16), unique=True)
-    courses = relationship('Course_3', backref='teacher')
+    courses = relationship('Course', backref='teacher_3')
 
 
 class Major(db.Model):

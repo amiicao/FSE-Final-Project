@@ -53,6 +53,10 @@ def create_app(test_config=None):
     # app.register_blueprint(classroom.bp)
     @login_manager.user_loader
     def load_user(id):
-        return User.query.get(int(id))
+        if id:
+            try:
+                return User.query.get(int(id))
+            except:
+                pass
 
     return app

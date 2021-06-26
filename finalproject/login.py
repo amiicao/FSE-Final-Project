@@ -79,7 +79,7 @@ def login():
     # 如果尚未登录，则渲染绑定表单
     form = LoginForm()
     # 希望从表单中得到返回的信息
-    if form.validate_on_submit() :
+    if form.validate_on_submit():
         # 首先验证验证码是否输入正确
         if form.verify_code.data == session['code'] or 1:
             user = User.query.filter_by(uid=form.username.data).first()
