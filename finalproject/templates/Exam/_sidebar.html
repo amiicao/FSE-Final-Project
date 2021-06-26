@@ -1,11 +1,11 @@
-<!-- sidebar -->
-<div class="sidebar px-4 py-4 py-md-5 me-0">
+    <div class="sidebar px-4 py-4 py-md-5 me-0">
 
         <div class="d-flex flex-column h-100">
             <a href="index.html" class="mb-0 brand-icon">
                 <span class="logo-icon">
-                    <svg  width="35" height="35" fill="currentColor" class="bi bi-clipboard-check" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+                    <svg width="35" height="35" fill="currentColor" class="bi bi-clipboard-check" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                              d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
                         <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
                         <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
                     </svg>
@@ -16,74 +16,122 @@
             <ul class="menu-list flex-grow-1 mt-3">
                 <li class="collapsed">
                     <a class="m-link" data-bs-toggle="collapse" data-bs-target="#info-management" href="#">
-                        <i class="icofont-home fs-5"></i> <span>信息管理模块</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
+                        <i class="icofont-home fs-5"></i> <span>信息管理模块</span> <span
+                            class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
                     <!-- Menu: Sub menu ul -->
                     <ul class="sub-menu collapse" id="info-management">
                         {% if current_user.is_authenticated and current_user.status =="管理员" %}
-                        <li><a class="ms-link" href={{ url_for('messagearrange.personal_center') }}> <span>个人中心</span></a></li>
-                        <li><a class="ms-link" href={{ url_for('messagearrange.course_search') }}> <span>课程搜索</span></a></li>
-                        <li><a class="ms-link" href={{ url_for('messagearrange.user_search') }}> <span>用户搜索</span></a></li>
+                            <li><a class="ms-link" href={{ url_for('messagearrange.personal_center') }}>
+                                <span>个人中心</span></a></li>
+                            <li><a class="ms-link" href={{ url_for('messagearrange.course_search') }}> <span>课程搜索</span></a>
+                            </li>
+                            <li><a class="ms-link" href={{ url_for('messagearrange.user_search') }}>
+                                <span>用户搜索</span></a></li>
                         {% elif current_user.is_authenticated %}
-                        <li><a class="ms-link" href={{ url_for('messagearrange.personal_center') }}> <span>个人中心</span></a></li>
+                            <li><a class="ms-link" href={{ url_for('messagearrange.personal_center') }}>
+                                <span>个人中心</span></a></li>
                         {% endif %}
                     </ul>
                 </li>
+
                 <li class="collapsed">
                     <a class="m-link" data-bs-toggle="collapse" data-bs-target="#course-management" href="#">
-                        <i class="icofont-home fs-5"></i> <span>课程安排模块</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
+                        <i class="icofont-home fs-5"></i> <span>课程安排模块</span> <span
+
+                            class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
                     <!-- Menu: Sub menu ul -->
                     <ul class="sub-menu collapse" id="course-management">
                         <li><a class="ms-link" href="ClassArrange/index.html"> <span></span></a></li>
                         {% if current_user.is_authenticated and current_user.status =="管理员" %}
-                        <li><a class="ms-link" href={{ url_for('classarrange.application') }}> <span>申请处理</span></a></li>
-                        <li><a class="ms-link"  href={{ url_for('classarrange.classroomarrange') }}> <span>教学资源管理</span></a></li>
-                        <li><a class="ms-link" href={{ url_for('classarrange.department') }}> <span>课程管理</span></a></li>
+                            <li><a class="ms-link" href={{ url_for('classarrange.application') }}> <span>申请处理</span></a>
+                            </li>
+                            <li><a class="ms-link" href={{ url_for('classarrange.classroomarrange') }}>
+                                <span>教学资源管理</span></a></li>
+                            <li><a class="ms-link" href={{ url_for('classarrange.department') }}> <span>课程管理</span></a>
+                            </li>
                         {% elif current_user.is_authenticated and current_user.status =="教师" %}
-                        <li><a class="ms-link" href={{ url_for('classarrange.TeacherCourse') }}> <span>教师主界面</span></a></li>
+                            <li><a class="ms-link" href={{ url_for('classarrange.TeacherCourse') }}> <span>教师主界面</span></a>
+                            </li>
                         {% endif %}
                     </ul>
                 </li>
                 <li class="collapsed">
                     <a class="m-link" data-bs-toggle="collapse" data-bs-target="#course-choose" href="#">
-                        <i class="icofont-home fs-5"></i> <span>课程选择模块</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
+                        <i class="icofont-home fs-5"></i> <span>课程选择模块</span> <span
+                            class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
                     <!-- Menu: Sub menu ul -->
-{#                    <ul class="sub-menu collapse" id="dashboard-Components">#}
-{#                        <li class="collapsed">#}
-{#                    <a class="m-link" data-bs-toggle="collapse" data-bs-target="#dashboard-Components" href="#">#}
-{#                        <i class="icofont-home fs-5"></i> <span>第三模块</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>#}
-{#                    <!-- Menu: Sub menu ul -->#}
-{#                    <ul class="sub-menu collapse" id="dashboard-Components">#}
+                    {#                    <ul class="sub-menu collapse" id="dashboard-Components">#}
+                    {#                        <li class="collapsed">#}
+                    {#                    <a class="m-link" data-bs-toggle="collapse" data-bs-target="#dashboard-Components" href="#">#}
+                    {#                        <i class="icofont-home fs-5"></i> <span>第三模块</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>#}
+                    {#                    <!-- Menu: Sub menu ul -->#}
+                    {#                    <ul class="sub-menu collapse" id="dashboard-Components">#}
                     <ul class="sub-menu collapse" id="course-choose">
                         {% if current_user.is_authenticated and current_user.status == '教师' %}
-                            <li><a class="ms-link" href="{{ url_for('selectcourse.myclass')}}"> <span>选课信息查看</span></a></li>
-                        {% elif current_user.is_authenticated and current_user.status == '学生'%}
-                            <li><a class="ms-link" href="{{ url_for('selectcourse.inquiry_courses')}}"> <span>自主选课</span></a></li>
-                            <li><a class="ms-link" href="{{ url_for('selectcourse.inquiry_major')}}"> <span>培养方案</span></a></li>
-                            <li><a class="ms-link" href="{{ url_for('selectcourse.BEappManage')}}"> <span>补选课程</span></a></li>
-                            <li><a class="ms-link" href="{{ url_for('selectcourse.mycurriculum')}}"> <span>课表显示</span></a></li>
-                        {% elif current_user.is_authenticated and  current_user.status == '管理员'%}
-                            <li><a class="ms-link" href="{{ url_for('selectcourse.changeSelCoursePeriod')}}"> <span>选课时间管理</span></a></li>
-                            <li><a class="ms-link" href="{{ url_for('selectcourse.changeSelCoursePeriodBE')}}"> <span>补选时间管理</span></a></li>
-                            <li><a class="ms-link" href="{{ url_for('selectcourse.admin_sel_course')}}"> <span>手动选课</span></a></li>
-                            <li><a class="ms-link" href="{{ url_for('selectcourse.admin_del_course')}}"> <span>手动退课</span></a></li>
+                            <li><a class="ms-link" href="{{ url_for('selectcourse.myclass') }}"> <span>选课信息查看</span></a>
+                            </li>
+                        {% elif current_user.is_authenticated and current_user.status == '学生' %}
+                            <li><a class="ms-link" href="{{ url_for('selectcourse.inquiry_courses') }}">
+                                <span>自主选课</span></a></li>
+                            <li><a class="ms-link" href="{{ url_for('selectcourse.inquiry_major') }}"> <span>培养方案</span></a>
+                            </li>
+                            <li><a class="ms-link" href="{{ url_for('selectcourse.BEappManage') }}">
+                                <span>补选课程</span></a></li>
+                            <li><a class="ms-link" href="{{ url_for('selectcourse.mycurriculum') }}"> <span>课表显示</span></a>
+                            </li>
+                        {% elif current_user.is_authenticated and  current_user.status == '管理员' %}
+                            <li><a class="ms-link" href="{{ url_for('selectcourse.changeSelCoursePeriod') }}"> <span>选课时间管理</span></a>
+                            </li>
+                            <li><a class="ms-link" href="{{ url_for('selectcourse.changeSelCoursePeriodBE') }}"> <span>补选时间管理</span></a>
+                            </li>
+                            <li><a class="ms-link" href="{{ url_for('selectcourse.admin_sel_course') }}">
+                                <span>手动选课</span></a></li>
+                            <li><a class="ms-link" href="{{ url_for('selectcourse.admin_del_course') }}">
+                                <span>手动退课</span></a></li>
                         {% endif %}
                     </ul>
                 </li>
                 <li class="collapsed">
                     <a class="m-link" data-bs-toggle="collapse" data-bs-target="#online-test" href="#">
-                        <i class="icofont-home fs-5"></i> <span>在线测试模块</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
+                        <i class="icofont-home fs-5"></i> <span>在线测试模块</span> <span
+                            class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
 
                     <ul class="sub-menu collapse" id="online-test"> <!-- 在线测试 -->
                         {% if current_user.is_authenticated and (current_user.status == '教师' or current_user.status == '管理员') %}
 
-                            <li><a class="ms-link" href="{{ url_for('exam.problem.home')}}"> <span>题库管理</span></a></li>
-                            <li><a class="ms-link" href="{{ url_for('exam.manage_exam.home')}}"> <span>考试添加</span></a></li>
-                            <li><a class="ms-link" href="{{ url_for('exam.teacher.home')}}"> <span>考试管理</span></a></li>
+                            <li><a class="ms-link" href="{{ url_for('exam.problem.home') }}"> <span>题库管理</span></a></li>
+                            <li><a class="ms-link" href="{{ url_for('exam.manage_exam.home') }}"> <span>考试添加</span></a>
+                            </li>
+                            <li><a class="ms-link" href="{{ url_for('exam.teacher.home') }}"> <span>考试管理</span></a></li>
 
                         {% elif current_user.is_authenticated and current_user.status == '学生' %}
 
-                            <li><a class="ms-link" href="{{ url_for('exam.view_exam.home')}}"><span>考试查看</span></a></li>
+                            <li><a class="ms-link" href="{{ url_for('exam.view_exam.home') }}"><span>考试查看</span></a>
+                            </li>
 
+                        {% endif %}
+                    </ul>
+                </li>
+                <li class="collapsed">
+                    <a class="m-link" data-bs-toggle="collapse" data-bs-target="#score-record" href="#">
+                        <i class="icofont-home fs-5"></i> <span>课程资源共享和成绩登记模块</span> <span
+                            class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
+
+                    <ul class="sub-menu collapse" id="score-record"> <!-- 在线测试 -->
+                        {% if current_user.is_authenticated and current_user.status == '学生'   %}
+
+                            <li><a class="ms-link" href="{{ url_for('resourceandscore.student_HW') }}"> <span>作业提交</span></a></li>
+                            <li><a class="ms-link" href="{{ url_for('resourceandscore.score_analysis') }}"> <span>成绩查询</span></a>
+                            </li>
+                            <li><a class="ms-link" href="{{ url_for('resourceandscore.student_analysis') }}"> <span>成绩分析</span></a></li>
+                        {% elif current_user.is_authenticated and current_user.status == '教师' %}
+                            <li><a class="ms-link" href="{{ url_for('resourceandscore.resource_management') }}"> <span>资源分享</span></a></li>
+                            <li><a class="ms-link" href="{{ url_for('resourceandscore.teacher_HW') }}"><span>作业布置</span></a></li>
+                            <li><a class="ms-link" href="{{ url_for('resourceandscore.teacher_marks') }}"><span>成绩录入</span></a></li>
+                            <li><a class="ms-link" href="{{ url_for('resourceandscore.score_analysisT') }}"> <span>成绩分析</span></a></li>
+                            <li><a class="ms-link" href="{{ url_for('resourceandscore.score_request') }}"> <span>成绩修改</span></a></li>
+                        {% elif current_user.is_authenticated and current_user.status == '管理员' %}
+                            <li><a class="ms-link" href="{{ url_for('resourceandscore.score_request') }}"> <span>成绩修改</span></a></li>
                         {% endif %}
                     </ul>
                 </li>
@@ -110,4 +158,4 @@
                 <span class="ms-2"><i class="icofont-bubble-right"></i></span>
             </button>
         </div>
-</div>
+    </div>

@@ -54,10 +54,11 @@
                         {% endif %}
                     </ul>
                 </li>
-                {% if current_user.is_authenticated and current_user.status !="学生" %}
+
                 <li class="collapsed">
                     <a class="m-link" data-bs-toggle="collapse" data-bs-target="#course-management" href="#">
                         <i class="icofont-home fs-5"></i> <span>课程安排模块</span> <span
+
                             class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
                     <!-- Menu: Sub menu ul -->
                     <ul class="sub-menu collapse" id="course-management">
@@ -75,7 +76,6 @@
                         {% endif %}
                     </ul>
                 </li>
-                {% endif %}
                 <li class="collapsed">
                     <a class="m-link" data-bs-toggle="collapse" data-bs-target="#course-choose" href="#">
                         <i class="icofont-home fs-5"></i> <span>课程选择模块</span> <span
@@ -130,6 +130,29 @@
                             <li><a class="ms-link" href="{{ url_for('exam.view_exam.home') }}"><span>考试查看</span></a>
                             </li>
 
+                        {% endif %}
+                    </ul>
+                </li>
+                <li class="collapsed">
+                    <a class="m-link" data-bs-toggle="collapse" data-bs-target="#score-record" href="#">
+                        <i class="icofont-home fs-5"></i> <span>课程资源共享和成绩登记模块</span> <span
+                            class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
+
+                    <ul class="sub-menu collapse" id="score-record"> <!-- 在线测试 -->
+                        {% if current_user.is_authenticated and current_user.status == '学生'   %}
+
+                            <li><a class="ms-link" href="{{ url_for('resourceandscore.student_HW') }}"> <span>作业提交</span></a></li>
+                            <li><a class="ms-link" href="{{ url_for('resourceandscore.score_analysis') }}"> <span>成绩查询</span></a>
+                            </li>
+                            <li><a class="ms-link" href="{{ url_for('resourceandscore.student_analysis') }}"> <span>成绩分析</span></a></li>
+                        {% elif current_user.is_authenticated and current_user.status == '教师' %}
+                            <li><a class="ms-link" href="{{ url_for('resourceandscore.resource_management') }}"> <span>资源分享</span></a></li>
+                            <li><a class="ms-link" href="{{ url_for('resourceandscore.teacher_HW') }}"><span>作业布置</span></a></li>
+                            <li><a class="ms-link" href="{{ url_for('resourceandscore.teacher_marks') }}"><span>成绩录入</span></a></li>
+                            <li><a class="ms-link" href="{{ url_for('resourceandscore.score_analysisT') }}"> <span>成绩分析</span></a></li>
+                            <li><a class="ms-link" href="{{ url_for('resourceandscore.score_request') }}"> <span>成绩修改</span></a></li>
+                        {% elif current_user.is_authenticated and current_user.status == '管理员' %}
+                            <li><a class="ms-link" href="{{ url_for('resourceandscore.score_request') }}"> <span>成绩修改</span></a></li>
                         {% endif %}
                     </ul>
                 </li>
@@ -200,7 +223,7 @@
                                     <p class="mb-0 text-end line-height-sm "><span
                                             class="font-weight-bold">{{ current_user.name }}</span></p>
 
-                                    <small>管理员</small>
+                                    <small>{{ current_user.status }}</small>
 
                                 </div>
 

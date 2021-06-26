@@ -1,7 +1,4 @@
-from flask import Blueprint, render_template_string
-from flask_sqlalchemy import SQLAlchemy
-
-import pymysql
+from flask import Blueprint
 
 bp = Blueprint('exam', __name__, url_prefix='/exam', static_folder='static')
 
@@ -11,7 +8,6 @@ def main():
     return 'exam blueprint ok'
 
 
-from exam.commands import initdb, forge_problems
 from exam.blueprints.problem import problem_bp
 from exam.blueprints.manage_exam import manage_exam_bp
 from exam.blueprints.view_exam import view_exam_bp

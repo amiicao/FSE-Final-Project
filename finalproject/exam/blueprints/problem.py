@@ -15,7 +15,12 @@ def home():
     if current_user.status not in ['教师', '管理员']:
         return redirect(url_for('exam.view_exam.home'))
 
-    problems = Problem.query.all()
+    # problem adder 字段在数据库中为 int，在表单中为 String
+    # user.uid 字段在数据库中为 int
+    if current_user.status == '教师':
+        problems = Problem.query.filter_by(adder=current_user.uid).all()
+    else:  # current_user is admin
+        problems = Problem.query.filter_by(adder=current_user.uid).all()
     return render_template('Exam/problem/index.html', problems=problems)
 
 
@@ -31,7 +36,7 @@ def render_edit_form():
     form.problem_id.data = problem_id
 
     if problem_id != 0:
-        problem = Problem.query.filter_by(problem_id=str(problem_id)).first()
+        problem = Problem.query.filter_by(problem_id=problem_id).first()
 
         form.type.data = str(problem.type)
         form.text.data = problem.text
@@ -57,13 +62,21 @@ def delete_problem(problem_id):
 
     problem = Problem.query.filter_by(problem_id=problem_id).first()
     if problem is not None:
+
+        if current_user.status != '管理员' and problem.adder != current_user.uid:
+            flash('您无权删除非本人创建的题目。')
+            return redirect(url_for('exam.problem.home'))
+
         for tag in problem.tags:
             problem.tags.remove(tag)
             if not tag.problems:
                 db.session.delete(tag)
         db.session.delete(problem)
         db.session.commit()
-    flash('删除题目成功。')
+        flash('删除题目成功。')
+        return redirect(url_for('exam.problem.home'))
+
+    flash('题目不存在。')
     return redirect(url_for('exam.problem.home'))
 
 
@@ -76,16 +89,15 @@ def edit_problem():
 
     form = ProblemForm()
     problem_id = form.problem_id.data
-    print(form.adder.data)
-    form.validate()
-
-
 
     if form.validate_on_submit():
 
         problem = Problem()
         if problem_id != 0:
             problem = Problem.query.filter_by(problem_id=problem_id).first()
+            if current_user.status != '管理员' and problem.adder != current_user.uid:
+                flash('您无权删除非本人创建的题目。')
+                return redirect(url_for('exam.problem.home'))
 
         problem.type = form.type.data
         problem.text = form.text.data
@@ -115,8 +127,5 @@ def edit_problem():
         db.session.commit()
         flash('题目更新成功。')
         return 'OK'
-
-    for error in form.adder.errors:
-        print(error)
 
     return render_template('Exam/problem/problem_edit_form.html', form=form)
