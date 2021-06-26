@@ -9,6 +9,7 @@ UPLOAD_FOLDER = 'uploads'
 bp = Blueprint('messagearrange', __name__,url_prefix='/messagearrange')
 from database import get_db
 from models import User, Course
+from flask_login import LoginManager, current_user, login_user, logout_user, login_required
 # app = Flask(__name__)
 # app.config['JSON_AS_ASCII'] = False
 # app.config.from_object(configs01)
@@ -69,21 +70,39 @@ def hello_world():
 
 @bp.route('/personal-center.html', methods=['GET', 'POST'])
 def personal_center():
-    u = User(uid='123',sex='男',age='200',name='shx',status='Stu')
+    u = User.query.filter_by(uid = current_user.uid).first()
     return render_template("MessageArrange/personal-center.html", user = u)
 
 @bp.route('/EditInfo', methods=['GET', 'POST'])
 def EditInfo():
-    uid = request.form.get('uid')
     name = request.form.get('name')
     age = request.form.get('age')
     sex = request.form.get('sex')
+    uid = current_user.uid
+    password = current_user.password
+    print(name,age,sex)
+    error = None
+    if name == '':
+        error = "未输入姓名"
+    elif age == '':
+        error = "未输入年龄"
+    elif sex == '':
+        error = "未输入性别"
+    elif age <= '0':
+        error = "年龄不能小于等于0"
+    else:
+        user = User.query.filter_by(uid=uid).first()
+        user.name = name
+        user.age = age
+        user.sex = sex
+        db = get_db()
+        db.session.commit()
+        error = "修改成功！"
 
-    flash(uid,name,age,sex)
-
-    u = User('123','男','200','shx','Stu')
-    u = User(uid=uid,name=name)
-    return redirect(url_for('personal_center'))
+    if(error):
+        flash(error)
+        u = current_user
+    return redirect(url_for('messagearrange.personal_center'))
 
 @bp.route('/course-information.html/<cid>', methods=['GET', 'POST'])
 def course_information(cid):
@@ -101,7 +120,6 @@ def course_search():
 @bp.route('/EditCourse', methods=['GET', 'POST'])
 def EditCourse():
     name = request.form.get('name')
-    cid = request.form.get('cid')
     time = request.form.get('time')
     classroom = request.form.get('classroom')
     instructor = request.form.get('instructor')
@@ -109,16 +127,39 @@ def EditCourse():
     type = request.form.get('type')
     description = request.form.get('description')
     capacity = request.form.get('capacity')
-
-    #print(name,cid,time,classroom,instructor,credit,type)
-
-    # c = [Course('1','2','3','4','5','6','7','8','9'), Course('9','8','7','6','5','4','3','2','1')]
-    Course.query.filter((Course.cid) == cid).update({'name':name,'time':time,'classroom':classroom,'instructor':instructor,'credit':credit,'type':type, 'description':description, 'capacity':capacity})
+    error = None
     db = get_db()
-    try:
-        db.session.commit()
-    except:
-        db.session.rollback()
+
+    if name == '' :
+        error = '未输入课程名'
+    elif time == '':
+        error = '未输入上课时间'
+    elif classroom == '':
+        error = '未输入上课教室'
+    elif instructor == '':
+        error = '未输入教师'
+    elif credit == '':
+        error = '未输入学分'
+    elif type == '':
+        error = '未输入课程类型'
+    elif description == '':
+        error = '未输入课程描述'
+    elif capacity == '':
+        error = '未输入课程容量'
+    else :
+        error = '修改成功'
+
+    if error:
+        flash(error)
+    else:
+
+        course.name = name
+
+        try:
+            db.session.commit()
+        except:
+            db.session.rollback()
+
     c = Course.query.all()
     return render_template("course-search.html", courses=c)
 
@@ -144,11 +185,34 @@ def AddCourse():
     type = request.form.get('type')
     description = request.form.get('description')
     capacity = request.form.get('capacity')
-
-    NewCourse = Course(name=name,description=description,credit=credit,capacity=capacity,cid=cid,instructor=instructor,type=type,time=time,classroom=classroom)
+    error = None
     db = get_db()
-    db.session.add(NewCourse)
-    db.session.commit()
+
+    if name == None:
+        error = '未输入课程名'
+    elif cid == None:
+        error = '未输入课程编号'
+    elif time == None:
+        error = '未输入上课时间'
+    elif classroom == None:
+        error = '未输入上课教室'
+    elif instructor == None:
+        error = '未输入教师'
+    elif credit == None:
+        error = '未输入学分'
+    elif type == None:
+        error = '未输入课程类型'
+    elif description == None:
+        error = '未输入课程描述'
+    elif capacity == None:
+        error = '未输入课程容量'
+
+    if error:
+        flash(error)
+    else:
+        NewCourse = Course(name=name,description=description,credit=credit,capacity=capacity,cid=cid,instructor=instructor,type=type,time=time,classroom=classroom)
+        db.session.add(NewCourse)
+        db.session.commit()
 
     c = Course.query.all()
     return render_template("course-search.html", courses=c)
@@ -166,16 +230,36 @@ def AddUser():
     age = request.form.get('age')
     sex = request.form.get('sex')
     status = request.form.get('status')
-
-    print(uid,name,age,sex,status)
-    
-    NewUser = User(uid=uid, name=name, age=age, sex=sex, status=status)
     db = get_db()
-    db.session.add(NewUser)
-    db.session.commit()
+    # print(uid,name,age,sex,status)
+    error=None
+    if name == None:
+        error = "未输入姓名"
+    elif uid == None:
+        error = '未输入学工号'
+    elif age == None:
+        error = "未输入年龄"
+    elif sex == None:
+        error = "未输入性别"
+    elif status == None:
+        error = '未输入身份'
+    elif age <= 0 :
+        error = "年龄不能小于0"
+    elif sex != '男' or sex != '女':
+        error = '性别格式不正确'
+    elif status != '学生' or status != '教师' or status != '管理员':
+        error = '身份格式不正确'
+    else:
+        NewUser = User(uid=uid ,name=name,age=age,sex=sex,statuc=status,password='123456')
+        db.session.add(NewUser)
+        db.session.commit()
+
+    if(error):
+        flash(error)
 
     u = User.query.all()
     return render_template("user-search.html", users=u)
+
 
 @bp.route('/SubmitPhoto', methods=['GET', 'POST'])
 def SubmitPhoto():
