@@ -9,10 +9,10 @@
     <title>:: My-Task:: Tickets</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon"> <!-- Favicon-->
     <!-- plugin css file  -->
-    <link rel="stylesheet" href="../static/assets/plugin/datatables/responsive.dataTables.min.css">
-    <link rel="stylesheet" href="../static/assets/plugin/datatables/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="../../static/assets/plugin/datatables/responsive.dataTables.min.css">
+    <link rel="stylesheet" href="../../static/assets/plugin/datatables/dataTables.bootstrap5.min.css">
     <!-- project css file  -->
-    <link rel="stylesheet" href="../static/../static/assets/css/my-task.style.css">
+    <link rel="stylesheet" href="../../static/../static/assets/css/my-task.style.css">
 </head>
 <body>
 <div id="mytask-layout" class="theme-indigo">
@@ -219,7 +219,7 @@
                                            <td>
                                             <div class="btn-group" role="group" aria-label="Basic outlined example">
                                                 <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#edittickit"><i class="icofont-edit text-success"></i></button>
-                                                <button type="button" class="btn btn-outline-secondary deleterow"><i class="icofont-ui-delete text-danger"></i></button>
+                                                <button type="button" class="btn btn-outline-secondary deleterow" onclick="deleteuser('{{user.uid}}')"><i class="icofont-ui-delete text-danger"></i></button>
                                             </div>
                                             </td>
                                         </tr>
@@ -421,6 +421,7 @@
         </div>
         </form>
 
+        <form action="{{url_for('.EditUser')}}" method="POST">
         <div class="modal fade" id="edittickit" tabindex="-1"  aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-md modal-dialog-scrollable">
             <div class="modal-content">
@@ -431,32 +432,30 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="sub1" class="form-label">学工号</label>
-                        <input type="text" class="form-control" id="sub1" value="3190102001">
+                        <input type="text" class="form-control" id="sub1" name="uid" >
                     </div>
                     <div class="deadline-form">
-                        <form>
                             <div class="row g-3 mb-3">
                               <div class="col">
-                                <label for="depone11" class="form-label">姓名</label>
-                                <input type="text" class="form-control" id="depone11" value="21120001">
+                                <label for="depone111" class="form-label">姓名</label>
+                                <input type="text" class="form-control" id="depone111" name="name" >
                               </div>
                               <div class="col">
-                                <label for="deptwo56" class="form-label">年龄</label>
-                                <input type="data" class="form-control" id="deptwo56" value="33">
+                                <label for="deptwo556" class="form-label">年龄</label>
+                                <input type="text" class="form-control" id="deptwo556" name="age">
                               </div>
                             </div>
-                        </form>
                     </div>
                     <div class="mb-3">
                         <label  class="form-label">性别</label>
-                        <select class="form-select">
+                        <select class="form-select" name="sex">
                             <option selected>男</option>
                             <option value="1">女</option>
                         </select>
                     </div>
                     <div class="mb-3">
                         <label  class="form-labe2">身份</label>
-                        <select class="form-select">
+                        <select class="form-select" name="status">
                             <option selected>教师</option>
                             <option value="1">学生</option>
                             <option value="1">管理员</option>
@@ -464,23 +463,31 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Done</button>
-                    <button type="submit" class="btn btn-primary">sent</button>
+                    <button type="submit" class="btn btn-primary">完成</button>
                 </div>
             </div>
             </div>
         </div>
+        </form>
     </div>
 </div>
- 
+
+<script>
+function deleteuser (uid)
+{
+    window.location.href="user-delete/"+uid;
+}
+
+</script>
+
 <!-- Jquery Core Js -->
-<script src="../static/assets/bundles/libscripts.bundle.js"></script>
+<script src="../../static/assets/bundles/libscripts.bundle.js"></script>
 
 <!-- Plugin Js-->
-<script src="../static/assets/bundles/dataTables.bundle.js"></script>
+<script src="../../static/assets/bundles/dataTables.bundle.js"></script>
 
 <!-- Jquery Page Js -->
-<script src="../static/assets/js/template.js"></script>
+<script src="../../static/assets/js/template.js"></script>
 <script>
     
     $(document).ready(function() {

@@ -169,8 +169,8 @@ class Student(db.Model):
     name = db.Column(db.String(16), unique=True)
     gender = db.Column(db.Enum("男", "女"), nullable=False)
     major_id = db.Column(db.Integer, db.ForeignKey('major.id'))
-    courses = db.relationship("Course_3", secondary="student_to_course", backref="students")
-    applications = db.relationship("Course_3", secondary="application", backref="astudents")
+    # courses = db.relationship("Course_3", secondary="student_to_course", backref="students")
+    # applications = db.relationship("Course_3", secondary="application", backref="astudents")
 
 
 class StudentToCourse(db.Model):
@@ -183,14 +183,14 @@ class StudentToCourse(db.Model):
 
 class Course_3(db.Model):
     __bind_key__ = 'select_course'
-    __tablename__ = 'course'
+    __tablename__ = 'course_3'
     __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(16), unique=True)
     time = db.Column(db.String(10), nullable=False)
     curr_capacity = db.Column(db.Integer, default=0)
     max_capacity = db.Column(db.Integer, default=60)
-    teacher_id = db.Column(db.Integer, db.ForeignKey('teacher.id'))
+    # teacher_id = db.Column(db.Integer, db.ForeignKey('teacher.id'))
 
 
 class BEApplication(db.Model):  # student's application for by-election
@@ -208,7 +208,7 @@ class Teacher_3(db.Model):
     __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(16), unique=True)
-    courses = relationship('Course_3', backref='teacher')
+    # courses = relationship('Course_3', backref='teacher')
 
 
 class Major(db.Model):
@@ -216,4 +216,4 @@ class Major(db.Model):
     __tablename__ = 'major'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(20), unique=True)
-    students = db.relationship("Student", backref="major")
+    # students = db.relationship("Student", backref="major")

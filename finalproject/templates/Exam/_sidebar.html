@@ -1,5 +1,6 @@
 <!-- sidebar -->
-    <div class="sidebar px-4 py-4 py-md-5 me-0">
+<div class="sidebar px-4 py-4 py-md-5 me-0">
+
         <div class="d-flex flex-column h-100">
             <a href="index.html" class="mb-0 brand-icon">
                 <span class="logo-icon">
@@ -14,65 +15,99 @@
             <!-- Menu: main ul -->
             <ul class="menu-list flex-grow-1 mt-3">
                 <li class="collapsed">
-                    <a class="m-link" data-bs-toggle="collapse" data-bs-target="#dashboard-Components" href="#">
-                        <i class="icofont-home fs-5"></i> <span>信息管理</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
+                    <a class="m-link" data-bs-toggle="collapse" data-bs-target="#info-management" href="#">
+                        <i class="icofont-home fs-5"></i> <span>信息管理模块</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
                     <!-- Menu: Sub menu ul -->
-                    <ul class="sub-menu collapse" id="dashboard-Components">
-                        <li><a class="ms-link" href="index.html"> <span>Hr Dashboard</span></a></li>
-                        <li><a class="ms-link" href="project-dashboard.html"> <span>Project Dashboard</span></a></li>
-                    </ul>
-                </li>
-                <li  class="collapsed">
-                    <a class="m-link"  data-bs-toggle="collapse" data-bs-target="#project-Components" href="#">
-                        <i class="icofont-briefcase"></i><span>选课系统</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
-                    <!-- Menu: Sub menu ul -->
-                    <ul class="sub-menu collapse" id="project-Components">
-                        <li><a class="ms-link" href="projects.html"><span>Projects</span></a></li>
-                        <li><a class="ms-link" href="task.html"><span>Tasks</span></a></li>
-                        <li><a class="ms-link" href="timesheet.html"><span>Timesheet</span></a></li>
-                        <li><a class="ms-link" href="team-leader.html"><span>Leaders</span></a></li>
-                    </ul>
-                </li>
-
-                <li class="collapsed">
-                    <a class="m-link" data-bs-toggle="collapse" data-bs-target="#tikit-Components" href="#"><i
-                            class="icofont-ticket"></i> <span>我的课程</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
-                    <!-- Menu: Sub menu ul -->
-                    <ul class="sub-menu collapse" id="tikit-Components">
-                        <li><a class="ms-link" href="tickets.html"> <span>查看课程</span></a></li>
-                        <li><a class="ms-link" href="ticket-detail.html"> <span>查看成绩</span></a></li>
+                    <ul class="sub-menu collapse" id="info-management">
+                        {% if current_user.is_authenticated and current_user.status =="管理员" %}
+                        <li><a class="ms-link" href={{ url_for('messagearrange.personal_center') }}> <span>个人中心</span></a></li>
+                        <li><a class="ms-link" href={{ url_for('messagearrange.course_search') }}> <span>课程搜索</span></a></li>
+                        <li><a class="ms-link" href={{ url_for('messagearrange.user_search') }}> <span>用户搜索</span></a></li>
+                        {% elif current_user.is_authenticated %}
+                        <li><a class="ms-link" href={{ url_for('messagearrange.personal_center') }}> <span>个人中心</span></a></li>
+                        {% endif %}
                     </ul>
                 </li>
                 <li class="collapsed">
-                    <a class="m-link active" data-bs-toggle="collapse" data-bs-target="#client-Components" href="#"><i
-                            class="icofont-user-male"></i> <span>我的测试</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
+                    <a class="m-link" data-bs-toggle="collapse" data-bs-target="#course-management" href="#">
+                        <i class="icofont-home fs-5"></i> <span>课程安排模块</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
                     <!-- Menu: Sub menu ul -->
-                    <ul class="sub-menu collapse" id="client-Components">
-                        <li><a class="ms-link" href="active_test.html"> <span>活跃测试</span></a></li>
-                        <li><a class="ms-link" href="all_test.html"> <span>所有测试</span></a></li>
+                    <ul class="sub-menu collapse" id="course-management">
+                        <li><a class="ms-link" href="ClassArrange/index.html"> <span></span></a></li>
+                        {% if current_user.is_authenticated and current_user.status =="管理员" %}
+                        <li><a class="ms-link" href={{ url_for('classarrange.application') }}> <span>申请处理</span></a></li>
+                        <li><a class="ms-link"  href={{ url_for('classarrange.classroomarrange') }}> <span>教学资源管理</span></a></li>
+                        <li><a class="ms-link" href={{ url_for('classarrange.department') }}> <span>课程管理</span></a></li>
+                        {% elif current_user.is_authenticated and current_user.status =="教师" %}
+                        <li><a class="ms-link" href={{ url_for('classarrange.TeacherCourse') }}> <span>教师主界面</span></a></li>
+                        {% endif %}
                     </ul>
                 </li>
                 <li class="collapsed">
-                    <a class="m-link" data-bs-toggle="collapse" data-bs-target="#emp-Components" href="#"><i
-                            class="icofont-users-alt-5"></i> <span>学习资源</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
+                    <a class="m-link" data-bs-toggle="collapse" data-bs-target="#course-choose" href="#">
+                        <i class="icofont-home fs-5"></i> <span>课程选择模块</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
                     <!-- Menu: Sub menu ul -->
-                    <ul class="sub-menu collapse" id="emp-Components">
-                        <li><a class="ms-link" href="members.html"> <span>Members</span></a></li>
-                        <li><a class="ms-link" href="employee-profile.html"> <span>Members Profile</span></a></li>
-                        <li><a class="ms-link" href="holidays.html"> <span>Holidays</span></a></li>
-                        <li><a class="ms-link" href="attendance.html"> <span>Attendance</span></a></li>
-                        <li><a class="ms-link" href="leave-request.html"> <span>Leave Request</span></a></li>
-                        <li><a class="ms-link" href="department.html"> <span>Department</span></a></li>
+{#                    <ul class="sub-menu collapse" id="dashboard-Components">#}
+{#                        <li class="collapsed">#}
+{#                    <a class="m-link" data-bs-toggle="collapse" data-bs-target="#dashboard-Components" href="#">#}
+{#                        <i class="icofont-home fs-5"></i> <span>第三模块</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>#}
+{#                    <!-- Menu: Sub menu ul -->#}
+{#                    <ul class="sub-menu collapse" id="dashboard-Components">#}
+                    <ul class="sub-menu collapse" id="course-choose">
+                        {% if current_user.is_authenticated and current_user.status == '教师' %}
+                            <li><a class="ms-link" href="{{ url_for('selectcourse.myclass')}}"> <span>选课信息查看</span></a></li>
+                        {% elif current_user.is_authenticated and current_user.status == '学生'%}
+                            <li><a class="ms-link" href="{{ url_for('selectcourse.inquiry_courses')}}"> <span>自主选课</span></a></li>
+                            <li><a class="ms-link" href="{{ url_for('selectcourse.inquiry_major')}}"> <span>培养方案</span></a></li>
+                            <li><a class="ms-link" href="{{ url_for('selectcourse.BEappManage')}}"> <span>补选课程</span></a></li>
+                            <li><a class="ms-link" href="{{ url_for('selectcourse.mycurriculum')}}"> <span>课表显示</span></a></li>
+                        {% elif current_user.is_authenticated and  current_user.status == '管理员'%}
+                            <li><a class="ms-link" href="{{ url_for('selectcourse.changeSelCoursePeriod')}}"> <span>选课时间管理</span></a></li>
+                            <li><a class="ms-link" href="{{ url_for('selectcourse.changeSelCoursePeriodBE')}}"> <span>补选时间管理</span></a></li>
+                            <li><a class="ms-link" href="{{ url_for('selectcourse.admin_sel_course')}}"> <span>手动选课</span></a></li>
+                            <li><a class="ms-link" href="{{ url_for('selectcourse.admin_del_course')}}"> <span>手动退课</span></a></li>
+                        {% endif %}
                     </ul>
                 </li>
+                <li class="collapsed">
+                    <a class="m-link" data-bs-toggle="collapse" data-bs-target="#online-test" href="#">
+                        <i class="icofont-home fs-5"></i> <span>在线测试模块</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
 
+                    <ul class="sub-menu collapse" id="online-test"> <!-- 在线测试 -->
+                        {% if current_user.is_authenticated and (current_user.status == '教师' or current_user.status == '管理员') %}
 
+                            <li><a class="ms-link" href="{{ url_for('exam.problem.home')}}"> <span>题库管理</span></a></li>
+                            <li><a class="ms-link" href="{{ url_for('exam.manage_exam.home')}}"> <span>考试添加</span></a></li>
+                            <li><a class="ms-link" href="{{ url_for('exam.teacher.home')}}"> <span>考试管理</span></a></li>
+
+                        {% elif current_user.is_authenticated and current_user.status == '学生' %}
+
+                            <li><a class="ms-link" href="{{ url_for('exam.view_exam.home')}}"><span>考试查看</span></a></li>
+
+                        {% endif %}
+                    </ul>
+                </li>
             </ul>
 
 
+            <!-- Theme: Switch Theme -->
+            <ul class="list-unstyled mb-0">
+                <li class="d-flex align-items-center justify-content-center">
+                    <div class="form-check form-switch theme-switch">
+                        <input class="form-check-input" type="checkbox" id="theme-switch">
+                        <label class="form-check-label" for="theme-switch">暗黑模式</label>
+                    </div>
+                </li>
+                <li class="d-flex align-items-center justify-content-center">
+                    <div class="form-check form-switch theme-rtl">
+                        <input class="form-check-input" type="checkbox" id="theme-rtl">
+                        <label class="form-check-label" for="theme-rtl">侧栏位置</label>
+                    </div>
+                </li>
+            </ul>
             <!-- Menu: menu collepce btn -->
             <button type="button" class="btn btn-link sidebar-mini-btn text-light">
                 <span class="ms-2"><i class="icofont-bubble-right"></i></span>
             </button>
         </div>
-    </div>
+</div>
