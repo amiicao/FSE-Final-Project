@@ -1,3 +1,10 @@
+"""
+关于在线测试子系统的一些命令。
+使用示例：
+python exam_commands.py initdb --drop
+python exam_commands.py forge-problems
+"""
+
 from main import create_app
 from exam.models.problem import Problem, Tag
 from exam.models.exam import Paper
@@ -15,8 +22,8 @@ cli = FlaskGroup(create_app=create_app)
 def initdb(drop):
     """Initialize the database."""
     if drop:
-        db.drop_all()
-    db.create_all()
+        db.drop_all(bind='exam')
+    db.create_all(bind='exam')
     click.echo('Initialize database.')
 
 
@@ -27,6 +34,7 @@ def forge_problems(count):
     """Generate fake problems."""
     from faker import Faker
     import random
+    from models import User
 
     click.echo('Working...')
 
@@ -37,11 +45,12 @@ def forge_problems(count):
         ['A', 'B', 'C', 'D'],
         ['A', 'B', 'C', 'D', 'AB', 'BC', 'CD', 'AC', 'BD', 'AD', 'ABC', 'ABD', 'ACD', 'BCD', 'ABCD']
     ]
+    adders = User.query.filter(User.status.in_(['教师', '管理员'])).all()
 
     for i in range(count):
         type_index = random.randint(0, 2)
-
         answer = random.choice(ans[type_index])
+        adder = random.choice(adders)
         problem = Problem(
             type=type_index,
             text=fake.paragraph(nb_sentences=2, variable_nb_sentences=True),
@@ -50,7 +59,7 @@ def forge_problems(count):
             choice_C=fake.sentence(),
             choice_D=fake.sentence(),
             solution=answer,
-            adder='Default User',
+            adder=adder.uid
         )
         db.session.add(problem)
         tag_name = random.choice(subjects)
