@@ -1,0 +1,656 @@
+﻿<!doctype html>
+<html class="no-js" lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>:: 教务管理系统:: 作业提交 </title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon"> <!-- Favicon-->
+    <!-- plugin css file  -->
+    <link rel="stylesheet" href="../../static/assets/plugin/nestable/jquery-nestable.css"/>
+    <!-- project css file  -->
+    <link rel="stylesheet" href="../../static/assets/css/my-task.style.css">
+</head>
+<body>
+
+<div id="mytask-layout" class="theme-indigo">
+
+    <!-- sidebar -->
+    <div class="sidebar px-4 py-4 py-md-5 me-0">
+        <div class="d-flex flex-column h-100">
+            <a href="sidebar.html" class="mb-0 brand-icon">
+                <span class="logo-icon">
+                    <svg  width="35" height="35" fill="currentColor" class="bi bi-clipboard-check" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+                        <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                        <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+                    </svg>
+                </span>
+                <span class="logo-text">教务管理系统</span>
+            </a>
+            <!-- Menu: main ul -->
+            <ul class="menu-list flex-grow-1 mt-3">
+                <li class="collapsed">
+                    <a class="m-link active" data-bs-toggle="collapse" data-bs-target="#dashboard-Components" href="#">
+                        <i class="icofont-home fs-5"></i> <span>课程资源</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
+                    <!-- Menu: Sub menu ul -->
+                    <ul class="sub-menu collapse show" id="dashboard-Components">
+                        <li><a class="ms-link active" href="student_HW.html"> <span>作业提交</span></a></li>
+                        <li><a class="ms-link" href="student-resource.html"> <span>资源管理</span></a></li>
+                    </ul>
+                </li>
+                <li  class="collapsed">
+                    <a class="m-link"  data-bs-toggle="collapse" data-bs-target="#project-Components" href="#">
+                        <i class="icofont-ui-calculator"></i><span>成绩管理</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
+                    <!-- Menu: Sub menu ul -->
+                    <ul class="sub-menu collapse" id="project-Components">
+                        <li><a class="ms-link" href="student_marks.html"><span>成绩查询</span></a></li>
+                        <li><a class="ms-link" href="student_analysis.html"><span>成绩分析</span></a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Theme: Switch Theme -->
+            <ul class="list-unstyled mb-0">
+                <li class="d-flex align-items-center justify-content-center">
+                    <div class="form-check form-switch theme-switch">
+                        <input class="form-check-input" type="checkbox" id="theme-switch">
+                        <label class="form-check-label" for="theme-switch">Enable Dark Mode!</label>
+                    </div>
+                </li>
+                <li class="d-flex align-items-center justify-content-center">
+                    <div class="form-check form-switch theme-rtl">
+                        <input class="form-check-input" type="checkbox" id="theme-rtl">
+                        <label class="form-check-label" for="theme-rtl">Enable RTL Mode!</label>
+                    </div>
+                </li>
+            </ul>
+            <!-- Menu: menu collepce btn -->
+            <button type="button" class="btn btn-link sidebar-mini-btn text-light">
+                <span class="ms-2"><i class="icofont-bubble-right"></i></span>
+            </button>
+        </div>
+    </div>
+
+    <!-- main body area -->
+    <div class="main px-lg-4 px-md-4">
+
+        <!-- Body: Header -->
+        <div class="header">
+            <nav class="navbar py-4">
+                <div class="container-xxl">
+
+                    <!-- header rightbar icon -->
+                    <div class="h-right d-flex align-items-center mr-5 mr-lg-0 order-1">
+                        <div class="dropdown notifications zindex-popover">
+                            <a class="nav-link dropdown-toggle pulse" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="icofont-alarm fs-5"></i>
+                                <span class="pulse-ring"></span>
+                            </a>
+                            <div id="NotificationsDiv" class="dropdown-menu rounded-lg shadow border-0 dropdown-animation dropdown-menu-sm-end p-0 m-0">
+                                <div class="card border-0 w380">
+                                    <div class="card-header border-0 p-3">
+                                        <h5 class="mb-0 font-weight-light d-flex justify-content-between">
+                                            <span>Notifications</span>
+                                            <span class="badge text-white">11</span>
+                                        </h5>
+                                    </div>
+                                    <div class="tab-content card-body">
+                                        <div class="tab-pane fade show active">
+                                            <ul class="list-unstyled list mb-0">
+                                                <li class="py-2 mb-1 border-bottom">
+                                                    <a href="javascript:void(0);" class="d-flex">
+
+                                                        <img class="avatar rounded-circle" src="assets/images/xs/avatar1.jpg" alt="">
+                                                        <div class="flex-fill ms-2">
+                                                            <p class="d-flex justify-content-between mb-0 "><span class="font-weight-bold">杨丽萍</span> <small>2MIN</small></p>
+                                                            <span class="">Added  2021-02-19 my-Task ui/ux Design <span class="badge bg-success">Review</span></span>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li class="py-2 mb-1 border-bottom">
+                                                    <a href="javascript:void(0);" class="d-flex">
+                                                        <div class="avatar rounded-circle no-thumbnail">DF</div>
+                                                        <div class="flex-fill ms-2">
+                                                            <p class="d-flex justify-content-between mb-0 "><span class="font-weight-bold">Diane Fisher</span> <small>13MIN</small></p>
+                                                            <span class="">Task added Get Started with Fast Cad project</span>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li class="py-2 mb-1 border-bottom">
+                                                    <a href="javascript:void(0);" class="d-flex">
+                                                        <img class="avatar rounded-circle" src=../static/"assets/images/xs/avatar3.jpg" alt="">
+                                                        <div class="flex-fill ms-2">
+                                                            <p class="d-flex justify-content-between mb-0 "><span class="font-weight-bold">Andrea Gill</span> <small>1HR</small></p>
+                                                            <span class=""> Task Completed</span>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li class="py-2 mb-1 border-bottom">
+                                                    <a href="javascript:void(0);" class="d-flex">
+                                                        <img class="avatar rounded-circle" src="../../static/assets/images/xs/avatar5.jpg" alt="">
+                                                        <div class="flex-fill ms-2">
+                                                            <p class="d-flex justify-content-between mb-0 "><span class="font-weight-bold">Diane Fisher</span> <small>13MIN</small></p>
+                                                            <span class="">Add New Project for App Developemnt</span>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li class="py-2 mb-1 border-bottom">
+                                                    <a href="javascript:void(0);" class="d-flex">
+                                                        <img class="avatar rounded-circle" src="../../static/assets/images/xs/avatar6.jpg" alt="">
+                                                        <div class="flex-fill ms-2">
+                                                            <p class="d-flex justify-content-between mb-0 "><span class="font-weight-bold">Andrea Gill</span> <small>1HR</small></p>
+                                                            <span class="">Add Timesheet For Rhinestone project</span>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li class="py-2">
+                                                    <a href="javascript:void(0);" class="d-flex">
+                                                        <img class="avatar rounded-circle" src="../../static/assets/images/xs/avatar7.jpg" alt="">
+                                                        <div class="flex-fill ms-2">
+                                                            <p class="d-flex justify-content-between mb-0 "><span class="font-weight-bold">Zoe Wright</span> <small class="">1DAY</small></p>
+                                                            <span class="">Add Calander Event</span>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <a class="card-footer text-center border-top-0" href="#"> View all notifications</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dropdown user-profile ml-2 ml-sm-3 d-flex align-items-center zindex-popover">
+                            <div class="u-info me-2">
+                                <p class="mb-0 text-end line-height-sm "><span class="font-weight-bold"> 杨丽萍</span></p>
+                                <small>Admin Profile</small>
+                            </div>
+                            <a class="nav-link dropdown-toggle pulse p-0" href="#" role="button" data-bs-toggle="dropdown" data-bs-display="static">
+                                <img class="avatar lg rounded-circle img-thumbnail" src="../../static/assets/images/xs/avatar10.jpg" alt="profile">
+                            </a>
+                            <div class="dropdown-menu rounded-lg shadow border-0 dropdown-animation dropdown-menu-end p-0 m-0">
+                                <div class="card border-0 w280">
+                                    <div class="card-body pb-0">
+                                        <div class="d-flex py-1">
+                                            <img class="avatar rounded-circle" src="../../static/assets/images/xs/avatar10.jpg" alt="profile">
+                                            <div class="flex-fill ms-3">
+                                                <p class="mb-0"><span class="font-weight-bold">杨丽萍</span></p>
+                                                <small class="">ping.li@gmail.com</small>
+                                            </div>
+                                        </div>
+
+                                        <div><hr class="dropdown-divider border-dark"></div>
+                                    </div>
+                                    <div class="list-group m-2 ">
+                                        <a href="task.html" class="list-group-item list-group-item-action border-0 "><i class="icofont-tasks fs-5 me-3"></i>我的课程</a>
+                                        <a href="members.html" class="list-group-item list-group-item-action border-0 "><i class="icofont-ui-user-group fs-6 me-3"></i>会员</a>
+                                        <a href="../../static/ui-elements/auth-signin.html" class="list-group-item list-group-item-action border-0 "><i class="icofont-logout fs-6 me-3"></i>登出</a>
+                                        <div><hr class="dropdown-divider border-dark"></div>
+                                        <a href="../../static/ui-elements/auth-signup.html" class="list-group-item list-group-item-action border-0 "><i class="icofont-home fs-5 me-3"></i>主页</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- menu toggler -->
+                    <button class="navbar-toggler p-0 border-0 menu-toggle order-3" type="button" data-bs-toggle="collapse" data-bs-target="#mainHeader">
+                        <span class="fa fa-bars"></span>
+                    </button>
+
+                    <!-- main menu Search-->
+                    <div class="order-0 col-lg-4 col-md-4 col-sm-12 col-12 mb-3 mb-md-0 ">
+                        <div class="input-group flex-nowrap input-group-lg">
+                            <button type="button" class="input-group-text" id="addon-wrapping"><i class="fa fa-search"></i></button>
+                            <input type="search" class="form-control" placeholder="Search" aria-label="search" aria-describedby="addon-wrapping">
+                            <button type="button" class="input-group-text add-member-top" id="addon-wrappingone" data-bs-toggle="modal" data-bs-target="#addUser"><i class="fa fa-plus"></i></button>
+                        </div>
+                    </div>
+
+                </div>
+            </nav>
+        </div>
+
+        <!-- Body: Body -->
+        <div class="body d-flex py-lg-3 py-md-2">
+            <div class="container-xxl">
+                <div class="row align-items-center">
+                    <div class="border-0 mb-4">
+                        <div class="card-header py-3 no-bg bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap">
+                            <h3 class="fw-bold mb-0">作业提交</h3>
+                            <div class="col-auto d-flex w-sm-100">
+                                <button type="button" class="btn btn-dark btn-set-task w-sm-100" data-bs-toggle="modal" data-bs-target="#createtask"><i class="icofont-plus-circle me-2 fs-6"></i>作业提交</button>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- Row end  -->
+                <div class="row clearfix  g-3">
+                    <div class="col-lg-12 col-md-12 flex-column">
+                        <div class="row g-3 row-deck">
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6">
+                                <div class="card">
+                                    <div class="card-header py-3">
+                                        <h6 class="mb-0 fw-bold ">课程</h6>
+                                    </div>
+                                    <div class="card-body mem-list">
+                                        <div class="progress-count mb-4">
+                                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                                <h6 class="mb-0 fw-bold d-flex align-items-center">软件工程基础</h6>
+                                                <span class="small text-muted">92%</span>
+                                            </div>
+                                            <div class="progress" style="height: 10px;">
+                                                <div class="progress-bar bg-lightyellow" role="progressbar" style="width: 92%" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                        </div>
+                                        <div class="progress-count mb-4">
+                                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                                <h6 class="mb-0 fw-bold d-flex align-items-center">JAVA程序设计</h6>
+                                                <span class="small text-muted">60%</span>
+                                            </div>
+                                            <div class="progress" style="height: 10px;">
+                                                <div class="progress-bar bg-lightyellow" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                        </div>
+                                        <div class="progress-count mb-4">
+                                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                                <h6 class="mb-0 fw-bold d-flex align-items-center">网络空间安全</h6>
+                                                <span class="small text-muted">40%</span>
+                                            </div>
+                                            <div class="progress" style="height: 10px;">
+                                                <div class="progress-bar bg-lightyellow" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                        </div>
+                                        <div class="progress-count mb-3">
+                                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                                <h6 class="mb-0 fw-bold d-flex align-items-center">篆刻临摹与创作</h6>
+                                                <span class="small text-muted">40%</span>
+                                            </div>
+                                            <div class="progress" style="height: 10px;">
+                                                <div class="progress-bar bg-lightyellow" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                        </div>
+                                        <div class="progress-count mb-4">
+                                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                                <h6 class="mb-0 fw-bold d-flex align-items-center">债券交易系统</h6>
+                                                <span class="small text-muted">30%</span>
+                                            </div>
+                                            <div class="progress" style="height: 10px;">
+                                                <div class="progress-bar bg-lightyellow" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6">
+                                <div class="card">
+                                    <div class="card-header py-3">
+                                        <h6 class="mb-0 fw-bold ">近期活动 </h6>
+                                    </div>
+                                    <div class="card-body mem-list">
+                                        <div class="timeline-item ti-danger border-bottom ms-2">
+                                            <div class="d-flex">
+                                                <span class="avatar d-flex justify-content-center align-items-center rounded-circle light-success-bg">ZH</span>
+                                                <div class="flex-fill ms-3">
+                                                    <div class="mb-1"><strong>张老师增加了新作业</strong></div>
+                                                    <span class="d-flex text-muted">20分钟前</span>
+                                                </div>
+                                            </div>
+                                        </div> <!-- timeline item end  -->
+                                        <div class="timeline-item ti-info border-bottom ms-2">
+                                            <div class="d-flex">
+                                                <span class="avatar d-flex justify-content-center align-items-center rounded-circle bg-careys-pink">LW</span>
+                                                <div class="flex-fill ms-3">
+                                                    <div class="mb-1"><strong>李旺完成了小组复习</strong></div>
+                                                    <span class="d-flex text-muted">40分钟前</span>
+                                                </div>
+                                            </div>
+                                        </div> <!-- timeline item end  -->
+                                        <div class="timeline-item ti-info border-bottom ms-2">
+                                            <div class="d-flex">
+                                                <span class="avatar d-flex justify-content-center align-items-center rounded-circle bg-careys-pink">MK</span>
+                                                <div class="flex-fill ms-3">
+                                                    <div class="mb-1"><strong>即将到来的测验</strong></div>
+                                                    <span class="d-flex text-muted">1小时前</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="timeline-item ti-success  ms-2">
+                                            <div class="d-flex">
+                                                <span class="avatar d-flex justify-content-center align-items-center rounded-circle bg-careys-pink">WG</span>
+                                                <div class="flex-fill ms-3">
+                                                    <div class="mb-1"><strong>王老师提醒交作业</strong></div>
+                                                    <span class="d-flex text-muted">1天前</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> <!-- .card: My Timeline -->
+                            </div>
+                            <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12">
+                                <div class="card">
+                                    <div class="card-header py-3">
+                                        <h6 class="mb-0 fw-bold ">课程成员</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="flex-grow-1 mem-list">
+                                            <div class="py-2 d-flex align-items-center border-bottom">
+
+                                                <div class="d-flex ms-2 align-items-center flex-fill">
+                                                    <img src="../../static/assets/images/xs/avatar6.jpg" class="avatar lg rounded-circle img-thumbnail" alt="avatar">
+                                                    <div class="d-flex flex-column ps-2">
+                                                        <h6 class="fw-bold mb-0">31900837632</h6>
+                                                        <span class="small text-muted">计算机科学与技术学院</span>
+                                                    </div>
+                                                </div>
+                                              <!--  <button type="button" class="btn light-danger-bg text-end" data-bs-toggle="modal" data-bs-target="#dremovetask">去掉</button> -->
+                                            </div>
+                                            <div class="py-2 d-flex align-items-center border-bottom">
+
+                                                <div class="d-flex ms-2 align-items-center flex-fill">
+                                                    <img src="../../static/assets/images/xs/avatar4.jpg" class="avatar lg rounded-circle img-thumbnail" alt="avatar">
+                                                    <div class="d-flex flex-column ps-2">
+                                                        <h6 class="fw-bold mb-0">31998746258</h6>
+                                                        <span class="small text-muted">计算机科学与技术学院</span>
+                                                    </div>
+                                                </div>
+                                              <!--  <button type="button" class="btn light-danger-bg text-end" data-bs-toggle="modal" data-bs-target="#dremovetask">去掉</button> -->
+                                            </div>
+                                            <div class="py-2 d-flex align-items-center border-bottom">
+
+                                                <div class="d-flex ms-2 align-items-center flex-fill">
+                                                    <img src="../../static/assets/images/xs/avatar9.jpg" class="avatar lg rounded-circle img-thumbnail" alt="avatar">
+                                                    <div class="d-flex flex-column ps-2">
+                                                        <h6 class="fw-bold mb-0">31900847001</h6>
+                                                        <span class="small text-muted">药学院</span>
+                                                    </div>
+                                                </div>
+                                             <!--   <button type="button" class="btn light-danger-bg text-end" data-bs-toggle="modal" data-bs-target="#dremovetask">去掉</button>  -->
+                                            </div>
+                                            <div class="py-2 d-flex align-items-center border-bottom">
+
+                                                <div class="d-flex ms-2 align-items-center flex-fill">
+                                                    <img src="../../static/assets/images/xs/avatar10.jpg" class="avatar lg rounded-circle img-thumbnail" alt="avatar">
+                                                    <div class="d-flex flex-column ps-2">
+                                                        <h6 class="fw-bold mb-0">31908765432</h6>
+                                                        <span class="small text-muted">软件学院</span>
+                                                    </div>
+                                                </div>
+                                             <!--   <button type="button" class="btn light-danger-bg text-end">去掉</button>  -->
+                                            </div>
+                                            <div class="py-2 d-flex align-items-center border-bottom">
+
+                                                <div class="d-flex ms-2 align-items-center flex-fill">
+                                                    <img src="../../static/assets/images/xs/avatar4.jpg" class="avatar lg rounded-circle img-thumbnail" alt="avatar">
+                                                    <div class="d-flex flex-column ps-2">
+                                                        <h6 class="fw-bold mb-0">31912349874</h6>
+                                                        <span class="small text-muted">信息与电子工程学院</span>
+                                                    </div>
+                                                </div>
+                                             <!--   <button type="button" class="btn light-danger-bg text-end" data-bs-toggle="modal" data-bs-target="#dremovetask">去掉</button>  -->
+                                            </div>
+                                            <div class="py-2 d-flex align-items-center border-bottom">
+
+                                                <div class="d-flex ms-2 align-items-center flex-fill">
+                                                    <img src="../../static/assets/images/xs/avatar11.jpg" class="avatar lg rounded-circle img-thumbnail" alt="avatar">
+                                                    <div class="d-flex flex-column ps-2">
+                                                        <h6 class="fw-bold mb-0">31908070605</h6>
+                                                        <span class="small text-muted">生物系统工程与食品科学学院</span>
+                                                    </div>
+                                                </div>
+                                              <!--  <button type="button" class="btn light-danger-bg text-end" data-bs-toggle="modal" data-bs-target="#dremovetask">去掉</button>  -->
+                                            </div>
+                                            <div class="py-2 d-flex align-items-center border-bottom">
+
+                                                <div class="d-flex ms-2 align-items-center flex-fill">
+                                                    <img src="../../static/assets/images/xs/avatar3.jpg" class="avatar lg rounded-circle img-thumbnail" alt="avatar">
+                                                    <div class="d-flex flex-column ps-2">
+                                                        <h6 class="fw-bold mb-0">3190559338</h6>
+                                                        <span class="small text-muted">药学院</span>
+                                                    </div>
+                                                </div>
+                                             <!--   <button type="button" class="btn light-danger-bg text-end" data-bs-toggle="modal" data-bs-target="#dremovetask">去掉</button> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> <!-- .card: My Timeline -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Members-->
+        <div class="modal fade" id="addUser" tabindex="-1" aria-labelledby="addUserLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title  fw-bold" id="addUserLabel">Employee Invitation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="inviteby_email">
+                        <div class="input-group mb-3">
+                            <input type="email" class="form-control" placeholder="Email address" id="exampleInputEmail1" aria-describedby="exampleInputEmail1">
+                            <button class="btn btn-dark" type="button" id="button-addon2">Sent</button>
+                        </div>
+                    </div>
+                    <div class="members_list">
+                        <h6 class="fw-bold ">Employee </h6>
+                        <ul class="list-unstyled list-group list-group-custom list-group-flush mb-0">
+                            <li class="list-group-item py-3 text-center text-md-start">
+                                <div class="d-flex align-items-center flex-column flex-sm-column flex-md-row">
+                                    <div class="no-thumbnail mb-2 mb-md-0">
+                                        <img class="avatar lg rounded-circle" src="../../static/assets/images/xs/avatar2.jpg" alt="">
+                                    </div>
+                                    <div class="flex-fill ms-3 text-truncate">
+                                        <h6 class="mb-0  fw-bold">Rachel Carr(you)</h6>
+                                        <span class="text-muted">rachel.carr@gmail.com</span>
+                                    </div>
+                                    <div class="members-action">
+                                        <span class="members-role ">Admin</span>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn bg-transparent dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="icofont-ui-settings  fs-6"></i>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-end">
+                                              <li><a class="dropdown-item" href="#"><i class="icofont-ui-password fs-6 me-2"></i>ResetPassword</a></li>
+                                              <li><a class="dropdown-item" href="#"><i class="icofont-chart-line fs-6 me-2"></i>ActivityReport</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item py-3 text-center text-md-start">
+                                <div class="d-flex align-items-center flex-column flex-sm-column flex-md-row">
+                                    <div class="no-thumbnail mb-2 mb-md-0">
+                                        <img class="avatar lg rounded-circle" src="assets/images/xs/avatar3.jpg" alt="">
+                                    </div>
+                                    <div class="flex-fill ms-3 text-truncate">
+                                        <h6 class="mb-0  fw-bold">Lucas Baker<a href="#" class="link-secondary ms-2">(Resend invitation)</a></h6>
+                                        <span class="text-muted">lucas.baker@gmail.com</span>
+                                    </div>
+                                    <div class="members-action">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn bg-transparent dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Members
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-end">
+                                              <li>
+                                                  <a class="dropdown-item" href="#">
+                                                    <i class="icofont-check-circled"></i>
+
+                                                    <span>All operations permission</span>
+                                                   </a>
+
+                                                </li>
+                                                <li>
+                                                     <a class="dropdown-item" href="#">
+                                                        <i class="fs-6 p-2 me-1"></i>
+                                                           <span>Only Invite & manage team</span>
+                                                       </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn bg-transparent dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="icofont-ui-settings  fs-6"></i>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-end">
+                                              <li><a class="dropdown-item" href="#"><i class="icofont-delete-alt fs-6 me-2"></i>Delete Member</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item py-3 text-center text-md-start">
+                                <div class="d-flex align-items-center flex-column flex-sm-column flex-md-row">
+                                    <div class="no-thumbnail mb-2 mb-md-0">
+                                        <img class="avatar lg rounded-circle" src="../../static/assets/images/xs/avatar8.jpg" alt="">
+                                    </div>
+                                    <div class="flex-fill ms-3 text-truncate">
+                                        <h6 class="mb-0  fw-bold">Una Coleman</h6>
+                                        <span class="text-muted">una.coleman@gmail.com</span>
+                                    </div>
+                                    <div class="members-action">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn bg-transparent dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Members
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-end">
+                                              <li>
+                                                  <a class="dropdown-item" href="#">
+                                                    <i class="icofont-check-circled"></i>
+
+                                                    <span>All operations permission</span>
+                                                   </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item" href="#">
+                                                        <i class="fs-6 p-2 me-1"></i>
+                                                           <span>Only Invite & manage team</span>
+                                                       </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="btn-group">
+                                            <div class="btn-group">
+                                                <button type="button" class="btn bg-transparent dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="icofont-ui-settings  fs-6"></i>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-end">
+                                                  <li><a class="dropdown-item" href="#"><i class="icofont-ui-password fs-6 me-2"></i>ResetPassword</a></li>
+                                                  <li><a class="dropdown-item" href="#"><i class="icofont-chart-line fs-6 me-2"></i>ActivityReport</a></li>
+                                                  <li><a class="dropdown-item" href="#"><i class="icofont-delete-alt fs-6 me-2"></i>Suspend member</a></li>
+                                                  <li><a class="dropdown-item" href="#"><i class="icofont-not-allowed fs-6 me-2"></i>Delete Member</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+
+        <!-- Create task-->
+        <div class="modal fade" id="createtask" tabindex="-1"  aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-md modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title  fw-bold" id="createprojectlLabel"> 提交作业</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label  class="form-label">课程</label>
+                        <select class="form-select" aria-label="Default select Project Category">
+                            <option selected>选择</option>
+                            <option value="1">软件工程基础</option>
+                            <option value="2">JAVA程序设计</option>
+                            <option value="3">篆刻临摹与创作</option>
+                            <option value="4">债券交易系统</option>
+                            <option value="5">天文学导论</option>
+                            <option value="6">面向对象程序设计</option>
+                            <option value="7">离散数学及其应用</option>
+                            <option value="8">网络空间安全</option>
+                            <option value="9">Linux应用技术基础</option>
+                            <option value="10">其他</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="sub" class="form-label">题目</label>
+                        <input type="text" class="form-control" id="sub">
+                    </div>
+                    <div class="mb-3">
+                        <label for="formFileMultipleone" class="form-label">上传文件</label>
+                        <input class="form-control" type="file" id="formFileMultipleone"  multiple>
+                    </div>
+                    <div class="deadline-form mb-3">
+                        <form>
+                            <div class="row">
+                              <div class="col">
+                                <label for="datepickerded" class="form-label">今天（提交）日期</label>
+                                <input type="date" class="form-control" id="datepickerded">
+                              </div>
+
+                            </div>
+                        </form>
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label for="exampleFormControlTextarea786" class="form-label">说明（可选）</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea786" rows="3" placeholder="Add any extra details about the assignment"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            <i class="icofont-upload">
+
+                            </i>
+                        </button>
+                    <button type="button" class="btn btn-primary">取消</button>
+                </div>
+            </div>
+            </div>
+        </div>
+
+        <!-- Modal  Remove Task-->
+        <div class="modal fade" id="dremovetask" tabindex="-1"  aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-md modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title  fw-bold" id="dremovetaskLabel"> Remove From Task?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body justify-content-center flex-column d-flex">
+                    <i class="icofont-ui-rate-remove text-danger display-2 text-center mt-2"></i>
+                    <p class="mt-4 fs-5 text-center">You can  Remove only From Task</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger color-fff">Remove</button>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Jquery Core Js -->
+<script src="../../static/assets/bundles/libscripts.bundle.js"></script>
+
+<!-- Plugin Js-->
+<script src="../../static/assets/bundles/nestable.bundle.js"></script>
+
+<!-- Jquery Page Js -->
+<script src="../../static/assets/js/template.js"></script>
+<script src="../../static/assets/js/page/task.js"></script>
+
+</body>
+</html>
