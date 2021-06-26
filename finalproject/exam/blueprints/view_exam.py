@@ -30,7 +30,7 @@ def show_information(paper_id):
     anspapers = Anspaper.query.filter_by(paper_id=paper_id).order_by(desc(Anspaper.score_all)).all()
     if dt1>dt3:
         label = 1
-        if anspapers(0).Ranknum == 0:
+        if anspapers[0].Ranknum == 0:  # TODO: 这里有 bug, list index out of range
             prescore = -1  # 记录前一人的分数
             rank_count = 1
             for anspaper in anspapers:  # 计算平均分

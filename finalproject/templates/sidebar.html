@@ -134,11 +134,11 @@
                     </ul>
                 </li>
                 <li class="collapsed">
-                    <a class="m-link" data-bs-toggle="collapse" data-bs-target="#online-test" href="#">
+                    <a class="m-link" data-bs-toggle="collapse" data-bs-target="#score-record" href="#">
                         <i class="icofont-home fs-5"></i> <span>课程资源共享和成绩登记模块</span> <span
                             class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
 
-                    <ul class="sub-menu collapse" id="online-test"> <!-- 在线测试 -->
+                    <ul class="sub-menu collapse" id="score-record"> <!-- 在线测试 -->
                         {% if current_user.is_authenticated and current_user.status == '学生'   %}
 
                             <li><a class="ms-link" href="{{ url_for('resourceandscore.student_HW') }}"> <span>作业提交</span></a></li>
@@ -223,7 +223,7 @@
                                     <p class="mb-0 text-end line-height-sm "><span
                                             class="font-weight-bold">{{ current_user.name }}</span></p>
 
-                                    <small>管理员</small>
+                                    <small>{{ current_user.status }}</small>
 
                                 </div>
 
