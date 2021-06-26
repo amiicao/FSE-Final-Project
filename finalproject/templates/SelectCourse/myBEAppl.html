@@ -1,0 +1,55 @@
+{% extends "sidebar.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>我的补选申请</title>
+</head>
+<body>
+{% block body %}
+{% for message in get_flashed_messages() %}
+<div class="alert alert-info alert-dismissible" aria-hidden="true" >
+<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+{{ message }}
+</div>
+{% endfor %}
+    <div class="row clearfix g-3">
+        <div class="col-sm-12">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h3>补选申请表</h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>学生ID</th>
+                                <th>课程ID</th>
+                                <th scope="col" class="text-center" >
+                                    操作
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if applications %}
+                                {% for app in applications %}
+                                    <tr>
+                                        <td>{{ app.student_id }}</td>
+                                        <td>{{ app.course_id }}</td>
+                                        <td class="text-center">
+                                            <a style = "color: #FFFFFF" class="btn btn-danger" href="{{ url_for('deleteBEappl',course_id=app.course_id) }}">删除</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                <td colspan="7">当前没有任何内容</td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+</body>
+</html>

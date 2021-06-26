@@ -1,0 +1,156 @@
+{% extends "sidebar.html" %}
+<!doctype html>
+<html class="no-js" lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>:: My-Task:: Tickets</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon"> <!-- Favicon-->
+    <!-- plugin css file  -->
+    <link rel="stylesheet" href="../static/assets/plugin/datatables/responsive.dataTables.min.css">
+    <link rel="stylesheet" href="../static/assets/plugin/datatables/dataTables.bootstrap5.min.css">
+    <!-- project css file  -->
+    <link rel="stylesheet" href="../static/assets/css/my-task.style.css">
+</head>
+<body>
+{% block body %}
+<div id="mytask-layout" class="theme-indigo">
+    <div class="main px-lg-4 px-md-4">
+        <!-- Body: Body -->
+        <div class="body d-flex py-lg-3 py-md-2">
+            <div class="container-xxl">
+                <div class="row align-items-center">
+                    <div class="border-0 mb-4">
+                        <div class="card-header py-3 no-bg bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap">
+                            <h3 class="fw-bold mb-0">查询课程</h3>
+                        </div>
+                    </div>
+                </div> <!-- Row end  -->
+                <div class="row clearfix g-3">
+                  <div class="col-sm-12">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="inquiry">
+                                    {% for message in get_flashed_messages() %}
+                                    <div class="alert alert-info alert-dismissible" aria-hidden="true" >
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    {{ message }}
+                                    </div>
+                                    {% endfor %}
+                                    <form action="{{ url_for('inquiry_courses') }}" method="POST" style= "text-align: center;">
+                                        <h3>搜索引擎</h3>
+                                        <select id="Option" name = "Option" >
+                                            <option>选搜索方式</option>
+                                            <option value="All">所有课程</option>
+                                            <option value="ID">课程ID</option>
+                                            <option value="Name">课程名称</option>
+                                            <option value="Teacher_Name">老师</option>
+                                            <option value="Teacher_Id">老师ID</option>
+                                            <option value="Time">课程时间</option>
+
+                                        </select>
+                                        <input type="str" id="inquiry" name="inquiry" placeholder="输入">
+
+                                        <button type="submit">搜索</button>
+                                    </form>
+                                    {% if courses %}
+                                    <table id="myProjectTable" class="table table-hover align-middle mb-0" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>课程ID</th>
+                                                <th>课程名称</th>
+                                                <th>课程老师ID</th>
+                                                <th>学期</th>
+                                                <th>课程时间</th>
+                                                <th>课程容量</th>
+                                                <th class="text-center">选课</th>
+                                                <th class="text-center">补课</th>
+                                                <th class="text-center">退课</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for course in courses %}
+                                            <tr>
+                                                <td><span class="fw-bold ms-1">{{ course.id }}</span></td>
+                                                <td><span class="fw-bold ms-1">{{ course.name }}</span></td>
+                                                <td>{{ course.teacher_id }}</td>
+                                                <td>
+                                                    {% if course.time[2:4] == "11" %}
+                                                        春
+                                                    {% elif course.time[2:4] == "12" %}
+                                                        春夏
+                                                    {% elif course.time[2:4] == "22" %}
+                                                        夏
+                                                    {% elif course.time[2:4] == "33" %}
+                                                        秋
+                                                    {% elif course.time[2:4] == "34" %}
+                                                        秋冬
+                                                    {% else %}
+                                                        冬
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {{ days[course.time[4]] }}
+                        
+                                                    {% if course.time[5].isalpha() %}
+                                                        {{ time[course.time[5].upper()] }}
+                                                    {% else %}
+                                                        {{ course.time[5] }}
+                                                    {% endif %}
+                                                    ~
+                                                    {% if course.time[6].isalpha() %}
+                                                        {{ time[course.time[6].upper()] }}
+                                                    {% else %}
+                                                        {{ course.time[6] }}
+                                                    {% endif %}
+                        
+                                                    {% if course.time[4:7] != course.time[7:] %}
+                                                        {{ days[course.time[7]] }}
+                        
+                                                        {% if course.time[8].isalpha() %}
+                                                            {{ time[course.time[8].upper()] }}
+                                                        {% else %}
+                                                            {{ course.time[8] }}
+                                                        {% endif %}
+                                                        ~
+                                                        {% if course.time[9].isalpha() %}
+                                                            {{ time[course.time[9].upper()] }}
+                                                        {% else %}
+                                                            {{ course.time[9] }}
+                                                        {% endif %}
+                        
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {{ course.curr_capacity }}
+                                                    /
+                                                    {{ course.max_capacity }}
+                                                </td>
+                                                <td class="text-center">
+                                                    <a style = "color: #FFFFFF" class="btn btn-primary" href="{{ url_for('sel_course',course_id=course.id) }}">选课</a>
+                                                </td>
+                                                <td class="text-center">
+                                                    <a style = "color: #FFFFFF" class="btn btn-success"  href="{{ url_for('BEsel_course',course_id=course.id) }}">补选</a>
+                                                </td>
+                                                <td class="text-center">
+                                                    <a style = "color: #FFFFFF" class="btn btn-danger"  href="{{ url_for('del_course',course_id=course.id) }}">退课</a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            {% else %}
+                                <p>没有相关课程</p>
+                            {% endif %}
+                        </div>
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

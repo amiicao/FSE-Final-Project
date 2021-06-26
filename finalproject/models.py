@@ -162,17 +162,16 @@ class User(db.Model, UserMixin):
         return check_password_hash(self.password, password)
 
 
-
-
 class Student(db.Model):
     __bind_key__ = 'select_course'
     __tablename__ = 'student'
-    id = db.Column(db.Integer, primary_key=True)    #主键
+    id = db.Column(db.Integer, primary_key=True)  # 主键
     name = db.Column(db.String(16), unique=True)
     gender = db.Column(db.Enum("男", "女"), nullable=False)
     major_id = db.Column(db.Integer, db.ForeignKey('major.id'))
-    courses = db.relationship("Course", secondary="student_to_course", backref="students")
-    applications = db.relationship("Course", secondary="application", backref="astudents")
+    courses = db.relationship("Course_3", secondary="student_to_course", backref="students")
+    applications = db.relationship("Course_3", secondary="application", backref="astudents")
+
 
 class StudentToCourse(db.Model):
     __bind_key__ = 'select_course'
@@ -181,9 +180,11 @@ class StudentToCourse(db.Model):
     student_id = db.Column(db.Integer, db.ForeignKey("student.id"))
     course_id = db.Column(db.Integer, db.ForeignKey("course.id"))
 
+
 class Course_3(db.Model):
     __bind_key__ = 'select_course'
     __tablename__ = 'course'
+    __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(16), unique=True)
     time = db.Column(db.String(10), nullable=False)
@@ -191,19 +192,24 @@ class Course_3(db.Model):
     max_capacity = db.Column(db.Integer, default=60)
     teacher_id = db.Column(db.Integer, db.ForeignKey('teacher.id'))
 
-class BEApplication(db.Model):      #student's application for by-election
+
+class BEApplication(db.Model):  # student's application for by-election
     __bind_key__ = 'select_course'
     __tablename__ = 'application'
+    __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True)
     student_id = db.Column(db.Integer, db.ForeignKey("student.id"))
     course_id = db.Column(db.Integer, db.ForeignKey("course.id"))
 
+
 class Teacher_3(db.Model):
     __bind_key__ = 'select_course'
     __tablename__ = 'teacher'
+    __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(16), unique=True)
-    courses = relationship('Course', backref='teacher')
+    courses = relationship('Course_3', backref='teacher')
+
 
 class Major(db.Model):
     __bind_key__ = 'select_course'

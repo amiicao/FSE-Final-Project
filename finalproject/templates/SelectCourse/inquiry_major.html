@@ -1,0 +1,84 @@
+{% extends "sidebar.html" %}
+<!doctype html>
+<html class="no-js" lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>:: My-Task:: Tickets</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon"> <!-- Favicon-->
+    <!-- plugin css file  -->
+    <link rel="stylesheet" href="../static/assets/plugin/datatables/responsive.dataTables.min.css">
+    <link rel="stylesheet" href="../static/assets/plugin/datatables/dataTables.bootstrap5.min.css">
+    <!-- project css file  -->
+    <link rel="stylesheet" href="../static/assets/css/my-task.style.css">
+</head>
+<body>
+{% block body %}
+<div id="mytask-layout" class="theme-indigo">
+    <div class="main px-lg-4 px-md-4">
+        <!-- Body: Body -->
+        <div class="body d-flex py-lg-3 py-md-2">
+            <div class="container-xxl">
+                <div class="row align-items-center">
+                    <div class="border-0 mb-4">
+                        <div class="card-header py-3 no-bg bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap">
+                            <h3 class="fw-bold mb-0">查询培养方案</h3>
+                        </div>
+                    </div>
+                </div> <!-- Row end  -->
+                <div class="row clearfix g-3">
+                  <div class="col-sm-12">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class = "inquiry">
+                                    <form action="{{ url_for('inquiry_major') }}" method="POST" style="text-align: center;" >
+                                        <h3>专业查询</h3>
+                                        <select id="Option" name = "Option" >
+                                            <option>选搜索方式</option>
+                                            <option value="All">所有专业</option>
+                                            <option value="mine">我的培养方案</option>
+                                            <option value="Name">专业查询</option>
+                            
+                                        </select>
+                                            <input type="str" id="inquiry" name="inquiry" placeholder="输入">
+                                        <button type="submit">搜索</button>
+                                    </form>
+                                                                
+                                    {% if Majors %}
+                                    <table id="myProjectTable" class="table table-hover align-middle mb-0" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>培养方案</th>
+                                                <th scope="col" class="text-center" >
+                                                    操作
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                    <tbody>
+                                        {% for major in Majors %}
+                                            <tr>
+                                                <td><span class="fw-bold ms-1">{{ major.name }}</span></td>
+                                                <td class="text-center" >
+                                                    <a style = "color: #FFFFFF" class="btn btn-primary" href="{{ url_for('download',filename=major.name+'.docx') }}">下载</a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                    </table>
+                                    {% else %}
+                                        <p>没有相关专业</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+</body>
+</html>
