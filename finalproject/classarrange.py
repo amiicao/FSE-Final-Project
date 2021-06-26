@@ -106,6 +106,8 @@ def decoder(s):  # 解码器
 def classmodify():
     period = ["08:00~09:35", "09:50~11:25", "11:30~12:15", "13:15~14:50",
               "14:55~15:40", "15:55~17:30", "18:30~20:05", "20:10~20:55"]
+    periods = {"0":"1","1":"2","2":"2","3":"3","4":"3","5":"4","6":"5","7":"5"}
+    daytime = {"周一":1, "周二":2,"周三":3,"周四":4,"周五":5}
     if request.method == 'POST':
         # oldlocation = request.form['oldloaction']
 
@@ -135,19 +137,22 @@ def classmodify():
         # 第四位代表校区，后三位代表教室编号
         timecode = [termCourse.time[i] for i in range(len(termCourse.time))]
         if request.form['classroom1']:
-            pass
             for i in range(3):
-                timecode[i + 4] = ID[i]
-                timecode[i + 11] = ID[i]
+                timecode[i+4] = ID[i]
+                timecode[i+11] = ID[i]
                 print(i)
-            timecode = ''.join(timecode)
-            print(timecode)
-        if periods1:
-            pass
-            timecode
-        if periods2:
-            pass
-            timecode
+        print('hhh', request.form['daytime1'],request.form['daytime2'],request.form['periods1'])
+        if request.form['daytime1']:
+            timecode[1] = str(int(request.form['daytime1'])+1)
+        if request.form['daytime2']:
+            timecode[1+7] = str(int(request.form['daytime2'])+1)
+        if request.form['periods1']:
+            print(request.form['periods1'])
+            timecode[2] = periods[request.form['periods1']]
+        if request.form['periods2']:
+            timecode[2+7] = periods[request.form['periods2']]
+        timecode = ''.join(timecode)
+        print(timecode)
         termCourse.time = timecode
 
         db = get_db()
@@ -156,7 +161,61 @@ def classmodify():
         error = '修改成功!'
         flash(error)
     return redirect(url_for('classarrange.department'))
-    # return render_template('department.html')
+    #return render_template('department.html')
+# def classmodify():
+#     period = ["08:00~09:35", "09:50~11:25", "11:30~12:15", "13:15~14:50",
+#               "14:55~15:40", "15:55~17:30", "18:30~20:05", "20:10~20:55"]
+#     if request.method == 'POST':
+#         # oldlocation = request.form['oldloaction']
+#
+#         print(request)
+#         course_name = request.form['name']
+#         daytime1 = request.form['daytime1']
+#         periods1 = request.form['periods1']
+#         daytime2 = request.form['daytime2']
+#         periods2 = request.form['periods2']
+#         print('gggfsfsfsfsfs')
+#         location = request.form['classroom1']
+#         print('gggfsfsfs1fsfs')
+#         # flash(course_name)
+#         # flash(daytime1)
+#         # flash(daytime2)
+#         # flash(periods1)
+#         # pass
+#         print('fsfsfsfsfs')
+#         classroom = Classroom.query.filter_by(location=location).first()
+#         print(classroom.location)
+#         ID = classroom.id
+#         termCourse = TermCourse.query.filter_by(course_name=course_name).first()
+#         # 生成timecode
+#         # 一共14位，假设每个课程最多有两时间阶段，也就是前七位和后七位，
+#         # 因此单独分析七位即可，0000000代表该时间段无课程，
+#         # 第一位代表课时，第二位代表周几（1-5），第三位代表每天的时间段（1-5，按照23323划分一天），
+#         # 第四位代表校区，后三位代表教室编号
+#         timecode = [termCourse.time[i] for i in range(len(termCourse.time))]
+#         if request.form['classroom1']:
+#             pass
+#             for i in range(3):
+#                 timecode[i + 4] = ID[i]
+#                 timecode[i + 11] = ID[i]
+#                 print(i)
+#             timecode = ''.join(timecode)
+#             print(timecode)
+#         if periods1:
+#             pass
+#             timecode
+#         if periods2:
+#             pass
+#             timecode
+#         termCourse.time = timecode
+#
+#         db = get_db()
+#         db.session.commit()
+#
+#         error = '修改成功!'
+#         flash(error)
+#     return redirect(url_for('classarrange.department'))
+#     # return render_template('department.html')
 
 
 @bp.route('/department')

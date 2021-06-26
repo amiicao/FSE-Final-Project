@@ -47,6 +47,8 @@ def create_app(test_config=None):
     app.register_blueprint(selectcourse.bp)
     import exam
     app.register_blueprint(exam.bp)
+    import resourceandscore
+    app.register_blueprint(resourceandscore.bp)
     # import eduresource
     # app.register_blueprint(eduresource.bp)
     # import class_teacher
