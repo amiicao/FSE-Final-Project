@@ -75,7 +75,7 @@
 <!--                                        subject 根据课程选择子系统来显示-->
                                         <select class="form-select" aria-label="Default select Project Category" name="subject">
                                             {% for subject in subjects %}
-                                            <option value="subject.cid">{{subject.name}}</option>
+                                            <option value="{{ subject.cid }}">{{subject.name}}</option>
                                             {% endfor %}
                                         </select>
                                     </td>

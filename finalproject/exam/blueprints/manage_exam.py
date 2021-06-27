@@ -64,6 +64,11 @@ def paper_has_pro(chosen_proid, class_id):
             if request.method == 'POST':
                 name = request.form.get('name')
                 subject = request.form.get('subject')
+                print("-----")
+                print(subject)
+                subject = Course.query.filter(Course.cid == subject).first()
+                subject = subject.name
+                print(subject)
                 start_date = request.form.get('start_date')
                 start_time = request.form.get('start_time')
                 end_date = request.form.get('end_date')
@@ -73,7 +78,7 @@ def paper_has_pro(chosen_proid, class_id):
                 print(start_time)
                 start_time = start_date + "-" + start_time
                 end_time = end_date + "-" + end_time
-                if end_time > start_time and len(chosen_proid) != 2 and len(name) and len(subject) and len(
+                if class_id!=0 and end_time > start_time and len(chosen_proid) != 2 and len(name) and len(subject) and len(
                         start_date) and len(end_date):
                     print("222222")
 
@@ -142,6 +147,7 @@ def paper_has_pro(chosen_proid, class_id):
 
 @manage_exam_bp.route('/add_class/<chosen_proid>', methods=['GET', 'POST'])
 def add_class(chosen_proid):
+    class_id = 0
     if not current_user.is_authenticated:
         return redirect('/')
     classes = Course.query.filter(Course.teacher_id == current_user.uid) # 课程教师id应等于此用户的id
@@ -155,4 +161,4 @@ def add_class(chosen_proid):
                 flash('选择成功')
                 class_id = class_.cid
                 return redirect(url_for('exam.manage_exam.paper_has_pro', chosen_proid=chosen_proid, class_id=class_id))
-    return render_template('Exam/exam_view/add_class.html',classes=classes)
+    return render_template('Exam/exam_view/add_class.html',classes=classes,class_id=class_id)
