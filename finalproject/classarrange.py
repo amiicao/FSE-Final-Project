@@ -220,6 +220,7 @@ def classmodify():
 
 
 @bp.route('/department')
+@login_required
 def department():
     Courses = TermCourse.query.all()
     a = []
@@ -242,6 +243,7 @@ def department():
 
 
 @bp.route('/classroomarrange', methods=['POST', 'GET'])
+@login_required
 def classroomarrange():
     Classrooms = Classroom.query.filter_by(status=0).all()
     return render_template('ClassArrange/classroomarrange.html', Classrooms=Classrooms)
@@ -337,11 +339,13 @@ def classroommodify():
 
 
 @bp.route('/showroom', methods=['POST', 'GET'])
+@login_required
 def showroom():
     return render_template('ClassArrange/class_schedule.html')
 
 
 @bp.route('/application', methods=['POST', 'GET'])
+@login_required
 def application():
     applications = ModifyApplication.query.filter_by().all()
     return render_template('ClassArrange/application.html', apply=applications)
@@ -351,6 +355,7 @@ def application():
 # def teachermain():
 #     return render_template('teachermain.html')
 @bp.route('/teacher_schedule', methods=['POST', 'GET'])
+@login_required
 def teacher_schedule():
     application = ModifyApplication.query.filter_by(teacher_id=current_user.id)
     return render_template('ClassArrange/teacher_schedule.html', application=application)
@@ -840,6 +845,7 @@ def autoarrange(bd="紫金港"):
 #     return render_template('department.html', Courses=a)
 
 @bp.route('/TeacherCourse', methods=['POST', 'GET'])
+@login_required
 def TeacherCourse():
     a = []
     period = ["08:00~09:35", "09:50~11:25", "11:30~12:15", "13:15~14:50",

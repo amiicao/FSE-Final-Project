@@ -19,7 +19,7 @@ def create_app(test_config=None):
     db.init_app(app)
     login_manager = LoginManager()
     login_manager.session_protection = 'strong'
-    login_manager.login_view = 'login'  # 这个是我们没有登录的时候重定向到的地方
+    login_manager.login_view = 'login.login'  # 这个是我们没有登录的时候重定向到的地方
     login_manager.init_app(app)
 
     if test_config is None:
