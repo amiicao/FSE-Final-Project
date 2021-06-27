@@ -137,9 +137,9 @@ def paper_has_pro(chosen_proid, class_id):
                 name = problem.problem_id
                 if request.form.get(str(name)):
                     if problem.problem_id in chosen_proid:
-                        chosen_proid.remove(str(problem.problem_id))
-                    else:
                         chosen_proid.remove(problem.problem_id)
+                    else:
+                        chosen_proid.remove(str(problem.problem_id))
                     break
             return redirect(url_for('exam.manage_exam.paper_has_pro', chosen_proid=chosen_proid, class_id=class_id))
     return render_template('Exam/exam_view/gen_exam.html', tags=tags, chosen_proid=chosen_proid, problems=problems,class_id=class_id,subjects=subjects_show)
