@@ -7,7 +7,7 @@ from exam.forms.answer import PaperForm, AnswerForm
 from exam.models.problem import Problem
 from exam.models.answer import Anspa_prob_answer, Anspaper
 import time
-from models import Paper, StudentToCourse
+from models import Paper, Student
 from flask_login import current_user
 take_exam_bp = Blueprint('take_exam', __name__)
 
@@ -29,10 +29,28 @@ def take_exam(exam_id):
         return redirect(url_for('exam.teacher.home'))
 
     # 验证该学生是否有资格参加该考试
-    checkexam = Paper.query.join(StudentToCourse, Paper.to_class == StudentToCourse.course_id). \
-        filter(StudentToCourse.student_id == current_user and Paper.paper_id == exam_id).first()
+    courses = Student.query.filter_by(id=current_user.uid).first().courses
+    sql = ""
+    flag = 0
+    for course in courses:
+        if flag == 0:
+            flag = 1
+            sql += "to_class=" + str(course.cid)
+        else:
+            sql += " or to_class=" + str(course.cid)
+    checkexam = Paper.query.filter(text(sql)).filter(paper_id == paper_id).first()
     if checkexam is None:
         return redirect(url_for('exam.view_exam.home'))
+
+    # 验证学生是否第一次进入考试页面
+    anscheck = Anspaper.query.filter_by(paper_id=exam_id, student_id=current_user.uid).first()
+    if anscheck is None:   # 学生第一次进入考试页面，立即生成答卷，避免学生退出后再次进入
+        answerpaper = Anspaper(paper_id=exam_id, student_id=current_user.uid, score_all=0)
+        db.session.add(answerpaper)
+        db.session.commit()
+    else:  # 学生已有答卷存在,返回查看试卷详情界面
+        flash('您已经结束该考试！')
+        return redirect(url_for('exam.view_exam.show_information', paper_id=exam_id))
 
     problems = Paper.query.filter_by(paper_id=exam_id).first().problems
     paper = Paper.query.filter_by(paper_id=exam_id).first()
@@ -44,10 +62,9 @@ def take_exam(exam_id):
     if dt1 > dt3:
         return redirect(url_for('exam.take_exam.show_exam', exam_id=exam_id))
     # print(t)
+
     if request.method == 'POST':
-        answerpaper = Anspaper(paper_id=exam_id, student_id=current_user.uid)
-        db.session.add(answerpaper)
-        db.session.commit()
+        answerpaper = Anspaper.query.filter_by(paper_id=exam_id, student_id=current_user.uid).first()
         fullscore = 0
         for problem in problems:
             answer = ""
@@ -69,9 +86,9 @@ def take_exam(exam_id):
             db.session.add(a)
             answerpaper.Answers.append(a)
             answerpaper.score_all = fullscore
-        db.session.add(answerpaper)
+        # db.session.add(answerpaper)
         db.session.commit()
-        paper.end = True
+        paper.end = True  # 这个变量毫无意义
         db.session.commit()
         flash('提交成功.')
         return redirect(url_for('exam.view_exam.home'))

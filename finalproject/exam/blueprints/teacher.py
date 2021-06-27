@@ -45,16 +45,18 @@ def show_information(paper_id):
         label = 0
     elif dt1>dt3:
         label = 2
-        if anspapers.first().Ranknum == 0:
-            prescore = -1  # 记录前一人的分数
-            rank_count = 1
-            for anspaper in anspapers:  # 计算平均分
-                if anspaper.score_all != prescore:
-                    rank = rank_count
-                rank_count += 1
-                anspaper.Ranknum = rank
-                prescore = anspaper.score_all
-            db.session.commit()
+        n = len(anspapers)
+        if n != 0:
+            if anspapers[0].Ranknum == 0:
+                prescore = -1  # 记录前一人的分数
+                rank_count = 1
+                for anspaper in anspapers:  # 计算排名
+                    if anspaper.score_all != prescore:
+                        rank = rank_count
+                    rank_count += 1
+                    anspaper.Ranknum = rank
+                    prescore = anspaper.score_all
+                db.session.commit()
     else:
         label = 1
     t = int(int(dt3 - dt2) / 60)
@@ -70,6 +72,7 @@ def show_exam(paper_id):
     exam = Paper.query.filter_by(paper_id=paper_id).first()
     if current_user.status == '教师' and exam.teacher_id != current_user.uid:  # 该试卷并非该老师发布的
         return redirect(url_for('exam.teacher.home'))
+
     problems = exam.problems
     if not exam.anlsflag:  # 每道题的解答结果还未分析
         answerpapers = Anspaper.query.filter_by(paper_id=paper_id).all()
@@ -93,7 +96,7 @@ def show_exam(paper_id):
             if problem.type == 0:
                 for answerpaper in answerpapers:
                     answer = answerpaper.Answers.filter_by(problem_id=problem.problem_id).first().answer
-                    totalscore += answerpaper.Answers.filter_by(problem_id = problem.problem_id).first().score
+                    totalscore += answerpaper.Answers.filter_by(problem_id=problem.problem_id).first().score
                     if answer == "T":
                         t_count += 1
                     elif answer == "F":
@@ -102,7 +105,7 @@ def show_exam(paper_id):
                         null_count += 1
             elif problem.type == 1:
                 for answerpaper in answerpapers:
-                    answer = answerpaper.Answers.filter_by(problem_id = problem.problem_id).first().answer
+                    answer = answerpaper.Answers.filter_by(problem_id=problem.problem_id).first().answer
                     totalscore += answerpaper.Answers.filter_by(problem_id=problem.problem_id).first().score
                     if answer == "A":
                         a_count += 1
