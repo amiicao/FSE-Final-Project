@@ -134,7 +134,7 @@ class User(db.Model, UserMixin):
 # )
 
 class Student(db.Model):
-    __bind_key__ = 'select_course'
+    __bind_key__ = 'message_management_system'
     __tablename__ = 'student'
     id = db.Column(db.Integer, primary_key=True)  # 主键
     name = db.Column(db.String(16), unique=True)

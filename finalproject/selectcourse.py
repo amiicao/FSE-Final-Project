@@ -38,16 +38,18 @@ bp = Blueprint('selectcourse', __name__, url_prefix='/selectcourse')
 
 @bp.route('/studentlist/<course_id>', methods=['GET', 'POST'])
 def studentlist(course_id):
+    course = None
     try:
         course = Course.query.filter(Course.cid == course_id).first()
     except BaseException as e:
         print(e)
         flash('数据库操作失败')
         return render_template('SelectCourse/studentlist.html', students=None, astudents=None, course_id=course_id)
-
-    return render_template('SelectCourse/studentlist.html', students=course.students, astudents=course.astudents,
+    if course != None:
+        return render_template('SelectCourse/studentlist.html', students=course.students, astudents=course.astudents,
                            course_id=course_id)
-
+    else:
+        return render_template('SelectCourse/studentlist.html', students=None, astudents=None, course_id=course_id)
 
 @bp.route('/myclass', methods=['GET'])
 def myclass():
