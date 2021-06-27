@@ -59,10 +59,10 @@ bp = Blueprint('login', __name__)
 
 
 # 用来测试的页面，
-@bp.route('/test')
-def index():
-    return render_template("test.html", title='Home Page')
-
+# @bp.route('/test')
+# def index():
+#     return render_template("test.html", title='Home Page')
+#
 
 @bp.route('/index')
 def hello_world():
