@@ -40,6 +40,8 @@ def exam_search_add(chosen_proid,class_id):
 
 @manage_exam_bp.route('/added_paper/<chosen_proid>/<class_id>', methods=['GET', 'POST'])
 def paper_has_pro(chosen_proid, class_id):
+    if not current_user.is_authenticated:
+        return redirect('/')
     print(class_id)
     print(chosen_proid)
     print(class_id)
@@ -77,7 +79,7 @@ def paper_has_pro(chosen_proid, class_id):
                     while Paper.query.filter(Paper.paper_id == id).first() is not None:
                         id = fake.pyint()
                     paper = Paper(name=name, paper_id=id, subject=subject, strt_t=start_time,
-                                  end_t=end_time, teacher_id=0
+                                  end_t=end_time, teacher_id=current_user.uid, to_class=class_id
                                   )
                     for problem in problems:
                         paper.problems.append(problem)
@@ -124,7 +126,10 @@ def paper_has_pro(chosen_proid, class_id):
             for problem in problems:
                 name = problem.problem_id
                 if request.form.get(str(name)):
-                    chosen_proid.remove(str(problem.problem_id))
+                    if problem.problem_id in chosen_proid:
+                        chosen_proid.remove(str(problem.problem_id))
+                    else:
+                        chosen_proid.remove(problem.problem_id)
                     break
             return redirect(url_for('exam.manage_exam.paper_has_pro', chosen_proid=chosen_proid, class_id=class_id))
     return render_template('Exam/exam_view/gen_exam.html', tags=tags, chosen_proid=chosen_proid, problems=problems,class_id=class_id)
