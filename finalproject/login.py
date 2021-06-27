@@ -71,6 +71,7 @@ def hello_world():
 
 # 主体的登陆界面
 
+
 @bp.route('/', methods=['GET', 'POST'])
 def login():
     # 设用户已经登录，则直接跳转至相关页面
@@ -80,28 +81,36 @@ def login():
     error = None
     form = LoginForm()
     if form:
+        print(form.verify_code.data)
         # 希望从表单中得到返回的信息
         if form.validate_on_submit():
-            # 首先验证验证码是否输入正确
-            if 1 or form.verify_code.data == session['code']:
-                if form.username.data:
-                    user = User.query.filter_by(uid=form.username.data).first()
-                    if user is None:
-                        error = "用户不存在！"
-                    else:
-                # (未详细设计)当前状态是只要数据库中有这个用户名，我们就能登陆，这里需要加上的是密码哈希的对比
-                        user.set_password(user.password)
-                        if not user.check_password(form.password.data):
-                            error = "密码错误！"
-                else:
-                    error = "输入不合法！"
-                if not error:
-                 # 将该用户注册到当前
-                    login_user(user, remember=form.remember_me.data)
-                    return redirect(url_for('login.hello_world'))
+            if not form.username.data:
+                error = "请输入用户名！"
+            elif not form.password.data:
+                error = "请输入密码！"
+            elif not form.verify_code.data:
+                error = "请输入验证码！"
             else:
-                error = "验证码错误"
-
+            # 首先验证验证码是否输入正确
+                if form.verify_code.data == session['code']:
+                    if form.username.data:
+                        user = User.query.filter_by(uid=form.username.data).first()
+                        if user is None:
+                            error = "用户不存在！"
+                        else:
+                        # (未详细设计)当前状态是只要数据库中有这个用户名，我们就能登陆，这里需要加上的是密码哈希的对比
+                            user.set_password(user.password)
+                            if not user.check_password(form.password.data):
+                                error = "密码错误！"
+                    else:
+                        error = "输入不合法！"
+                    if not error:
+                        # 将该用户注册到当前
+                        flash("登录成功！","error")
+                        login_user(user, remember=form.remember_me.data)
+                        return redirect(url_for('login.hello_world'))
+                else:
+                    error = "验证码错误"
     if error is not None:
         flash(error, "error")
     return render_template('login.html', title='Sign In', form=form)
