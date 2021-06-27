@@ -20,7 +20,7 @@ import os
 # app.config['UPLOAD_FOLDER'] = "培养方案"
 
 # db = SQLAlchemy(app)
-from models import Student, StudentToCourse, Course, BEApplication, Teacher_3, Major
+from models import Student, StudentToCourse, Course, BEApplication, Teacher_3, Major, User
 from database import get_db
 
 SelCourseStart = datetime(2020, 1, 1)  # Normal Course Selection 初选
@@ -397,17 +397,9 @@ def mycurriculum():
     '''shows student's list of selected courses
     and a timetable for each season with their selected courses
     '''
-    # student_id = current_user.uid
-    # tempStu = Student.query.get(student_id)
-    tempStu = Student.query.get(1)
-    print(tempStu)
-    print(Student)
-    # flash(tempStu)
-    # tempStu2 = Student.query.filter(Student.id == 1).first()
-    # flash(tempStu2)
-
-    Courses = sorted(tempStu.courses, key=attrgetter("cid"))
-    print(Courses)
+    student_id = current_user.uid
+    tempStu = Student.query.get(student_id)
+    flash(tempStu)
     timetable = \
         [
             ['', '', '', '', '', '', '', '', '', '', '', '', ''],
@@ -418,6 +410,16 @@ def mycurriculum():
             ['', '', '', '', '', '', '', '', '', '', '', '', ''],
             ['', '', '', '', '', '', '', '', '', '', '', '', '']
         ]
+    if(tempStu == None):
+        print('1')
+        return render_template('SelectCourse/student_courses.html', courses=None, tStudent=tempStu,
+                           timetable=timetable,
+                           days={"1": "星期一", "2": "星期二", "3": "星期三", "4": "星期四", "5": "星期五"})
+
+
+    Courses = sorted(tempStu.courses, key=attrgetter("cid"))
+    print(Courses)
+
     if Courses is not None:
         for tempCourse in Courses:
             if tempCourse.time[2] == "1":

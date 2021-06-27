@@ -42,15 +42,16 @@ def take_exam(exam_id):
     if checkexam is None:
         return redirect(url_for('exam.view_exam.home'))
 
+    if request.method == 'GET':
     # 验证学生是否第一次进入考试页面
-    anscheck = Anspaper.query.filter_by(paper_id=exam_id, student_id=current_user.uid).first()
-    if anscheck is None:   # 学生第一次进入考试页面，立即生成答卷，避免学生退出后再次进入
-        answerpaper = Anspaper(paper_id=exam_id, student_id=current_user.uid, score_all=0)
-        db.session.add(answerpaper)
-        db.session.commit()
-    else:  # 学生已有答卷存在,返回查看试卷详情界面
-        flash('您已经结束该考试！')
-        return redirect(url_for('exam.view_exam.show_information', paper_id=exam_id))
+        anscheck = Anspaper.query.filter_by(paper_id=exam_id, student_id=current_user.uid).first()
+        if anscheck is None:   # 学生第一次进入考试页面，立即生成答卷，避免学生退出后再次进入
+            answerpaper = Anspaper(paper_id=exam_id, student_id=current_user.uid, score_all=0)
+            db.session.add(answerpaper)
+            db.session.commit()
+        else:  # 学生已有答卷存在,返回查看试卷详情界面
+            flash('您已经结束该考试！')
+            return redirect(url_for('exam.view_exam.show_information', paper_id=exam_id))
 
     problems = Paper.query.filter_by(paper_id=exam_id).first().problems
     paper = Paper.query.filter_by(paper_id=exam_id).first()
