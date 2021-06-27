@@ -48,6 +48,11 @@
                             </li>
                             <li><a class="ms-link" href={{ url_for('messagearrange.user_search') }}>
                                 <span>用户搜索</span></a></li>
+                        {% elif current_user.is_authenticated and current_user.status =="教师" %}
+                            <li><a class="ms-link" href={{ url_for('messagearrange.course_search') }}> <span>课程搜索</span></a>
+                            </li>
+                            <li><a class="ms-link" href={{ url_for('messagearrange.personal_center') }}>
+                                <span>个人中心</span></a></li>
                         {% elif current_user.is_authenticated %}
                             <li><a class="ms-link" href={{ url_for('messagearrange.personal_center') }}>
                                 <span>个人中心</span></a></li>

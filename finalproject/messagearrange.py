@@ -69,17 +69,20 @@ class Course:
 #         return '<course>{}:{}:{}:{}:{}:{}:{}:{}:{}'.format(self.cid, self.name, self.credit, self.capacity, self.instructor,self.type, self.time, self.classroom, self.description)
 
 @bp.route('/')
+
 def hello_world():
     return render_template('sidebar.html')
 
 
 @bp.route('/personal-center.html', methods=['GET', 'POST'])
+@login_required
 def personal_center():
     u = User.query.filter((User.uid) == (current_user.uid)).first()
     return render_template("MessageArrange/personal-center.html", user=u)
 
 
 @bp.route('/EditInfo', methods=['GET', 'POST'])
+@login_required
 def EditInfo():
     name = request.form.get('name')
     age = request.form.get('age')
@@ -110,6 +113,7 @@ def EditInfo():
 
 
 @bp.route('/course-information.html/<cid>', methods=['GET', 'POST'])
+@login_required
 def course_information(cid):
     print(str(cid))
     c = Course.query.filter(Course.cid == cid).first()
@@ -117,12 +121,17 @@ def course_information(cid):
 
 
 @bp.route('/course-search.html', methods=['GET', 'POST'])
+@login_required
 def course_search():
-    c = Course.query.all()
+    if current_user.status == '教师':
+        c = Course.query.filter_by(teacher_id = current_user.uid).all()
+    else:
+        c = Course.query.all()
     return render_template("MessageArrange/course-search.html", courses=c)
 
 
 @bp.route('EditCourse', methods=['GET', 'POST'])
+@login_required
 def EditCourse():
     cid = request.form.get('cid')
     name = request.form.get('name')
@@ -173,6 +182,7 @@ def EditCourse():
 
 
 @bp.route('EditUser', methods=['GET', 'POST'])
+@login_required
 def EditUser():
     uid = request.form.get('uid')
     name = request.form.get('name')
@@ -210,6 +220,7 @@ def EditUser():
 
 
 @bp.route('/course-delete/<cid>', methods=['GET', 'POST'])
+@login_required
 def DeleteCourse(cid):
     delete_course = Course.query.filter(Course.cid == cid).first()
     db = get_db()
@@ -223,6 +234,7 @@ def DeleteCourse(cid):
 
 
 @bp.route('/user-delete/<uid>', methods=['GET', 'POST'])
+@login_required
 def DeleteUser(uid):
     delete_user = User.query.filter(User.uid == uid).first()
     db = get_db()
@@ -234,6 +246,7 @@ def DeleteUser(uid):
 
 
 @bp.route('/AddCourse', methods=['GET', 'POST'])
+@login_required
 def AddCourse():
     name = request.form.get('name')
     cid = request.form.get('cid')
@@ -279,6 +292,7 @@ def AddCourse():
 
 
 @bp.route('/user-search.html', methods=['GET', 'POST'])
+@login_required
 def user_search():
     # u = [User('1','2','3','4','5'), User('5','4','3','2','1')]
     u = User.query.all()
@@ -286,6 +300,7 @@ def user_search():
 
 
 @bp.route('/AddUser', methods=['GET', 'POST'])
+@login_required
 def AddUser():
     uid = request.form.get('uid')
     name = request.form.get('name')
@@ -319,6 +334,7 @@ def AddUser():
 
 
 @bp.route('/SubmitPhoto', methods=['GET', 'POST'])
+@login_required
 def SubmitPhoto():
     photo = request.files['photo']
     u = User.query.filter(User.uid == current_user.uid).first()
