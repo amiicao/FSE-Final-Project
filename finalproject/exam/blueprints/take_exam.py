@@ -1,7 +1,7 @@
 """学生参加考试的相关视图函数"""
 from flask import Blueprint
 from flask import render_template, request, url_for, redirect, flash
-
+from sqlalchemy import desc, text
 from database import db
 from exam.forms.answer import PaperForm, AnswerForm
 from exam.models.problem import Problem
@@ -38,7 +38,7 @@ def take_exam(exam_id):
             sql += "to_class=" + str(course.cid)
         else:
             sql += " or to_class=" + str(course.cid)
-    checkexam = Paper.query.filter(text(sql)).filter(paper_id == paper_id).first()
+    checkexam = Paper.query.filter(text(sql)).filter(Paper.paper_id == exam_id).first()
     if checkexam is None:
         return redirect(url_for('exam.view_exam.home'))
 
