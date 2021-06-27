@@ -23,12 +23,14 @@
                     <div class="border-0 mb-4">
                         <div class="card-header py-3 no-bg bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap">
                             <h3 class="fw-bold mb-0">老师学期课表</h3>
+                            {% if current_user.status == '教师' %}
                             <div class="col-auto d-flex w-sm-100">
                                 <button type="button" class="btn btn-dark btn-set-task w-sm-100" data-bs-toggle="modal" data-bs-target="#apply"><i class="icofont-plus-circle me-2 fs-6"></i>提交申请</button>
                             </div>
                             <div class="col-auto d-flex w-sm-100">
                                 <button type="button" class="btn btn-dark btn-set-task w-sm-100" data-bs-toggle="modal" data-bs-target="#showapply" ><i class="icofont-plus-circle me-2 fs-6"></i>查看申请</button>
                             </div>
+                            {% endif %}
                             <form method = "post" action="{{ url_for('classarrange.printtable') }}">
                                 <div class="col-auto d-flex w-sm-100">
                                     <button type="submit" class="btn btn-dark btn-set-task w-sm-100" data-bs-toggle="modal" ><i class="icofont-plus-circle me-2 fs-6"></i>打印课表</button>
@@ -91,9 +93,7 @@
                         <div class="mb-3">
                             <label for="exampleFormControlInput11111" class="form-label">申请事项</label>
                             {% if applications %}
-                            {% for application in applications %}
-                                <input type="text" class="form-control" name="classname" value='{{ application.content }}' readonly = true>
-                            {% endfor %}
+                                <input type="text" class="form-control" name="classname" value='{{ applications[0].content }}' readonly = true>
                             {% else %}
                                 <input type="text" class="form-control" name="classname" value='没有请求' readonly = true>
                             {% endif %}

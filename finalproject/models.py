@@ -49,6 +49,7 @@ class Classroom(db.Model):
 class ModifyApplication(db.Model):
     __bind_key__ = 'course_arrangement_system'
     __tablename__ = 'modifyapplication'
+    id = db.Column(db.Integer,primary_key=True,autoincrement=True)
     teacher_id = db.Column(db.Integer,db.ForeignKey('teacherinclassarrange.teacher_id',ondelete='CASCADE'), primary_key=True)
     content = db.Column(db.UnicodeText, primary_key=True)
     # 0:未处理 1：处理完成 2：被拒绝

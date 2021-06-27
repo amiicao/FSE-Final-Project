@@ -71,6 +71,8 @@
                             <li><a class="ms-link" href={{ url_for('classarrange.department') }}> <span>课程管理</span></a>
                             </li>
                         {% elif current_user.is_authenticated and current_user.status =="教师" %}
+                            <li><a class="ms-link" href={{ url_for('classarrange.classroomarrange') }}>
+                                <span>教室查看</span></a></li>
                             <li><a class="ms-link" href={{ url_for('classarrange.TeacherCourse') }}> <span>教师主界面</span></a>
                             </li>
                         {% endif %}

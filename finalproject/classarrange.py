@@ -23,6 +23,7 @@ from xlrd.timemachine import xrange
 from werkzeug.exceptions import abort
 # from uploads import ALLOWED_EXTENSIONS
 # from user import login_required
+import classarrange
 from database import get_db
 
 # import pandas as pd
@@ -342,8 +343,8 @@ def showroom():
 
 @bp.route('/application', methods=['POST', 'GET'])
 def application():
-    application = ModifyApplication.query.filter_by().all()
-    return render_template('ClassArrange/application.html', apply=application)
+    applications = ModifyApplication.query.filter_by().all()
+    return render_template('ClassArrange/application.html', apply=applications)
 
 
 # @bp.route('/teachermain', methods=['POST', 'GET'])
@@ -493,32 +494,51 @@ def uploaded_file(filename):
 @bp.route('/query', methods=['POST', 'GET'])
 @login_required
 def query():
-    urls = "department"
+    # urls = "ClassArrange/department"
     if request.method == 'POST':
         location = request.form['location']
-        capacity = request.form['capacity']
-        campus = request.form['campus']
-        db = get_db()
+
         error = None
-        if request.form['location'] is None and request.form['capacity'] is None and request.form['campus'] is None:
+        if location is None:
             flash("请输入查询条件 ！")
-            return render_template(urls)
-        if error is None:
-            classrooms = Classroom.query.filter(
-                Classroom.location.like("%" + location + "%") if location is not None else "",
-                Classroom.capacity.like("%" + capacity + "%") if capacity is not None else "",
-                Classroom.campus.like("%" + campus + "%") if campus is not None else "",
-                Classroom.status == 0
-            ).all()
-            print(classrooms)
-            if not classrooms:
+        else:
+            classroom = Classroom.query.filter_by(location=location).first()
+            if not classroom:
                 flash("教室不存在！")
-                session['query'] = None
-            else:
-                session['query'] = 'yes'
-                return render_template(urls + '.html', classrooms=classrooms)
-        flash(error)
-    return render_template('ClassArrange/'+urls + '.html')
+                print(classroom)
+                return redirect(url_for('classarrange.teacher_schedule'))
+        a = []
+        period = ["08:00~09:35", "09:50~11:25", "11:30~12:15", "13:15~14:50",
+                  "14:55~15:40", "15:55~17:30", "18:30~20:05", "20:10~20:55"]
+        for i in range(8):
+            tmp = [period[i]]
+            for j in range(5):
+                tmp.append(" ")
+            a.append(tmp)
+        b = [1, 2, 4, 6, 7]  # 221 212 21
+        teacher = Teacher.query.filter().first()
+        courses = TermCourse.query.filter().all()
+        Classrooms = Classroom.query.filter(Classroom.status == 0).all()
+        location = []
+        for c in Classrooms:
+            location.append(c)
+        for c in courses:
+            for i in [0, 7]:
+                if c.time[i] == '0':
+                    break
+                else:
+                    classroom = Classroom.query.filter(
+                        Classroom.id == c.time[i + 4:i + 7] and Classroom.status == 0).first()
+                    # classroom = location[int(c.time[i + 4:i + 7])]
+                    print(classroom.location)
+                    if classroom.location == request.form['location']:
+                        a[b[int(c.time[i + 2]) - 1] - 1][int(c.time[i + 1])] = c.course_name
+                        if (c.time[i] == "3"):
+                            a[b[int(c.time[i + 2]) - 1]][int(c.time[i + 1])] = c.course_name
+        print(a)
+        return render_template('ClassArrange/class_schedule.html', tables=a)
+
+
 
 
 @bp.route('/delete', methods=['POST', 'GET'])
@@ -887,18 +907,15 @@ def submitapply():
 def processapplication():
     if request.method == 'POST':
         # *********************************这里要用教师名！！！！*****************************************#
-        teacher_id = '叶德仕'
+        id = request.form['id']
         # *********************************这里要用教师名！！！！*****************************************#
-
-        content = request.form['content']
-
+        # content = request.form['content']
         statecode = request.form['statecode']
-
         # *********************************这里要用管理员名！！！！*****************************************#
-        handler = '叶德仕'
+        handler = current_user.uid
         # *********************************这里要用管理员名！！！！*****************************************#
 
-        application = ModifyApplication.query.filter_by(teacher_id=teacher_id, content=content).first()
+        application = ModifyApplication.query.filter_by(id=id).first()
         if application is not None:
             application.statecode = statecode
             application.handler = handler
@@ -947,7 +964,7 @@ def prints():
         print(a)
         df = pd.DataFrame(a, columns=["time", "周一", "周二", "周三", "周四", "周五"])
         df.to_csv("hhh.csv", index=False)
-    return redirect(url_for('classarrange.teachermain'), Courses=a)
+    return redirect(url_for('classarrange.teachermain'))
 
 
 @bp.route('/printtable', methods=['POST'])
@@ -966,12 +983,12 @@ def printtable():
     application = ModifyApplication.query.filter_by().all()
     error = None
     # if not g.name:
-    if 0:
+    if not current_user.uid:
         error = 'name is required'
         flash(error)
     else:
         try:
-            teacher = Teacher.query.filter(Teacher.teacher_name == "楼学庆").first()
+            teacher = Teacher.query.filter(Teacher.teacher_id == current_user.uid).first()
             # teacher = Teacher.query.filter(Teacher.teacher_name == request.args.get('name')).first()
             courses = TermCourse.query.filter(TermCourse.teacher_id == teacher.teacher_id).all()
         except:
@@ -990,7 +1007,8 @@ def printtable():
                     #     a[b[int(c.time[i + 1])]+1][int(c.time[i + 2])] = c.course_name
         print(a)
         df = pd.DataFrame(a, columns=["time", "周一", "周二", "周三", "周四", "周五"])
-        df.to_csv("hhh.csv", index=False)
+        # df.to_csv("ClassSchedule.csv", index=False)
+        df.to_csv(current_user.name +".csv", index=False)
         # df.to_csv(g.name + "csv", index=False)
         flash("打印成功！")
     return redirect(url_for('classarrange.TeacherCourse'))

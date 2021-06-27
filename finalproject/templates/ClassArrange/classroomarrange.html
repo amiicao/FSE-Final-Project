@@ -32,6 +32,7 @@
                 <div class="row align-items-center">
                     <div class="border-0 mb-4">
                         <div class="card-header py-3 no-bg bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap">
+                            {% if current_user.status == "管理员" %}
                             <h3 class="fw-bold mb-0">教学资源管理</h3>
                             <div class="col-auto d-flex w-sm-100">
                                 <button type="button" class="btn btn-dark btn-set-task w-sm-100" data-bs-toggle="modal" data-bs-target="#muladdclassroom"><i class="icofont-plus-circle me-2 fs-6"></i>批量导入教室</button>
@@ -39,6 +40,9 @@
                             <div class="col-auto d-flex w-sm-100">
                                 <button type="button" class="btn btn-dark btn-set-task w-sm-100" data-bs-toggle="modal" data-bs-target="#addclassroom"><i class="icofont-plus-circle me-2 fs-6"></i>增加教室</button>
                             </div>
+                            {% else %}
+                             <h3 class="fw-bold mb-0">教室课表查看</h3>
+                            {% endif %}
                         </div>
                     </div>
                 </div> <!-- Row end  -->
@@ -52,7 +56,9 @@
                                             <th>所属校区</th>
                                             <th>教室名称</th>
                                             <th>教室容量</th>
+                                            {% if current_user.statue == '管理员' %}
                                             <th>操作</th>
+                                            {% endif %}
                                         </tr>
                                     </thead>
                                     {% for Classroom in Classrooms %}
@@ -60,12 +66,14 @@
                                                 <td>{{ Classroom.campus }}</td>
                                                 <td><a href="class_schedule?name={{ Classroom.location }}" style="color: #0d6efd">{{ Classroom.location }}</a></td>
                                                 <td>{{ Classroom.capacity }} </td>
+                                                {% if current_user.statue == '管理员' %}
                                                 <td>
                                                     <div class="btn-group" role="group" aria-label="Basic outlined example">
                                                         <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editclassroom"  onclick="sendlocation('{{ Classroom.campus }}','{{ Classroom.location }}','{{ Classroom.capacity }}')"><i class="icofont-edit text-success"></i></button>
                                                         <button type="button" id="deleterow" class="btn btn-outline-secondary deleterow" onclick="deleteroom('{{ Classroom.location }}')"><i class="icofont-ui-delete text-danger"></i></button>
                                                     </div>
                                                 </td>
+                                                {% endif %}
                                             </tr>
                                     {% endfor %}
                                 </table>
@@ -214,6 +222,7 @@
 
 
          <!-- Add Holiday-->
+        {% if current_user.status == "管理员" %}
         <div class="modal fade" id="muladdclassroom" tabindex="-1"  aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-md modal-dialog-scrollable">
             <form method="post" action="{{ url_for('classarrange.muladd') }}" enctype="multipart/form-data">
@@ -235,8 +244,9 @@
             </form>
             </div>
         </div>
+         {% endif %}
 
-
+        {% if current_user.status == "管理员" %}
         <!-- Add Holiday-->
         <div class="modal fade" id="addclassroom" tabindex="-1"  aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-md modal-dialog-scrollable">
@@ -273,8 +283,10 @@
              </form>
             </div>
         </div>
+        {% endif %}
 
         <!-- Edit Holiday-->
+        {% if current_user.status == "管理员" %}
         <div class="modal fade" id="editclassroom" tabindex="-1"  aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-md modal-dialog-scrollable">
             <div class="modal-content">
@@ -308,6 +320,7 @@
             </div>
             </div>
         </div>
+        {% endif %}
 
 
 

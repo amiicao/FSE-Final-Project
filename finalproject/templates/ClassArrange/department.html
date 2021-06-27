@@ -31,7 +31,7 @@
                         <div class="card-header py-3 no-bg bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap">
                             <h3 class="fw-bold mb-0">课程管理</h3>
                             <div class="col-auto d-flex w-sm-100">
-                                <button type="button" class="btn btn-dark btn-set-task w-sm-100" data-bs-toggle="modal" data-bs-target="#classsearch" ><i class="icofont-look me-2 fs-6"></i>查询</button>
+{#                                <button type="button" class="btn btn-dark btn-set-task w-sm-100" data-bs-toggle="modal" data-bs-target="#classsearch" ><i class="icofont-look me-2 fs-6"></i>查询</button>#}
                                 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
                                 <button type="button" class="btn btn-dark btn-set-task w-sm-100" data-bs-toggle="modal" data-bs-target="#autorange"><i class="icofont-plus-circle me-2 fs-6"></i>自动排课</button>
                              </div>
@@ -223,75 +223,75 @@
         </div>
 
         <!-- 课程搜索-->
-        <div class="modal fade" id="classsearch" tabindex="-1"  aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-md modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title  fw-bold" id="depaddLabel">查询</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
+{#        <div class="modal fade" id="classsearch" tabindex="-1"  aria-hidden="true">#}
+{#            <div class="modal-dialog modal-dialog-centered modal-md modal-dialog-scrollable">#}
+{#            <div class="modal-content">#}
+{#                <div class="modal-header">#}
+{#                    <h5 class="modal-title  fw-bold" id="depaddLabel">查询</h5>#}
+{#                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>#}
+{#                </div>#}
+{#                <div class="modal-body">#}
+{##}
+{#                    <div class="deadline-form">#}
+{#                        <form  id = "add" action = "query" method = "post">#}
+{#                            <div class="row g-3 mb-3">#}
+{#                                <div class="col-sm-6">#}
+{#                                    <label for="exampleFormControlInput1111" class="form-label">课程名</label>#}
+{#                                    <input type="text" class="form-control" name="course_name">#}
+{#                                </div>#}
+{#                                 <div class="col-sm-6">#}
+{#                                    <label for="depone" class="form-label">教师姓名</label>#}
+{#                                    <input type="text" class="form-control" name="tearch_name">#}
+{#                                </div>#}
+{#                            </div>#}
+{#                            <div class="row g-3 mb-3">#}
+{##}
+{#                                <div class="col-sm-6">#}
+{#                                    <label for="deptwo" class="form-label">教室信息（例如 西一 101）</label>#}
+{#                                    <input type="text" class="form-control" name="room_code">#}
+{#                                </div>#}
+{#                                <div class="col-sm-6">#}
+{#                                    <label for="deptwo" class="form-label">最小容量</label>#}
+{#                                    <input type="text" class="form-control" name="capacity">#}
+{#                                </div>#}
+{#                            </div>#}
+{#                            <div class="row g-3 mb-3">#}
+{#                                 <div class="col-sm-6">#}
+{#                                    <label class="form-label" name="daytime">上课时间</label>#}
+{#                                    <select class="form-select">#}
+{#                                        <option selected>周一</option>#}
+{#                                        <option value="1">周二</option>#}
+{#                                        <option value="2">周三</option>#}
+{#                                        <option value="3">周四</option>#}
+{#                                        <option value="4">周五</option>#}
+{#                                    </select>#}
+{#                                  </div>#}
+{#                                  <div class="col-sm-6">#}
+{#                                    <label class="form-label">上课节次</label>#}
+{#                                    <select class="form-select" name="periods">#}
+{#                                        <option selected>08:00-09:35</option>#}
+{#                                        <option value="1">09:50-11:25</option>#}
+{#                                        <option value="2">11:30-12:15</option>#}
+{#                                        <option value="3">13:15-14:50</option>#}
+{#                                        <option value="4">14:55-15:40</option>#}
+{#                                        <option value="5">15:55-17:30</option>#}
+{#                                        <option value="6">18:30-20:05</option>#}
+{#                                        <option value="7">20:10-20:55</option>#}
+{#                                    </select>#}
+{#                                  </div>#}
+{##}
+{#                            </div>#}
+{#                            <div class="modal-footer">#}
+{#                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>#}
+{#                                <button type="submit"  class="btn btn-primary">查询</button>#}
+{#                            </div>#}
+{#                        </form>#}
+{#                    </div>#}
+{#                </div>#}
 
-                    <div class="deadline-form">
-                        <form  id = "add" action = "/searchclass" method = "post">
-                            <div class="row g-3 mb-3">
-                                <div class="col-sm-6">
-                                    <label for="exampleFormControlInput1111" class="form-label">课程名</label>
-                                    <input type="text" class="form-control" name="course_name">
-                                </div>
-                                 <div class="col-sm-6">
-                                    <label for="depone" class="form-label">教师姓名</label>
-                                    <input type="text" class="form-control" name="tearch_name">
-                                </div>
-                            </div>
-                            <div class="row g-3 mb-3">
-
-                                <div class="col-sm-6">
-                                    <label for="deptwo" class="form-label">教室信息（例如 西一 101）</label>
-                                    <input type="text" class="form-control" name="room_code">
-                                </div>
-                                <div class="col-sm-6">
-                                    <label for="deptwo" class="form-label">最小容量</label>
-                                    <input type="text" class="form-control" name="capacity">
-                                </div>
-                            </div>
-                            <div class="row g-3 mb-3">
-                                 <div class="col-sm-6">
-                                    <label class="form-label" name="daytime">上课时间</label>
-                                    <select class="form-select">
-                                        <option selected>周一</option>
-                                        <option value="1">周二</option>
-                                        <option value="2">周三</option>
-                                        <option value="3">周四</option>
-                                        <option value="4">周五</option>
-                                    </select>
-                                  </div>
-                                  <div class="col-sm-6">
-                                    <label class="form-label">上课节次</label>
-                                    <select class="form-select" name="periods">
-                                        <option selected>08:00-09:35</option>
-                                        <option value="1">09:50-11:25</option>
-                                        <option value="2">11:30-12:15</option>
-                                        <option value="3">13:15-14:50</option>
-                                        <option value="4">14:55-15:40</option>
-                                        <option value="5">15:55-17:30</option>
-                                        <option value="6">18:30-20:05</option>
-                                        <option value="7">20:10-20:55</option>
-                                    </select>
-                                  </div>
-
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                                <button type="submit"  class="btn btn-primary">查询</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
-            </div>
-            </div>
-        </div>
+{#            </div>#}
+{#            </div>#}
+{#        </div>#}
         <!-- 自动排课-->
          <div class="modal fade" id="autorange" tabindex="-1"  aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-md modal-dialog-scrollable">

@@ -34,7 +34,8 @@
                             <table id="myProjectTable" class="table  align-middle mb-0" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>申请人</th>
+                                        <th>序列号</th>
+                                        <th>申请教师编号</th>
                                         <th>申请内容</th>
                                         <th>处理状态</th>
                                         <th>操作</th>
@@ -43,6 +44,9 @@
                                 <tbody>
                                     {% for application in apply %}
                                     <tr>
+                                        <td>
+                                            <a>{{ application.id }}</a>
+                                        </td>
                                         <td>
                                             <a href="ticket-detail.html" class="fw-bold text-secondary">{{ application.teacher_id }}</a>
                                         </td>
@@ -61,7 +65,7 @@
                                              {% endif %}
 
                                         <td>
-                                            <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#process" onclick="sendcontent1('{{  application.content  }}')"><i class="icofont-edit text-success"></i></button>
+                                            <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#process" onclick="sendcontent1('{{  application.id  }}')"><i class="icofont-edit text-success"></i></button>
                                         </td>
                                     </tr>
                                 {% endfor %}
@@ -222,8 +226,8 @@
             <div class="modal-body">
                 <div class="modal-body">
                     <label style="width: 100%">
-                        <label for="exampleFormControlInput11111" class="form-label">事项</label>
-                        <input type="text" class="form-control" name="content" id="content"  readonly="true">
+                        <label for="exampleFormControlInput11111" class="form-label">申请序列号</label>
+                        <input type="text" class="form-control" name="id" id="id"  readonly="true" value="{{ apply }}">
                     </label>
                 </div>
                 <div class="mb-3">
@@ -271,7 +275,7 @@
     $(document).ready(function() {
         $(document).ready(function() {
             $('#processing').on('click', function(){
-                location.href = "/department";
+                location.href = "department";
             } );
         });
     });
@@ -280,8 +284,8 @@
         $("#content12").val(content12)
     }
     $("#process").modal("hide");
-    function sendcontent1(content){
-        $("#content").val(content)
+    function sendcontent1(id){
+        $("#id").val(id)
     }
 
 
