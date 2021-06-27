@@ -426,7 +426,7 @@ def muladd():
         try:
             table = classrooms.sheets()[0]
         except:
-            flash("no sheet in %s named sheet1") % file.filename
+            flash("文件 %s 中没有内容！") % file.filename
             return redirect(url_for('classarrange.classroomarrange'))
         nrows = table.nrows
         ncols = table.ncols
@@ -479,6 +479,7 @@ def muladd():
                 print(classroom)
                 db.session.commit()
             except:
+                db.session.rollback()
                 error = "添加失败！"
                 flag = False
                 break
