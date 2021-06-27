@@ -101,13 +101,17 @@
 
                         <div class="mb-3">
                             <label for="exampleFormControlInput11111" class="form-label">申请状态</label>
-                            {% if applications[0].statecode == 0 %}
-                               <input type="text" class="form-control" name="staus" value="未处理" readonly = true>
-                            {% elif  applications[0].statecode == 1%}
-                               <input type="text" class="form-control" name="staus" value="已通过" readonly = true>
+                            {% if  not applications %}
+                                <input type="text" class="form-control" name="staus" value="未处理" readonly = true>
                             {% else %}
+                                {% if applications[0].statecode == 0 %}
+                               <input type="text" class="form-control" name="staus" value="未处理" readonly = true>
+                                {% elif  applications[0].statecode == 1%}
+                               <input type="text" class="form-control" name="staus" value="已通过" readonly = true>
+                                {% else %}
                                <input type="text" class="form-control" name="staus" value="未通过" readonly = true>
-                             {% endif %}
+                                {% endif %}
+                            {% endif %}
                         </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
