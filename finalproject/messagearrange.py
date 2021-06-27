@@ -1,15 +1,17 @@
-from flask import Flask, render_template, url_for, request, json,jsonify
+from flask import Flask, render_template, url_for, request, json, jsonify
 from flask import (
     current_app, Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
 from flask_sqlalchemy import SQLAlchemy
 # import configs01
 import os
+
 UPLOAD_FOLDER = 'uploads'
-bp = Blueprint('messagearrange', __name__,url_prefix='/messagearrange')
+bp = Blueprint('messagearrange', __name__, url_prefix='/messagearrange')
 from database import get_db
 from models import User, Course
 from flask_login import LoginManager, current_user, login_user, logout_user, login_required
+
 # app = Flask(__name__)
 # app.config['JSON_AS_ASCII'] = False
 # app.config.from_object(configs01)
@@ -37,6 +39,8 @@ class Course:
         self.time = time
         self.classroom = classroom
 '''
+
+
 #
 # class User(db.Model):
 #     __bind_key__ = 'course_arrangement_system'
@@ -68,10 +72,12 @@ class Course:
 def hello_world():
     return render_template('sidebar.html')
 
+
 @bp.route('/personal-center.html', methods=['GET', 'POST'])
 def personal_center():
     u = User.query.filter((User.uid) == (current_user.uid)).first()
-    return render_template("MessageArrange/personal-center.html", user = u)
+    return render_template("MessageArrange/personal-center.html", user=u)
+
 
 @bp.route('/EditInfo', methods=['GET', 'POST'])
 def EditInfo():
@@ -86,7 +92,7 @@ def EditInfo():
         error = "未输入年龄"
     elif sex == '':
         error = "未输入性别"
-    elif age <= '0' :
+    elif age <= '0':
         error = "年龄不能小于0"
     else:
         u = User.query.filter(User.uid == uid).first()
@@ -96,7 +102,7 @@ def EditInfo():
         db = get_db()
         db.session.commit()
 
-    if(error):
+    if (error):
         flash(error)
     else:
         flash('修改成功')
@@ -106,13 +112,15 @@ def EditInfo():
 @bp.route('/course-information.html/<cid>', methods=['GET', 'POST'])
 def course_information(cid):
     print(str(cid))
-    c = Course.query.filter(Course.cid==cid).first()
-    return render_template("MessageArrange/course-information.html", course = c)
+    c = Course.query.filter(Course.cid == cid).first()
+    return render_template("MessageArrange/course-information.html", course=c)
+
 
 @bp.route('/course-search.html', methods=['GET', 'POST'])
 def course_search():
     c = Course.query.all()
     return render_template("MessageArrange/course-search.html", courses=c)
+
 
 @bp.route('EditCourse', methods=['GET', 'POST'])
 def EditCourse():
@@ -127,7 +135,7 @@ def EditCourse():
     capacity = request.form.get('capacity')
     error = None
 
-    if name == '' :
+    if name == '':
         error = '未输入课程名'
     elif time == '':
         error = '未输入上课时间'
@@ -163,6 +171,7 @@ def EditCourse():
     c = Course.query.all()
     return render_template("MessageArrange/course-search.html", courses=c)
 
+
 @bp.route('EditUser', methods=['GET', 'POST'])
 def EditUser():
     uid = request.form.get('uid')
@@ -172,7 +181,7 @@ def EditUser():
     status = request.form.get('status')
     error = None
 
-    if uid == '' :
+    if uid == '':
         error = '未输入学工号'
     elif name == '':
         error = '未输入姓名'
@@ -199,6 +208,7 @@ def EditUser():
     u = User.query.all()
     return render_template("MessageArrange/user-search.html", users=u)
 
+
 @bp.route('/course-delete/<cid>', methods=['GET', 'POST'])
 def DeleteCourse(cid):
     delete_course = Course.query.filter(Course.cid == cid).first()
@@ -211,6 +221,7 @@ def DeleteCourse(cid):
     return redirect(url_for("messagearrange.course_search"))
     # return render_template("course-search.html", courses=c)
 
+
 @bp.route('/user-delete/<uid>', methods=['GET', 'POST'])
 def DeleteUser(uid):
     delete_user = User.query.filter(User.uid == uid).first()
@@ -220,6 +231,7 @@ def DeleteUser(uid):
     flash('成功删除')
     return redirect(url_for("messagearrange.user_search"))
     # return render_template("course-search.html", courses=c)
+
 
 @bp.route('/AddCourse', methods=['GET', 'POST'])
 def AddCourse():
@@ -268,9 +280,10 @@ def AddCourse():
 
 @bp.route('/user-search.html', methods=['GET', 'POST'])
 def user_search():
-    #u = [User('1','2','3','4','5'), User('5','4','3','2','1')]
+    # u = [User('1','2','3','4','5'), User('5','4','3','2','1')]
     u = User.query.all()
     return render_template("MessageArrange/user-search.html", users=u)
+
 
 @bp.route('/AddUser', methods=['GET', 'POST'])
 def AddUser():
@@ -294,7 +307,7 @@ def AddUser():
         error = "年龄不能小于0"
     else:
         db = get_db()
-        NewUser = User(uid=uid, name=name, age=age, sex=sex,status=status, password='123456')
+        NewUser = User(uid=uid, name=name, age=age, sex=sex, status=status, password='123456')
         db.session.add(NewUser)
         db.session.commit()
     u = User.query.all()
@@ -313,6 +326,7 @@ def SubmitPhoto():
     file_path = basedir + "\\static\\assets\\images\\lg\\" + str(u.uid) + '.jpg'
     photo.save(file_path)
     return render_template("MessageArrange/personal-center.html", user=u)
+
 
 '''
 @app.route('/')

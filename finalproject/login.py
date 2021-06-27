@@ -66,8 +66,8 @@ bp = Blueprint('login', __name__)
 
 @bp.route('/index')
 def hello_world():
-    return render_template('sidebar.html')
-
+    u = User.query.filter((User.uid) == (current_user.uid)).first()
+    return render_template("MessageArrange/personal-center.html", user=u)
 
 # 主体的登陆界面
 
