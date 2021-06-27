@@ -869,7 +869,7 @@ def TeacherCourse():
         print(str(teacher.teacher_id).zfill(5))
         courses = TermCourse.query.filter(TermCourse.teacher_id == str(teacher.teacher_id).zfill(5)).all()
         print(courses)
-        applications = ModifyApplication.query.filter_by(teacher_id=teacher.teacher_id).all()
+        applications = ModifyApplication.query.filter_by(teacher_id=teacher.teacher_id).order_by(ModifyApplication.id.desc()).all()
         for c in courses:
             for i in [0, 7]:
                 if (c.time[i] == '0'):
@@ -960,7 +960,7 @@ def prints():
         flash(error)
     else:
         teacher = Teacher.query.filter(Teacher.teacher_name == request.args.get('name')).first()
-        courses = TermCourse.query.filter(TermCourse.teacher_id == str(teacher.teacher_id).zfill(14)).all()
+        courses = TermCourse.query.filter(TermCourse.teacher_id == str(teacher.teacher_id).zfill(5)).all()
         for c in courses:
             for i in [0, 7]:
                 if (c.time[i] == '0'):
@@ -991,7 +991,7 @@ def printtable():
             tmp.append(" ")
         a.append(tmp)
     b = [1, 2, 4, 6, 7]  # 221 212 21
-    application = ModifyApplication.query.filter_by().all()
+    application = ModifyApplication.query.filter_by().order_by(ModifyApplication.id.desc()).all()
     error = None
     # if not g.name:
     if not current_user.uid:
@@ -999,7 +999,7 @@ def printtable():
         flash(error)
     else:
         try:
-            teacher = Teacher.query.filter(Teacher.teacher_id == current_user.uid).first()
+            teacher = Teacher.query.filter(Teacher.teacher_id == current_user.uid ).first()
             # teacher = Teacher.query.filter(Teacher.teacher_name == request.args.get('name')).first()
             courses = TermCourse.query.filter(TermCourse.teacher_id == teacher.teacher_id).all()
         except:
