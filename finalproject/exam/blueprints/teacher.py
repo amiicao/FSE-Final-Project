@@ -145,10 +145,18 @@ def show_exam(paper_id):
     exam = Paper.query.filter_by(paper_id=paper_id).first()
     return render_template('Exam/teacher/show_exam.html', exam=exam)
 
+@teacher_bp.route('/show_stu_exam/<int:paper_id>/<int:stu_id>', methods=['GET', 'POST'])
+def show_stu_exam(paper_id, stu_id):
+    if not current_user.is_authenticated:
+        return redirect('/')
+    if current_user.status not in ['教师', '管理员']:
+        return redirect(url_for('exam.view_exam.home'))
+    exam = Paper.query.filter_by(paper_id=paper_id).first()
+    if current_user.status == '教师' and exam.teacher_id != current_user.uid:  # 该试卷并非该老师发布的
+        return redirect(url_for('exam.teacher.home'))
 
-
-
-
-
+    problems = exam.problems
+    anspaper = Anspaper.query.filter_by(paper_id=paper_id, student_id=stu_id).first()
+    return render_template('Exam/teacher/stu_exam_view.html', exam=exam, problems=problems, answerpaper=anspaper)
 
 
