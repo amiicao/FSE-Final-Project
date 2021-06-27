@@ -16,6 +16,7 @@ manage_exam_bp = Blueprint('manage_exam', __name__)
 
 @manage_exam_bp.route('/gen_exam_home', methods=['GET', 'POST'])
 def home():
+    print(current_user.uid)
     chosen_proid = [0, 0]  # 保证传入的是列表
     class_id = 0
     print(chosen_proid)
@@ -24,6 +25,7 @@ def home():
 
 @manage_exam_bp.route('/problem_add/<chosen_proid>/<class_id>', methods=['GET', 'POST'])
 def exam_search_add(chosen_proid,class_id):
+    subjects_show = Course.query.filter(Course.teacher_id == current_user.uid).all();
     chosen_proid = ast.literal_eval(chosen_proid)
     problems = Problem.query.filter(~Problem.problem_id.in_(chosen_proid)).all()
     if request.method == 'POST':
@@ -40,6 +42,9 @@ def exam_search_add(chosen_proid,class_id):
 
 @manage_exam_bp.route('/added_paper/<chosen_proid>/<class_id>', methods=['GET', 'POST'])
 def paper_has_pro(chosen_proid, class_id):
+    subjects_show = Course.query.filter(Course.teacher_id == current_user.uid).all()
+    if not current_user.is_authenticated:
+        return redirect('/')
     print(class_id)
     print(chosen_proid)
     print(class_id)
@@ -77,7 +82,7 @@ def paper_has_pro(chosen_proid, class_id):
                     while Paper.query.filter(Paper.paper_id == id).first() is not None:
                         id = fake.pyint()
                     paper = Paper(name=name, paper_id=id, subject=subject, strt_t=start_time,
-                                  end_t=end_time, teacher_id=0
+                                  end_t=end_time, teacher_id=current_user.uid, to_class=class_id
                                   )
                     for problem in problems:
                         paper.problems.append(problem)
@@ -91,6 +96,8 @@ def paper_has_pro(chosen_proid, class_id):
                     flash('请添加题目')
                 elif len(name) == 0 or len(subject) == 0 or len(start_date) == 0 or len(end_date) == 0:
                     flash('请填入完整信息')
+                elif class_id == 0:
+                    flash('请选择班级')
                 else:
                     flash('测试结束时间必须晚于开始时间')
                 return redirect(url_for('exam.manage_exam.paper_has_pro', chosen_proid=chosen_proid,class_id=class_id))
@@ -124,10 +131,13 @@ def paper_has_pro(chosen_proid, class_id):
             for problem in problems:
                 name = problem.problem_id
                 if request.form.get(str(name)):
-                    chosen_proid.remove(str(problem.problem_id))
+                    if problem.problem_id in chosen_proid:
+                        chosen_proid.remove(str(problem.problem_id))
+                    else:
+                        chosen_proid.remove(problem.problem_id)
                     break
             return redirect(url_for('exam.manage_exam.paper_has_pro', chosen_proid=chosen_proid, class_id=class_id))
-    return render_template('Exam/exam_view/gen_exam.html', tags=tags, chosen_proid=chosen_proid, problems=problems,class_id=class_id)
+    return render_template('Exam/exam_view/gen_exam.html', tags=tags, chosen_proid=chosen_proid, problems=problems,class_id=class_id,subjects=subjects_show)
 
 
 @manage_exam_bp.route('/add_class/<chosen_proid>', methods=['GET', 'POST'])
@@ -135,7 +145,7 @@ def add_class(chosen_proid):
     if not current_user.is_authenticated:
         return redirect('/')
     classes = Course.query.filter(Course.teacher_id == current_user.uid) # 课程教师id应等于此用户的id
-    classes = Course.query.all()  # 测试用
+    # classes = Course.query.all()  # 测试用
     if request.method == 'POST':
         for class_ in classes:
             if request.form.get(str(class_.cid)):

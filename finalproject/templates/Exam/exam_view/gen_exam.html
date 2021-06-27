@@ -74,11 +74,9 @@
                                     <td tabindex="0" class="sorting_1" style="">
 <!--                                        subject 根据课程选择子系统来显示-->
                                         <select class="form-select" aria-label="Default select Project Category" name="subject">
-                                            <option selected="">数据结构</option>
-                                            <option value="1">数据库系统</option>
-                                            <option value="2">面向对象程序设计</option>
-                                            <option value="3">Java</option>
-                                            <option value="4">C++</option>
+                                            {% for subject in subjects %}
+                                            <option value="subject.cid">{{subject.name}}</option>
+                                            {% endfor %}
                                         </select>
                                     </td>
                                     <td>
