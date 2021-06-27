@@ -90,14 +90,20 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="exampleFormControlInput11111" class="form-label">申请事项</label>
-                            <input type="text" class="form-control" name="classname" value='{{ application[0].content }}' readonly = true>
+                            {% if applications %}
+                            {% for application in applications %}
+                                <input type="text" class="form-control" name="classname" value='{{ application.content }}' readonly = true>
+                            {% endfor %}
+                            {% else %}
+                                <input type="text" class="form-control" name="classname" value='没有请求' readonly = true>
+                            {% endif %}
                         </div>
 
                         <div class="mb-3">
                             <label for="exampleFormControlInput11111" class="form-label">申请状态</label>
-                            {% if application[0].statecode == 0 %}
+                            {% if applications[0].statecode == 0 %}
                                <input type="text" class="form-control" name="staus" value="未处理" readonly = true>
-                            {% elif  application[0].statecode == 1%}
+                            {% elif  applications[0].statecode == 1%}
                                <input type="text" class="form-control" name="staus" value="已通过" readonly = true>
                             {% else %}
                                <input type="text" class="form-control" name="staus" value="未通过" readonly = true>

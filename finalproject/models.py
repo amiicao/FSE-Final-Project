@@ -9,37 +9,11 @@ from sqlalchemy.orm import relationship
 from database import db
 
 
-#
-# class User(db.Model):
-#     __tablename__ = 'user'
-#     uid = db.Column(db.Integer,primary_key = True)
-#     name = db.Column(db.String(45))
-#     sex = db.Column(db.String(25))
-#     age = db.Column(db.Integer)
-#     status = db.Column(db.String(45))
-#     def __repr__(self):
-#         return '<user>{}:{}:{}:{}:{}'.format(self.uid,self.name,self.sex,self.age,self.status)
-#
-# class Course(db.Model):
-#     __tablename__ = 'course'
-#     cid = db.Column(db.Integer, primary_key = True)
-#     name = db.Column(db.String(45))
-#     credit = db.Column(db.Integer)
-#     capacity = db.Column(db.Integer)
-#     instructor = db.Column(db.String(45))
-#     type = db.Column(db.String(20))
-#     time = db.Column(db.String(45))
-#     classroom = db.Column(db.String(45))
-#     description = db.Column(db.String(255))
-#     def __repr__(self):
-#         return '<course>{}:{}:{}:{}:{}:{}:{}:{}:{}'.format(self.cid, self.name, self.credit, self.capacity, self.instructor,self.type, self.time, self.classroom, self.description)
-
-
 class Teacher(db.Model):
     __bind_key__ = 'course_arrangement_system'
     __tablename__ = 'teacherinclassarrange'
     teacher_name = db.Column(db.String(45))
-    teacher_id = db.Column(db.String(10), primary_key=True)
+    teacher_id = db.Column(db.Integer,db.ForeignKey('user.uid',ondelete='CASCADE'),primary_key=True)
 
     def __repr__(self):
         return '<teacher>{}:{}'.format(self.teacher_name, self.teacher_id)
@@ -59,20 +33,6 @@ class TermCourse(db.Model):
                                                  self.time, self.credit)
 
 
-#
-# class TermCourse(db.Model):
-#     __tablename__ = 'term_course'
-#     course_id = db.Column(db.String(45))
-#     teacher_id = db.Column(db.String(45), primary_key=True)
-#     teacher_name = db.Column(db.String(45))
-#     time_code = db.Column(db.String(10), primary_key=True)
-#     room_code = db.Column(db.String(6))
-#
-#     def __repr__(self):
-#         return '<term_course>{}:{}:{}:{}:{}:{}'.format(self.course_id, self.teacher_id, self.teacher_name,
-#                                                        self.time_code, self.room_code)
-
-
 class Classroom(db.Model):
     __bind_key__ = 'course_arrangement_system'
     __tablename__ = 'edu_resource'
@@ -89,14 +49,14 @@ class Classroom(db.Model):
 class ModifyApplication(db.Model):
     __bind_key__ = 'course_arrangement_system'
     __tablename__ = 'modifyapplication'
-    teacher_id = db.Column(db.String(45), primary_key=True)
+    teacher_id = db.Column(db.Integer,db.ForeignKey('teacherinclassarrange.teacher_id',ondelete='CASCADE'), primary_key=True)
     content = db.Column(db.UnicodeText, primary_key=True)
     # 0:未处理 1：处理完成 2：被拒绝
     statecode = db.Column(db.SMALLINT)
     handler = db.Column(db.String(45))
 
     def __repr__(self):
-        return '<application>{}:{}:{}:{}'.format(self.teacher_id, self.content, self.is_processed, self.handler)
+        return '<application>{}:{}:{}:{}'.format(self.teacher_id, self.content, self.statecode, self.handler)
 
 
 # class User(db.Model):
@@ -233,7 +193,7 @@ class Paper(db.Model):
     subject = db.Column(db.String(40), nullable=False)
     strt_t = db.Column(db.DateTime, default=datetime.now, nullable=False)
     end_t = db.Column(db.DateTime, nullable=False)
-    end = db.Column(db.Boolean,  default=False)  # 是否已经结束
+    end = db.Column(db.Boolean, default=False)  # 是否已经结束
     score = db.Column(db.Float, default=-1)  # 平均分
     anlsflag = db.Column(db.Boolean, default=False)  # 是否已经分析
     problems = db.relationship('Problem',
@@ -243,6 +203,7 @@ class Paper(db.Model):
     probanls = db.relationship('ProbAnalysis')
     to_class = db.Column(db.Integer, db.ForeignKey('course.cid', ondelete='CASCADE'), nullable=True)
     teacher_id = db.Column(db.Integer, db.ForeignKey('teacherinclassarrange.teacher_id'), nullable=True)
+
 
 class Resource(db.Model):
     __tablename__ = 'resource'
@@ -294,7 +255,7 @@ class Homework(db.Model):  # not sure if it should be db.Model
 
 class StudentHomework(db.Model):
     __tablename__ = 'stu_homework'
-    stu_id = db.Column(db.String(10), primary_key=True)   #  db.ForeignKey(student.id)
+    stu_id = db.Column(db.String(10), primary_key=True)  # db.ForeignKey(student.id)
     hm_seq = db.Column(db.String(10), primary_key=True)
 
     def __repr__(self):

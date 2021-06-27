@@ -351,7 +351,7 @@ def application():
 #     return render_template('teachermain.html')
 @bp.route('/teacher_schedule', methods=['POST', 'GET'])
 def teacher_schedule():
-    application = ModifyApplication.query.filter_by(teacher_id="00001")
+    application = ModifyApplication.query.filter_by(teacher_id=current_user.id)
     return render_template('ClassArrange/teacher_schedule.html', application=application)
 
 
@@ -830,19 +830,17 @@ def TeacherCourse():
             tmp.append(" ")
         a.append(tmp)
     b = [1, 2, 4, 6, 7]  # 221 212 21
-    try:
-        teacher = Teacher.query.filter(Teacher.teacher_name == request.args.get('name')).first()
-        application = ModifyApplication.query.filter_by(teacher_id=teacher.teacher_id)
-    except:
-        pass
+    teacher = Teacher.query.filter(Teacher.teacher_name == request.args.get('name')).first()
+    print(teacher)
+    if not teacher:
+        teacher = Teacher.query.filter(Teacher.teacher_id == current_user.uid).first()
 
+    applications = ModifyApplication.query.filter_by(teacher_id=teacher.teacher_id)
+    name = teacher.teacher_name
     error = None
-    if not request.args.get('name'):
-        error = 'name is required'
-        flash(error)
-    else:
-        teacher = Teacher.query.filter(Teacher.teacher_name == request.args.get('name')).first()
-        courses = TermCourse.query.filter(TermCourse.teacher_id == teacher.teacher_id).all()
+    if teacher:
+        # teacher = Teacher.query.filter(Teacher.teacher_name == request.args.get('name')).first()
+        courses = TermCourse.query.filter(TermCourse.teacher_id == str(teacher.teacher_id).zfill(14)).all()
         for c in courses:
             for i in [0, 7]:
                 if (c.time[i] == '0'):
@@ -855,8 +853,7 @@ def TeacherCourse():
                     # if(c.time[i+3]=='3'):
                     #     a[b[int(c.time[i + 1])]+1][int(c.time[i + 2])] = c.course_name
         print(a)
-    print(application[0].content)
-    return render_template('ClassArrange/teachermain.html', Courses=a, application=application)
+    return render_template('ClassArrange/teachermain.html', Courses=a, applications=applications)
 
 
 @bp.route('/submitapply', methods=['POST', 'GET'])
@@ -865,7 +862,7 @@ def submitapply():
     if request.method == 'POST':
         error = None
         # *********************************这里要用教师名！！！！*****************************************#
-        teacher_id = '叶德仕'
+        teacher_id = current_user.uid
         # *********************************这里要用教师名！！！！*****************************************#
 
         content = request.form['content']
@@ -882,7 +879,7 @@ def submitapply():
             db.session.commit()
             error = "提交申请成功"
         flash(error)
-    return redirect(url_for('classarrange.application'))
+    return redirect(url_for('classarrange.TeacherCourse'))
 
 
 @bp.route('/processapplication', methods=['POST', 'GET'])
@@ -935,7 +932,7 @@ def prints():
         flash(error)
     else:
         teacher = Teacher.query.filter(Teacher.teacher_name == request.args.get('name')).first()
-        courses = TermCourse.query.filter(TermCourse.teacher_id == teacher.teacher_id).all()
+        courses = TermCourse.query.filter(TermCourse.teacher_id == str(teacher.teacher_id).zfill(14)).all()
         for c in courses:
             for i in [0, 7]:
                 if (c.time[i] == '0'):
