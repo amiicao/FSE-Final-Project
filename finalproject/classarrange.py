@@ -860,8 +860,8 @@ def TeacherCourse():
     print(teacher)
     if not teacher:
         teacher = Teacher.query.filter(Teacher.teacher_id == current_user.uid).first()
+        applications = ModifyApplication.query.filter_by(teacher_id=teacher.teacher_id).all()
 
-    applications = ModifyApplication.query.filter_by(teacher_id=teacher.teacher_id)
     name = teacher.teacher_name
     error = None
     if teacher:
@@ -879,6 +879,8 @@ def TeacherCourse():
                     # if(c.time[i+3]=='3'):
                     #     a[b[int(c.time[i + 1])]+1][int(c.time[i + 2])] = c.course_name
         print(a)
+        print('aaaa')
+        print(applications)
     return render_template('ClassArrange/teachermain.html', Courses=a, applications=applications)
 
 
