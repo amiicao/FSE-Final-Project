@@ -16,6 +16,8 @@ manage_exam_bp = Blueprint('manage_exam', __name__)
 
 @manage_exam_bp.route('/gen_exam_home', methods=['GET', 'POST'])
 def home():
+    if not current_user.is_authenticated:
+        return redirect('/')
     print(current_user.uid)
     chosen_proid = [0, 0]  # 保证传入的是列表
     class_id = 0
@@ -25,6 +27,8 @@ def home():
 
 @manage_exam_bp.route('/problem_add/<chosen_proid>/<class_id>', methods=['GET', 'POST'])
 def exam_search_add(chosen_proid, class_id):
+    if not current_user.is_authenticated:
+        return redirect('/')
     subjects_show = Course.query.filter(Course.teacher_id == current_user.uid).all();
     chosen_proid = ast.literal_eval(chosen_proid)
     problems = Problem.query.filter(~Problem.problem_id.in_(chosen_proid)).all()
