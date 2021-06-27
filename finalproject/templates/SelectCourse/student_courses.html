@@ -78,36 +78,32 @@
                                         <td>{{ course.cid }}</td>
                                         <td>{{ course.name }}</td>
                                         <td>
-                                            {{ days[course.time[4]] }}
-
-                                            {% if course.time[5].isalpha() %}
-                                                {{ time[course.time[5].upper()] }}
-                                            {% else %}
-                                                {{ course.time[5] }}
-                                            {% endif %}
-                                            ~
-                                            {% if course.time[6].isalpha() %}
-                                                {{ time[course.time[6].upper()] }}
-                                            {% else %}
-                                                {{ course.time[6] }}
-                                            {% endif %}
-
-                                            {% if course.time[4:7] != course.time[7:] %}
-                                                {{ days[course.time[7]] }}
-
-                                                {% if course.time[8].isalpha() %}
-                                                    {{ time[course.time[8].upper()] }}
-                                                {% else %}
-                                                    {{ course.time[8] }}
-                                                {% endif %}
-                                                ~
-                                                {% if course.time[9].isalpha() %}
-                                                    {{ time[course.time[9].upper()] }}
-                                                {% else %}
-                                                    {{ course.time[9] }}
-                                                {% endif %}
-
-                                            {% endif %}
+                                            {{ days[course.time[1]] }}
+                                                    {% if course.time[2] == "1" %}
+                                                        1 ~ 2
+                                                    {% elif course.time[2] == "2" %}
+                                                        3 ~ 5
+                                                    {% elif course.time[2] == "3" %}
+                                                        6 ~ 8
+                                                    {% elif course.time[2] == "4" %}
+                                                        9 ~ 10
+                                                    {% else %}
+                                                        11 ~ 13
+                                                    {% endif %}
+                                                    {% if course.time[7] != "0" %}
+                                                        {{ days[course.time[8]] }}
+                                                        {% if course.time[9] == "1" %}
+                                                            1 ~ 2
+                                                        {% elif course.time[9] == "2" %}
+                                                            3 ~ 5
+                                                        {% elif course.time[9] == "3" %}
+                                                            6 ~ 8
+                                                        {% elif course.time[9] == "4" %}
+                                                            9 ~ 10
+                                                        {% else %}
+                                                            11 ~ 13
+                                                        {% endif %}
+                                                    {% endif %}
                                         </td>
                                         <td>
                                             {{ course.curr_capacity }}
@@ -115,7 +111,7 @@
                                             {{ course.capacity }}
                                         </td>
                                         <td class="text-center">
-                                            <a style = "color: #FFFFFF" class="btn btn-danger"  href="{{ url_for('selectcourse.del_course2',course_id=course.id) }}">退课</a>
+                                            <a style = "color: #FFFFFF" class="btn btn-danger"  href="{{ url_for('selectcourse.del_course2',course_id=course.cid) }}">退课</a>
                                         </td>
                                     </tr>
                                 {% endfor %}

@@ -55,7 +55,6 @@
 
                                         <button type="submit">搜索</button>
                                     </form>
-                                    {% if courses %}
                                     <table id="myProjectTable" class="table table-hover align-middle mb-0" style="width:100%">
                                         <thead>
                                             <tr>
@@ -70,41 +69,38 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                    {% if courses %}
                                         {% for course in courses %}
                                             <tr>
                                                 <td><span class="fw-bold ms-1">{{ course.cid }}</span></td>
                                                 <td><span class="fw-bold ms-1">{{ course.name }}</span></td>
                                                 <td>{{ course.teacher_id }}</td>
                                                 <td>
-                                                    {{ days[course.time[4]] }}
-                        
-                                                    {% if course.time[5].isalpha() %}
-                                                        {{ time[course.time[5].upper()] }}
+                                                    {{ days[course.time[1]] }}
+                                                    {% if course.time[2] == "1" %}
+                                                        1 ~ 2
+                                                    {% elif course.time[2] == "2" %}
+                                                        3 ~ 5
+                                                    {% elif course.time[2] == "3" %}
+                                                        6 ~ 8
+                                                    {% elif course.time[2] == "4" %}
+                                                        9 ~ 10
                                                     {% else %}
-                                                        {{ course.time[5] }}
+                                                        11 ~ 13
                                                     {% endif %}
-                                                    ~
-                                                    {% if course.time[6].isalpha() %}
-                                                        {{ time[course.time[6].upper()] }}
-                                                    {% else %}
-                                                        {{ course.time[6] }}
-                                                    {% endif %}
-                        
-                                                    {% if course.time[4:7] != course.time[7:] %}
-                                                        {{ days[course.time[7]] }}
-                        
-                                                        {% if course.time[8].isalpha() %}
-                                                            {{ time[course.time[8].upper()] }}
+                                                    {% if course.time[7] != "0" %}
+                                                        {{ days[course.time[8]] }}
+                                                        {% if course.time[9] == "1" %}
+                                                            1 ~ 2
+                                                        {% elif course.time[9] == "2" %}
+                                                            3 ~ 5
+                                                        {% elif course.time[9] == "3" %}
+                                                            6 ~ 8
+                                                        {% elif course.time[9] == "4" %}
+                                                            9 ~ 10
                                                         {% else %}
-                                                            {{ course.time[8] }}
+                                                            11 ~ 13
                                                         {% endif %}
-                                                        ~
-                                                        {% if course.time[9].isalpha() %}
-                                                            {{ time[course.time[9].upper()] }}
-                                                        {% else %}
-                                                            {{ course.time[9] }}
-                                                        {% endif %}
-                        
                                                     {% endif %}
                                                 </td>
                                                 <td>

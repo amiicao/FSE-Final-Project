@@ -373,13 +373,13 @@ def del_course2(course_id):
 
     if currDatetime < SelCourseStart or currDatetime > SelCourseEnd:  # 不是选课时间
         flash("现在不是选课时间")
-        return redirect(url_for('selectcourse.inquiry_courses'))
+        return redirect(url_for('selectcourse.mycurriculum'))
     tempStu = Student.query.get(student_id)
     tempCourse = Course.query.get(course_id)
 
     if tempStu == None:  # 学生不存在
         flash("学生不存在")
-        return redirect(url_for('selectcourse.inquiry_courses'))
+        return redirect(url_for('selectcourse.mycurriculum'))
 
     # 进行退课
     tempCourse.students.remove(tempStu)
