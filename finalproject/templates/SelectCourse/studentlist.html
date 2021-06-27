@@ -61,6 +61,7 @@
                                                          </tr>
                                                     </thead>
                                                     <tbody>
+                                                        {% if students %}
                                                         {% for student in students %}
                                                         <tr>
                                                             <td>{{ student.id }}</td>
@@ -68,6 +69,11 @@
                                                             <td>{{ student.gender }}</td>
                                                         </tr>
                                                         {% endfor %}
+                                                        {% else %}
+                                                        <tr>
+                                                             <td colspan="7">当前没有任何内容</td>
+                                                        </tr>
+                                                        {% endif %}
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -90,6 +96,7 @@
                                                          </tr>
                                                     </thead>
                                                     <tbody>
+                                                    {% if astudents %}
                                                         {% for astudent in astudents %}
                                                         <tr>
                                                             <td>{{ astudent.id }}</td>
@@ -101,6 +108,11 @@
                                                             </td>
                                                         </tr>
                                                         {% endfor %}
+                                                    {% else %}
+                                                        <tr>
+                                                             <td colspan="7">当前没有任何内容</td>
+                                                        </tr>
+                                                    {% endif %}
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -123,6 +135,7 @@
                                                          </tr>
                                                     </thead>
                                                     <tbody>
+                                                    {% if students %}
                                                         {% for student in students %}
                                                         <tr>
                                                             <td>{{ student.id }}</td>
@@ -130,6 +143,11 @@
                                                             <td>{{ student.gender }}</td>
                                                         </tr>
                                                         {% endfor %}
+                                                    {% else %}
+                                                        <tr>
+                                                             <td colspan="7">当前没有任何内容</td>
+                                                        </tr>
+                                                    {% endif %}
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -152,6 +170,7 @@
                                                          </tr>
                                                     </thead>
                                                     <tbody>
+                                                    {% if astudents %}
                                                         {% for astudent in astudents %}
                                                         <tr>
                                                             <td>{{ astudent.id }}</td>
@@ -163,6 +182,11 @@
                                                             </td>
                                                         </tr>
                                                         {% endfor %}
+                                                        {% else %}
+                                                        <tr>
+                                                             <td colspan="7">当前没有任何内容</td>
+                                                        </tr>
+                                                    {% endif %}
                                                     </tbody>
                                                 </table>
                                             </div>
