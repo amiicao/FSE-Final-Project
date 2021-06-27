@@ -866,7 +866,9 @@ def TeacherCourse():
     error = None
     if teacher:
         # teacher = Teacher.query.filter(Teacher.teacher_name == request.args.get('name')).first()
-        courses = TermCourse.query.filter(TermCourse.teacher_id == str(teacher.teacher_id).zfill(14)).all()
+        print(str(teacher.teacher_id).zfill(5))
+        courses = TermCourse.query.filter(TermCourse.teacher_id == str(teacher.teacher_id).zfill(5)).all()
+        print(courses)
         applications = ModifyApplication.query.filter_by(teacher_id=teacher.teacher_id).all()
         for c in courses:
             for i in [0, 7]:
