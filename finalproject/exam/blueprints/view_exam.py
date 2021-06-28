@@ -25,7 +25,8 @@ def home():
         else:
             sql +=" or to_class="+str(course.cid)
     exams = Paper.query.filter(text(sql)).all()
-    return render_template('Exam/exam/view_exam.html', exams=exams, time=dt1)
+    who = current_user.uid
+    return render_template('Exam/exam/view_exam.html', exams=exams, time=dt1, who=who)
 
 
 # 0 表示考试未开始， 1 表示考试已结束， 2 表示考试可以开始， 3 表示考试已结束

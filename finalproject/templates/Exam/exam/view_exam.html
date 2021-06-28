@@ -51,10 +51,10 @@
                                                                 <p class="mb-1">未开始</p>
                                                             {% elif time.time() > time.mktime(exam.end_t.timetuple())%}
                                                                 <p class="mb-1">已结束</p>
-                                                                {% if exam.anspapers.filter_by(student_id=1).first() is none %}
+                                                                {% if exam.anspapers.filter_by(student_id=who).first() is none %}
                                                                 <span class="text-muted">得分：0</span>
                                                                 {% else %}
-                                                                <span class="text-muted">得分：{{ exam.anspapers.filter_by(student_id=1).first().score_all }}</span>
+                                                                <span class="text-muted">得分：{{ exam.anspapers.filter_by(student_id=who).first().score_all }}</span>
                                                                 {% endif %}    
                                                             {% else %}
                                                                 <p class="mb-1">正在进行</p>
@@ -129,10 +129,10 @@
                                                         </a>
                                                         <div class="text-end d-none d-md-block">
                                                             <p class="mb-1">已结束</p>
-                                                            {% if exam.anspapers.filter_by(student_id=1).first() is none %}
+                                                            {% if exam.anspapers.filter_by(student_id=who).first() is none %}
                                                                 <span class="text-muted">得分：0</span>
                                                             {% else %}
-                                                                <span class="text-muted">得分：{{ exam.anspapers.filter_by(student_id=1).first().score_all }}</span>
+                                                                <span class="text-muted">得分：{{ exam.anspapers.filter_by(student_id=who).first().score_all }}</span>
                                                             {% endif %}
                                                         </div>
                                                     </div>
