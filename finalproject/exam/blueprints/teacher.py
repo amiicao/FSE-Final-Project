@@ -95,42 +95,51 @@ def show_exam(paper_id):
             d_count = 0
             if problem.type == 0:
                 for answerpaper in answerpapers:
-                    answer = answerpaper.Answers.filter_by(problem_id=problem.problem_id).first().answer
-                    totalscore += answerpaper.Answers.filter_by(problem_id=problem.problem_id).first().score
-                    if answer == "T":
-                        t_count += 1
-                    elif answer == "F":
-                        f_count += 1
-                    else:
+                    if answerpaper.Answers.filter_by(problem_id=problem.problem_id).first() is None:
                         null_count += 1
+                    else:
+                        answer = answerpaper.Answers.filter_by(problem_id=problem.problem_id).first().answer
+                        totalscore += answerpaper.Answers.filter_by(problem_id=problem.problem_id).first().score
+                        if answer == "T":
+                            t_count += 1
+                        elif answer == "F":
+                            f_count += 1
+                        else:
+                            null_count += 1
             elif problem.type == 1:
                 for answerpaper in answerpapers:
-                    answer = answerpaper.Answers.filter_by(problem_id=problem.problem_id).first().answer
-                    totalscore += answerpaper.Answers.filter_by(problem_id=problem.problem_id).first().score
-                    if answer == "A":
-                        a_count += 1
-                    elif answer == "B":
-                        b_count += 1
-                    elif answer == "C":
-                        c_count += 1
-                    elif answer == "D":
-                        d_count += 1
-                    else:
+                    if answerpaper.Answers.filter_by(problem_id=problem.problem_id).first() is None:
                         null_count += 1
+                    else:
+                        answer = answerpaper.Answers.filter_by(problem_id=problem.problem_id).first().answer
+                        totalscore += answerpaper.Answers.filter_by(problem_id=problem.problem_id).first().score
+                        if answer == "A":
+                            a_count += 1
+                        elif answer == "B":
+                            b_count += 1
+                        elif answer == "C":
+                            c_count += 1
+                        elif answer == "D":
+                            d_count += 1
+                        else:
+                            null_count += 1
             else:
                 for answerpaper in answerpapers:
-                    answer = answerpaper.Answers.filter_by(problem_id = problem.problem_id).first().answer
-                    totalscore += answerpaper.Answers.filter_by(problem_id=problem.problem_id).first().score
-                    if answer.find('A'):
-                        a_count += 1
-                    if answer.find('B'):
-                        b_count += 1
-                    if answer.find('C'):
-                        c_count += 1
-                    if answer.find('D'):
-                        d_count += 1
-                    if len(answer) == 0:
+                    if answerpaper.Answers.filter_by(problem_id=problem.problem_id).first() is None:
                         null_count += 1
+                    else:
+                        answer = answerpaper.Answers.filter_by(problem_id = problem.problem_id).first().answer
+                        totalscore += answerpaper.Answers.filter_by(problem_id=problem.problem_id).first().score
+                        if answer.find('A'):
+                            a_count += 1
+                        if answer.find('B'):
+                            b_count += 1
+                        if answer.find('C'):
+                            c_count += 1
+                        if answer.find('D'):
+                            d_count += 1
+                        if len(answer) == 0:
+                            null_count += 1
             if totalnum == 0:
                 accuracy = 0
             else:

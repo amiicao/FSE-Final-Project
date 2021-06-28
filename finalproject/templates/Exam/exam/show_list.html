@@ -30,6 +30,8 @@
                 <p>
                     {% if answerpaper is none %}
                         <input type="radio" disabled />
+                    {% elif answerpaper.Answers.filter_by(problem_id=problem.problem_id).first() is none %}
+                        <input type="radio" disabled />
                     {% elif answerpaper.Answers.filter_by(problem_id=problem.problem_id).first().answer == 'T' %}
                         <input type="radio" disabled checked />
                     {% else %}
@@ -40,6 +42,8 @@
                 <p style="margin-bottom: 0px">
                     {% if answerpaper is none %}
                         <input type="radio" disabled />
+                    {% elif answerpaper.Answers.filter_by(problem_id=problem.problem_id).first() is none %}
+                        <input type="radio" disabled />
                     {% elif answerpaper.Answers.filter_by(problem_id=problem.problem_id).first().answer == 'F' %}
                         <input type="radio" disabled checked />
                     {% else %}
@@ -48,6 +52,8 @@
                     错误
                 </p></p>
                 {% if answerpaper is none %}
+                    <div class="text-light" style="background-color:#FA5F55;padding:4pt;border-radius:4px;"><p style="margin-bottom: 0px">　未作答，得 0 分<br />　正确答案：{{ problem.solution }}</p></div>
+                {% elif answerpaper.Answers.filter_by(problem_id=problem.problem_id).first() is none %}
                     <div class="text-light" style="background-color:#FA5F55;padding:4pt;border-radius:4px;"><p style="margin-bottom: 0px">　未作答，得 0 分<br />　正确答案：{{ problem.solution }}</p></div>
                 {% elif answerpaper.Answers.filter_by(problem_id=problem.problem_id).first().score != 0 %}
                     <div style="background-color:#eeeeee;padding:4pt;border-radius:4px;"><p style="margin-bottom: 0px">　回答正确，得 1 分</p></div>
@@ -63,6 +69,8 @@
                     <p>
                         {% if answerpaper is none %}
                         <input type="radio" disabled />
+                        {% elif answerpaper.Answers.filter_by(problem_id=problem.problem_id).first() is none %}
+                        <input type="radio" disabled />
                         {% elif answerpaper.Answers.filter_by(problem_id=problem.problem_id).first().answer == 'A' %}
                         <input type="radio" disabled checked />
                         {% else %}
@@ -72,6 +80,8 @@
                     </p>
                     <p>
                         {% if answerpaper is none %}
+                        <input type="radio" disabled />
+                        {% elif answerpaper.Answers.filter_by(problem_id=problem.problem_id).first() is none %}
                         <input type="radio" disabled />
                         {% elif answerpaper.Answers.filter_by(problem_id=problem.problem_id).first().answer == 'B' %}
                         <input type="radio" disabled checked />
@@ -83,6 +93,8 @@
                     <p>
                         {% if answerpaper is none %}
                         <input type="radio" disabled />
+                        {% elif answerpaper.Answers.filter_by(problem_id=problem.problem_id).first() is none %}
+                        <input type="radio" disabled />
                         {% elif answerpaper.Answers.filter_by(problem_id=problem.problem_id).first().answer == 'C' %}
                         <input type="radio" disabled checked />
                         {% else %}
@@ -93,6 +105,8 @@
                     <p >
                         {% if answerpaper is none %}
                         <input type="radio" disabled />
+                        {% elif answerpaper.Answers.filter_by(problem_id=problem.problem_id).first() is none %}
+                        <input type="radio" disabled />
                         {% elif answerpaper.Answers.filter_by(problem_id=problem.problem_id).first().answer == 'D' %}
                         <input type="radio" disabled checked />
                         {% else %}
@@ -101,6 +115,8 @@
                         D. {{problem.choice_D}}
                     </p>
                     {% if answerpaper is none %}
+                        <div class="text-light" style="background-color:#FA5F55;padding:4pt;border-radius:4px;"><p style="margin-bottom: 0px">　未作答，得 0 分<br />　正确答案：{{ problem.solution }}</p></div>
+                    {% elif answerpaper.Answers.filter_by(problem_id=problem.problem_id).first() is none %}
                         <div class="text-light" style="background-color:#FA5F55;padding:4pt;border-radius:4px;"><p style="margin-bottom: 0px">　未作答，得 0 分<br />　正确答案：{{ problem.solution }}</p></div>
                     {% elif answerpaper.Answers.filter_by(problem_id=problem.problem_id).first().score != 0 %}
                         <div style="background-color:#eee;padding:4pt;border-radius:4px;"><p style="margin-bottom: 0px">　回答正确，得 1 分</p></div>
@@ -115,7 +131,9 @@
                     <p>{{ loop.index }}.<span class="text-muted">[多选]</span>{{problem.text}}<span class="text-muted">(1分)</span></p>
                     <p>
                         {% if answerpaper is none %}
-                        <input type="radio" disabled />
+                        <input type="checkbox" disabled />
+                        {% elif answerpaper.Answers.filter_by(problem_id=problem.problem_id).first() is none %}
+                        <input type="checkbox" disabled />
                         {% elif answerpaper.Answers.filter_by(problem_id=problem.problem_id).first().answer.find('A') %}
                         <input type="checkbox" disabled checked />
                         {% else %}
@@ -125,7 +143,9 @@
                     </p>
                     <p>
                         {% if answerpaper is none %}
-                        <input type="radio" disabled />
+                        <input type="checkbox" disabled />
+                        {% elif answerpaper.Answers.filter_by(problem_id=problem.problem_id).first() is none %}
+                        <input type="checkbox" disabled />
                         {% elif answerpaper.Answers.filter_by(problem_id=problem.problem_id).first().answer.find('B') %}
                         <input type="checkbox" disabled checked />
                         {% else %}
@@ -135,7 +155,9 @@
                     </p>
                     <p>
                         {% if answerpaper is none %}
-                        <input type="radio" disabled />
+                        <input type="checkbox" disabled />
+                        {% elif answerpaper.Answers.filter_by(problem_id=problem.problem_id).first() is none %}
+                        <input type="checkbox" disabled />
                         {% elif answerpaper.Answers.filter_by(problem_id=problem.problem_id).first().answer.find('C') %}
                         <input type="checkbox" disabled checked />
                         {% else %}
@@ -145,7 +167,9 @@
                     </p>
                     <p >
                         {% if answerpaper is none %}
-                        <input type="radio" disabled />
+                        <input type="checkbox" disabled />
+                        {% elif answerpaper.Answers.filter_by(problem_id=problem.problem_id).first() is none %}
+                        <input type="checkbox" disabled />
                         {% elif answerpaper.Answers.filter_by(problem_id=problem.problem_id).first().answer.find('D') %}
                         <input type="checkbox" disabled checked />
                         {% else %}
@@ -155,6 +179,8 @@
                     </p>
                     </p>
                     {% if answerpaper is none %}
+                        <div class="text-light" style="background-color:#FA5F55;padding:4pt;border-radius:4px;"><p style="margin-bottom: 0px">　未作答，得 0 分<br />　正确答案：{{ problem.solution }}</p></div>
+                    {% elif answerpaper.Answers.filter_by(problem_id=problem.problem_id).first() is none %}
                         <div class="text-light" style="background-color:#FA5F55;padding:4pt;border-radius:4px;"><p style="margin-bottom: 0px">　未作答，得 0 分<br />　正确答案：{{ problem.solution }}</p></div>
                     {% elif answerpaper.Answers.filter_by(problem_id=problem.problem_id).first().score != 0 %}
                         <div style="background-color:#eee;padding:4pt;border-radius:4px;"><p style="margin-bottom: 0px">　回答正确，得 1 分</p></div>

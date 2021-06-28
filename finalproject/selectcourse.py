@@ -232,7 +232,7 @@ def sel_course(course_id):
         times = ""
         if course.time[0] == tempCourse.time[0]:
             times = course.time[1:3]
-            if course.time[7:] != "0000000":
+            if course.time[7] != "0":
                 times = times + course.time[8:10]
 
         if tempCourse.time[1:3] in times or tempCourse.time[8:10] in times:
@@ -288,7 +288,7 @@ def BEsel_course(course_id):
         times = ""
         if course.time[0] == tempCourse.time[0]:
             times = course.time[1:3]
-            if course.time[7:] != "0000000":
+            if course.time[7] != "0":
                 times = times + course.time[8:10]
 
         if tempCourse.time[1:3] in times or tempCourse.time[8:10] in times:
