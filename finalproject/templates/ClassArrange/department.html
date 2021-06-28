@@ -303,7 +303,7 @@
                 <div class="modal-body">
 
                     <div class="deadline-form">
-                        <form  id = "add" action = "/autorange" method = "post">
+                        <form  id = "add" action = {{ url_for('classarrange.autoarrange') }} method = "post">
                             <div class="mb-3">
                                  <label for="depone" class="form-label" name="mode">模式选择</label>
                                     <select class="form-select">
