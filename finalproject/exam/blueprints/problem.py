@@ -20,7 +20,7 @@ def home():
     if current_user.status == '教师':
         problems = Problem.query.filter_by(adder=current_user.uid).all()
     else:  # current_user is admin
-        problems = Problem.query.filter_by(adder=current_user.uid).all()
+        problems = Problem.query.all()
     return render_template('Exam/problem/index.html', problems=problems)
 
 
