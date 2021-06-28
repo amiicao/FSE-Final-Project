@@ -99,7 +99,7 @@ def download(filename):
     '''downloads 培养方案
     -(filename needs the filetype ex.Example.pdf)
 '''
-    fullpath = os.path.join(current_app.root_path, current_app.config['UPLOAD_FOLDER'])
+    fullpath = os.path.join(current_app.root_path, '培养方案')
     return send_from_directory(fullpath, filename)
 
 
