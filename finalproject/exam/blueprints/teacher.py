@@ -24,6 +24,19 @@ def home():
         exams = Paper.query.filter_by(teacher_id=current_user.uid).order_by(desc(Paper.end_t)).all()
     else:
         exams = Paper.query.order_by(desc(Paper.end_t)).all()
+    if request.method == 'POST':
+        print("bdhegdbhjwgdjh")
+        for exam in exams:
+            name = exam.paper_id
+            if request.form.get(str(name)):
+                dt2 = time.mktime(exam.strt_t.timetuple())  # 开始时间
+                if dt1.time() < dt2:
+                    db.session.delete(exam)
+                    db.session.commit()
+                else:
+                    flash('考试已开始，无法删除')
+                return redirect(url_for('exam.teacher.home'))
+
     return render_template('Exam/teacher/view_exam.html', exams=exams, time=dt1)
 
 

@@ -67,7 +67,10 @@
                                                             <span>{{ exam.end_t }}</span>
                                                         </div>
                                                         <div class="card-hover-show">
-                                                            <a class="btn btn-sm btn-white border lift" href="{{ url_for('exam.teacher.show_information', paper_id = exam.paper_id) }}">查看考试信息</a>
+                                                            <form method="post">
+                                                                <a class="btn btn-sm btn-white border lift" href="{{ url_for('exam.teacher.show_information', paper_id = exam.paper_id) }}">查看考试信息</a>
+                                                                <input  class="btn btn-sm btn-white border lift" id="delete_pro" type="submit" name="{{ exam.paper_id }}" value="删除">
+                                                            </form>
                                                         </div>
                                                     </div>
                                                 </div>
