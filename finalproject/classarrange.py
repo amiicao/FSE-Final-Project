@@ -274,11 +274,15 @@ def department():
         Teachers = User.query.filter(User.uid == c.teacher_id).first()
         classroom = Classroom.query.filter(Classroom.id == c.time[4:7] and Classroom.status == 0).first()
         # classroom = location[int(c.time[4:7])]
+        print(classroom)
         b.append(c.cid)
         b.append(c.name)
         b.append(Teachers.name)
         b.append(decoder(c.time))
-        b.append(classroom.location)
+        try:
+            b.append(classroom.location)
+        except:
+            pass
         a.append(b)
     return render_template('ClassArrange/department.html', Courses=a)
 
@@ -907,11 +911,10 @@ def TeacherCourse():
     if not teacher:
         teacher = User.query.filter(User.uid == current_user.uid).first()
         applications = ModifyApplication.query.filter_by(teacher_id=teacher.uid).all()
-
+    print(teacher)
     name = teacher.name
     error = None
     if teacher:
-        teacher = User.query.filter(User.name == request.args.get('name')).first()
         #print(str(teacher.teacher_id).zfill(5))
         courses = Course.query.filter(Course.teacher_id == teacher.uid).all()
         print(courses)
@@ -1055,20 +1058,20 @@ def printtable():
                 if (c.time[i] == '0'):
                     break
                 else:
-                    a[b[int(c.time[i + 2]) - 1] - 1][int(c.time[i + 1])] = c.course_name
+                    a[b[int(c.time[i + 2]) - 1] - 1][int(c.time[i + 1])] = c.name
                     if (c.time[i] == '3'):
-                        a[b[int(c.time[i + 2]) - 1]][int(c.time[i + 1])] = c.course_name
+                        a[b[int(c.time[i + 2]) - 1]][int(c.time[i + 1])] = c.name
                     # a[b[int(c.time[i + 1])]][int(c.time[i + 2])] = c.course_name
                     # if(c.time[i+3]=='3'):
                     #     a[b[int(c.time[i + 1])]+1][int(c.time[i + 2])] = c.course_name
         print(a)
         df = pd.DataFrame(a, columns=["time", "周一", "周二", "周三", "周四", "周五"])
         # df.to_csv("ClassSchedule.csv", index=False)
-        df.to_csv(current_user.name + ".csv", index=False)
+        df.to_csv("教师课表.csv", index=False)
         # df.to_csv(g.name + "csv", index=False)
         flash("打印成功！")
     return redirect(url_for('classarrange.TeacherCourse'))
-    # return render_template('teachermain.html', Courses=a,application=application);
+    # return render_template('ClassArrange/teachermain.html', Courses=a)
 
 # import datetime
 # import functools
