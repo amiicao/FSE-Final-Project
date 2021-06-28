@@ -18,13 +18,13 @@
 <div id="mytask-layout" class="theme-indigo">
 {% block body %}
     <!-- main body area -->
-    <div class="main px-lg-4 px-md-4"> 
+    <div class="main px-lg-4 px-md-4">
 
         <!-- Body: Header -->
 {#        <div class="header">#}
 {#            <nav class="navbar py-4">#}
 {#                <div class="container-xxl">#}
-    
+
                     <!-- header rightbar icon -->
 {#                    <div class="h-right d-flex align-items-center mr-5 mr-lg-0 order-1">#}
 {#                        <div class="d-flex">#}
@@ -150,12 +150,12 @@
 {#                            </div>#}
 {#                        </div>#}
 {#                    </div>#}
-    
+
                     <!-- menu toggler -->
 {#                    <button class="navbar-toggler p-0 border-0 menu-toggle order-3" type="button" data-bs-toggle="collapse" data-bs-target="#mainHeader">#}
 {#                        <span class="fa fa-bars"></span>#}
 {#                    </button>#}
-    
+
 {#                    <!-- main menu Search-->#}
 {#                    <div class="order-0 col-lg-4 col-md-4 col-sm-12 col-12 mb-3 mb-md-0 ">#}
 {#                        <div class="input-group flex-nowrap input-group-lg">#}
@@ -169,13 +169,16 @@
 {#            </nav>#}
 {#        </div>#}
 
-        <!-- Body: Body -->       
+        <!-- Body: Body -->
         <div class="body d-flex py-lg-3 py-md-2">
             <div class="container-xxl">
                 <div class="row align-items-center">
                     <div class="border-0 mb-4">
                         <div class="card-header py-3 no-bg bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap">
                             <h3 class="fw-bold mb-0">用户搜索</h3>
+                            <div class="col-auto d-flex w-sm-100">
+                                <button type="button" class="btn btn-dark btn-set-task w-sm-100" data-bs-toggle="modal" data-bs-target="#tickadd2"><i class="icofont-plus-circle me-2 fs-6"></i>批量上传</button>
+                            </div>
                             <div class="col-auto d-flex w-sm-100">
                                 <button type="button" class="btn btn-dark btn-set-task w-sm-100" data-bs-toggle="modal" data-bs-target="#tickadd"><i class="icofont-plus-circle me-2 fs-6"></i>添加用户</button>
                             </div>
@@ -191,10 +194,10 @@
                                         <tr>
                                             <th>学工号</th>
                                             <th>姓名</th>
-                                            <th>性别</th> 
-                                            <th>身份</th> 
-                                            <th>年龄</th>   
-                                            <th>修改/删除用户</th> 
+                                            <th>性别</th>
+                                            <th>身份</th>
+                                            <th>年龄</th>
+                                            <th>修改/删除用户</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -223,7 +226,7 @@
                                             </div>
                                             </td>
                                         </tr>
-                                        {% endfor %}                                                                                                                                  
+                                        {% endfor %}
                                     </tbody>
                                 </table>
                             </div>
@@ -232,7 +235,7 @@
                 </div><!-- Row End -->
             </div>
         </div>
-        
+
         <!-- Modal Members-->
         <div class="modal fade" id="addUser" tabindex="-1" aria-labelledby="addUserLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -292,10 +295,10 @@
                                               <li>
                                                   <a class="dropdown-item" href="#">
                                                     <i class="icofont-check-circled"></i>
-                                                      
+
                                                     <span>All operations permission</span>
                                                    </a>
-                                                   
+
                                                 </li>
                                                 <li>
                                                      <a class="dropdown-item" href="#">
@@ -334,7 +337,7 @@
                                               <li>
                                                   <a class="dropdown-item" href="#">
                                                     <i class="icofont-check-circled"></i>
-                                                      
+
                                                     <span>All operations permission</span>
                                                    </a>
                                                 </li>
@@ -469,6 +472,25 @@
             </div>
         </div>
         </form>
+        <form action="{{url_for('.SubmitCsv')}}" method="POST" enctype="multipart/form-data">
+            <div class="modal fade" id="tickadd2" tabindex="-1"  aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-md modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title  fw-bold" id="leaveaddLabel">上传文件</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" name="csv"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="subphoto" class="form-label">新csv文件</label>
+                            <input type="file" class="form-control" id="subphoto" name="csv">
+                            <input type="submit" name="submit" value="提交">
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </form>
     </div>
 </div>
 
@@ -489,7 +511,7 @@ function deleteuser (uid)
 <!-- Jquery Page Js -->
 <script src="../../static/assets/js/template.js"></script>
 <script>
-    
+
     $(document).ready(function() {
         {#$('#myProjectTable')#}
         {#.addClass( 'nowrap' )#}
@@ -501,7 +523,7 @@ function deleteuser (uid)
 
 
         $('.deleterow').on('click',function(){
-        var tablename = $(this).closest('table').DataTable();  
+        var tablename = $(this).closest('table').DataTable();
         tablename
                 .row( $(this)
                 .parents('tr') )

@@ -155,7 +155,6 @@ class StudentToCourse(db.Model):
 class BEApplication(db.Model):  # student's application for by-election
     __bind_key__ = 'message_management_system'
     __tablename__ = 'application'
-    __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True)
     student_id = db.Column(db.Integer, db.ForeignKey("student.id"))
     course_id = db.Column(db.Integer, db.ForeignKey("course.cid"))

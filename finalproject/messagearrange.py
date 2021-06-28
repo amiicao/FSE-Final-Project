@@ -344,6 +344,38 @@ def SubmitPhoto():
     return render_template("MessageArrange/personal-center.html", user=u)
 
 
+from pandas import read_csv
+import os
+@bp.route('/SubmitCsv', methods=['GET', 'POST'])
+def SubmitCsv():
+    db = get_db()
+    csv = request.files['csv']
+    # basedir = os.path.abspath(os.path.dirname(__file__))
+    # file_path = basedir + "\\static\\assets\\images\\lg\\" + u.uid + '.jpg'
+    csv.save('uploads/'+csv.filename)
+    # 读取相关的数据
+    data = read_csv('uploads/' + csv.filename)
+    # print(data)
+    userToImput = []
+    for i in range(0,data['uid'].size):
+        s = User()
+        s.uid = data['uid'][i]
+        s.name = data['name'][i]
+        s.age = data['age'][i]
+        s.sex = data['sex'][i]
+        s.status = data['status'][i]
+        s.password = data['password'][i]
+        userToImput.append(s)
+        try:
+            db.session.add(s)
+            db.session.commit()
+        except:
+            pass
+    print(userToImput)
+    os.remove('uploads/' + csv.filename)
+    u = User.query.all()
+    return render_template("MessageArrange/user-search.html", users=u)
+
 '''
 @app.route('/')
 def hello_world():
