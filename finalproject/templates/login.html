@@ -27,33 +27,46 @@
                 </div>
             </div> <!-- Row end  -->
            {% block content %}
-    <h1>登录</h1>
-    <form action="" method="post" novalidate>
-        {{ form.hidden_tag() }}
-        <p>
-            {{ form.username.label }}<br>
-            {{ form.username(size=32) }}<br>
-            {% for error in form.username.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.password.label }}<br>
-            {{ form.password(size=32) }}<br>
-            {% for error in form.password.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.verify_code.label }}<br>
-            {{ form.verify_code(size=32) }}<br>
-            {% for error in form.verify_code.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <img src="/code" onclick="this.src='/code'">
-        <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
-        <p>{{ form.submit() }}</p>
+
+<form action="" method="post" novalidate>
+               {{ form.hidden_tag() }}
+    <div class="modal-dialog modal-dialog-centered modal-md modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title  fw-bold" id="edittickitLabel"> 登录</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="sub1" class="form-label">{{ form.username.label }}</label>
+                        <p>{{ form.username }}</p>
+                        {% for error in form.username.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="sub3" class="form-label">{{ form.password.label }}</label>
+                        <p>{{ form.password }}</p>
+                        {% for error in form.password.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="sub4" class="form-label">{{ form.verify_code.label }}</label>
+                        <p>{{ form.verify_code }}</p>
+                        {% for error in form.verify_code.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </div>
+                    <img src="/code" onclick="this.src='/code'">
+                    <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">{{ form.submit() }}</button>
+                </div>
+            </div>
+    </div>
     </form>
 {% endblock %}
 
