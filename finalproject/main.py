@@ -7,7 +7,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from database import db
 from models import User
-
+import logging
 
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
@@ -49,6 +49,13 @@ def create_app(test_config=None):
     app.register_blueprint(exam.bp)
     import resourceandscore
     app.register_blueprint(resourceandscore.bp)
+
+    app.debug = True
+    handler = logging.FileHandler('flask.log')
+    logging_format = logging.Formatter(  # 设置日志格式
+        '%(asctime)s - %(levelname)s - %(filename)s - %(funcName)s - %(lineno)s - %(message)s')
+    handler.setFormatter(logging_format)
+    app.logger.addHandler(handler)
     # import eduresource
     # app.register_blueprint(eduresource.bp)
     # import class_teacher
@@ -58,6 +65,10 @@ def create_app(test_config=None):
     # app.register_blueprint(classroom.bp)
     @login_manager.user_loader
     def load_user(id):
+        app.logger.info("Info message")
+        app.logger.warning("Warning msg")
+        app.logger.error("Error msg!!!")
+
         if id:
             try:
                 return User.query.get(int(id))
@@ -65,3 +76,6 @@ def create_app(test_config=None):
                 pass
 
     return app
+
+
+

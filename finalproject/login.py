@@ -7,6 +7,7 @@ from flask import (
     current_app, Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
 from models import User
+import logging
 from loginmanager import get_loginmanager
 
 
@@ -92,7 +93,7 @@ def login():
                 error = "请输入验证码！"
             else:
             # 首先验证验证码是否输入正确
-                if form.verify_code.data == session['code']:
+                if form.verify_code.data == session['code'] :
                     if form.username.data:
                         user = User.query.filter_by(uid=form.username.data).first()
                         if user is None:
@@ -106,13 +107,16 @@ def login():
                         error = "输入不合法！"
                     if not error:
                         # 将该用户注册到当前
+                        current_app.logger.info('用户登录成功！')
                         flash("登录成功！","error")
                         login_user(user, remember=form.remember_me.data)
                         return redirect(url_for('login.hello_world'))
                 else:
                     error = "验证码错误"
+                    current_app.logger.info('验证码错误.')
     if error is not None:
         flash(error, "error")
+    current_app.logger.error(error)
     return render_template('login.html', title='Sign In', form=form)
 
 

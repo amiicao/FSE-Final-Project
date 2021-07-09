@@ -11,7 +11,7 @@ bp = Blueprint('messagearrange', __name__, url_prefix='/messagearrange')
 from database import get_db
 from models import User, Course
 from flask_login import LoginManager, current_user, login_user, logout_user, login_required
-
+import logging
 # app = Flask(__name__)
 # app.config['JSON_AS_ASCII'] = False
 # app.config.from_object(configs01)
@@ -107,9 +107,11 @@ def EditInfo():
 
     if (error):
         flash(error)
+        current_app.logger.error(error)
     else:
         flash('修改成功')
-    return redirect(url_for('messagearrange.course_search'))
+        current_app.logger.info('个人信息修改成功')
+    return redirect(url_for('messagearrange.personal_center'))
 
 
 @bp.route('/course-information.html/<cid>', methods=['GET', 'POST'])
@@ -135,8 +137,8 @@ def course_search():
 def EditCourse():
     cid = request.form.get('cid')
     name = request.form.get('name')
-    time = request.form.get('time')
-    classroom = request.form.get('classroom')
+    time = '35500010000000'
+    classroom = '西1-103'
     instructor = request.form.get('instructor')
     credit = request.form.get('credit')
     type = request.form.get('type')
@@ -146,10 +148,6 @@ def EditCourse():
 
     if name == '':
         error = '未输入课程名'
-    elif time == '':
-        error = '未输入上课时间'
-    elif classroom == '':
-        error = '未输入上课教室'
     elif instructor == '':
         error = '未输入教师'
     elif credit == '':
@@ -173,9 +171,11 @@ def EditCourse():
         c.capacity = capacity
         db.session.commit()
     if error:
+        current_app.logger.error(error)
         flash(error)
     else:
         flash('修改成功')
+        current_app.logger.info('课程信息修改成功！')
 
     c = Course.query.all()
     return render_template("MessageArrange/course-search.html", courses=c)
@@ -212,8 +212,10 @@ def EditUser():
         db.session.commit()
     if error:
         flash(error)
+        current_app.logger.error(error)
     else:
         flash('修改成功')
+        current_app.logger.info('用户信息修改成功！')
 
     u = User.query.all()
     return render_template("MessageArrange/user-search.html", users=u)
@@ -229,6 +231,7 @@ def DeleteCourse(cid):
 
     c = Course.query.all()
     flash('成功删除')
+    current_app.logger.info('成功删除课程')
     return redirect(url_for("messagearrange.course_search"))
     # return render_template("course-search.html", courses=c)
 
@@ -241,6 +244,7 @@ def DeleteUser(uid):
     db.session.delete(delete_user)
     db.session.commit()
     flash('成功删除')
+    current_app.logger.error('成功删除用户！')
     return redirect(url_for("messagearrange.user_search"))
     # return render_template("course-search.html", courses=c)
 
@@ -250,8 +254,8 @@ def DeleteUser(uid):
 def AddCourse():
     name = request.form.get('name')
     cid = request.form.get('cid')
-    time = request.form.get('time')
-    classroom = request.form.get('classroom')
+    time = '35500010000000'
+    classroom = '西1-103'
     instructor = request.form.get('instructor')
     credit = request.form.get('credit')
     type = request.form.get('type')
@@ -263,10 +267,6 @@ def AddCourse():
         error = '未输入课程名'
     elif cid == '':
         error = '未输入课程编号'
-    elif time == '':
-        error = '未输入上课时间'
-    elif classroom == '':
-        error = '未输入上课教室'
     elif instructor == '':
         error = '未输入教师'
     elif credit == '':
@@ -287,6 +287,7 @@ def AddCourse():
         flash(error)
     else:
         flash('成功添加')
+        current_app.logger.info('成功添加课程！')
     c = Course.query.all()
     return render_template("MessageArrange/course-search.html", courses=c)
 
@@ -328,8 +329,10 @@ def AddUser():
     u = User.query.all()
     if (error):
         flash(error)
+        current_app.logger.error(error)
     else:
         flash('添加成功')
+        current_app.logger.info('用户添加成！')
     return render_template("MessageArrange/user-search.html", users=u)
 
 
