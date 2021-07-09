@@ -276,7 +276,10 @@ def department():
         # classroom = location[int(c.time[4:7])]
         b.append(c.cid)
         b.append(c.name)
-        b.append(Teachers.name)
+        try:
+            b.append(Teachers.name)
+        except:
+            pass
         b.append(decoder(c.time))
         b.append(classroom.location)
         a.append(b)

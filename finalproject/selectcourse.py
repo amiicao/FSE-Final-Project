@@ -524,7 +524,6 @@ def admin_sel_course():
     # 进行选课
 
     # 通过补选接受补选，需要删除学生补选申请
-    BEApplication.query.filter(BEApplication.student_id == student_id, BEApplication.course_id == course_id).delete()
 
     tempCourse.curr_capacity = tempCourse.curr_capacity + 1
     tempCourse.students.append(tempStu)
@@ -532,7 +531,7 @@ def admin_sel_course():
     db.session.commit()
 
     flash("手动选课成功！" + tempCourse.name + "加入了" + tempStu.name + "的课表")
-    return render_template("SelectCourse/admin_sel_course.html", student_id=student_id, course_id=course_id)
+    return render_template("SelectCourse/admin_sel_course.html")
 
 
 @bp.route('/admin_delcourse', methods=["GET", "POST"])
