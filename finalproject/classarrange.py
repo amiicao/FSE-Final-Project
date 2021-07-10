@@ -913,33 +913,35 @@ def TeacherCourse():
             tmp.append(" ")
         a.append(tmp)
     b = [1, 2, 4, 6, 7]  # 221 212 21
-    teacher = User.query.filter(User.name == request.args.get('name')).first()
-    print(teacher)
+    try:
+        teacher = User.query.filter(User.name == request.args.get('name')).first()
+        print(teacher)
+    except:
+        pass
     if not teacher:
         teacher = User.query.filter(User.uid == current_user.uid).first()
-        applications = ModifyApplication.query.filter_by(teacher_id=teacher.uid).all()
 
-    name = teacher.name
-    error = None
+
     if teacher:
-        teacher = User.query.filter(User.name == request.args.get('name')).first()
-        #print(str(teacher.teacher_id).zfill(5))
+        name = teacher.name
+        error = None
+        applications = ModifyApplication.query.filter_by(teacher_id=teacher.uid).all()
         courses = Course.query.filter(Course.teacher_id == teacher.uid).all()
         print(courses)
-        applications = ModifyApplication.query.filter_by(teacher_id=teacher.uid).order_by(
-            ModifyApplication.id.desc()).all()
-        for c in courses:
-            for i in [0, 7]:
-                if (c.time[i] == '0'):
-                    break
-                else:
-                    a[b[int(c.time[i + 2]) - 1] - 1][int(c.time[i + 1])] = c.name
-                    if (c.time[i] == '3'):
-                        a[b[int(c.time[i + 2]) - 1]][int(c.time[i + 1])] = c.name
-                    # a[b[int(c.time[i + 1])]][int(c.time[i + 2])] = c.course_name
-                    # if(c.time[i+3]=='3'):
-                    #     a[b[int(c.time[i + 1])]+1][int(c.time[i + 2])] = c.course_name
-        print(applications)
+        applications = ModifyApplication.query.filter_by(teacher_id=teacher.uid).order_by(ModifyApplication.id.desc()).all()
+        if courses:
+            for c in courses:
+                for i in [0, 7]:
+                    if (c.time[i] == '0'):
+                        break
+                    else:
+                        a[b[int(c.time[i + 2]) - 1] - 1][int(c.time[i + 1])] = c.name
+                        if (c.time[i] == '3'):
+                            a[b[int(c.time[i + 2]) - 1]][int(c.time[i + 1])] = c.name
+                        # a[b[int(c.time[i + 1])]][int(c.time[i + 2])] = c.course_name
+                        # if(c.time[i+3]=='3'):
+                        #     a[b[int(c.time[i + 1])]+1][int(c.time[i + 2])] = c.course_name
+            print(applications)
     return render_template('ClassArrange/teachermain.html', Courses=a, applications=applications)
 
 
