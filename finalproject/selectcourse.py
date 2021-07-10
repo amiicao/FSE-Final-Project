@@ -213,7 +213,7 @@ def sel_course(course_id):
     if currDatetime < SelCourseStart or currDatetime > SelCourseEnd:  # 不是选课时间
         flash("现在不是选课时间")
         return render_template("SelectCourse/inquiry_courses.html")
-
+    print(student_id)
     tempStu = Student.query.get(student_id)
     tempCourse = Course.query.get(course_id)
 

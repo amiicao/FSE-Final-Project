@@ -1084,6 +1084,7 @@ def printtable():
             teacher = User.query.filter(User.uid == current_user.uid).first()
             # teacher = Teacher.query.filter(Teacher.teacher_name == request.args.get('name')).first()
             courses = Course.query.filter(Course.teacher_id == teacher.uid).all()
+            print(courses)
         except:
             flash('fuck')
             return redirect(url_for('classarrange.TeacherCourse'))
@@ -1092,9 +1093,9 @@ def printtable():
                 if (c.time[i] == '0'):
                     break
                 else:
-                    a[b[int(c.time[i + 2]) - 1] - 1][int(c.time[i + 1])] = c.course_name
+                    a[b[int(c.time[i + 2]) - 1] - 1][int(c.time[i + 1])] = c.name
                     if (c.time[i] == '3'):
-                        a[b[int(c.time[i + 2]) - 1]][int(c.time[i + 1])] = c.course_name
+                        a[b[int(c.time[i + 2]) - 1]][int(c.time[i + 1])] = c.name
                     # a[b[int(c.time[i + 1])]][int(c.time[i + 2])] = c.course_name
                     # if(c.time[i+3]=='3'):
                     #     a[b[int(c.time[i + 1])]+1][int(c.time[i + 2])] = c.course_name

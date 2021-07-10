@@ -33,12 +33,12 @@
                         <div class="card mb-3">
                             <div class="card-body">
                                 <div class="inquiry">
-                                    {% for message in get_flashed_messages() %}
-                                    <div class="alert alert-info alert-dismissible" aria-hidden="true" >
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                                    {{ message }}
-                                    </div>
-                                    {% endfor %}
+{#                                    {% for message in get_flashed_messages() %}#}
+{#                                    <div class="alert alert-info alert-dismissible" aria-hidden="true" >#}
+{#                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>#}
+{#                                    {{ message }}#}
+{#                                    </div>#}
+{#                                    {% endfor %}#}
                                     <form action="{{ url_for('selectcourse.inquiry_courses') }}" method="POST" style= "text-align: center;">
                                         <h3>搜索引擎</h3>
                                         <select id="Option" name = "Option" >
