@@ -26,6 +26,7 @@ faker = "*"
 xlrd = "*"
 pymysql = "*"
 pillow = "*"
+pandas = "*"
 
 [dev-packages]
 faker = "*"
