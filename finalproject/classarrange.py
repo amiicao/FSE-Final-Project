@@ -145,19 +145,43 @@ def classmodify():
         print('hhh', request.form['daytime1'], request.form['daytime2'], request.form['periods1'])
         if request.form['daytime1']:
             timecode[1] = str(int(request.form['daytime1']) + 1)
-        if request.form['daytime2']:
+        if request.form['daytime2'] :
             timecode[1 + 7] = str(int(request.form['daytime2']) + 1)
         if request.form['periods1']:
             print(request.form['periods1'])
             timecode[2] = periods[request.form['periods1']]
+        print("111111")
+        print(request.form['periods2'])
         if request.form['periods2']:
             timecode[2 + 7] = periods[request.form['periods2']]
         timecode = ''.join(timecode)
-        print(timecode)
-        termCourse.time = timecode
-        if TermCourse.query.filter(TermCourse.time.like('%' + timecode[1:7] + '%')).count() + TermCourse.query.filter(
-                timecode[7] != "0" and TermCourse.time.like('%' + timecode[8:14] + '%')).count():
-            flash('时间冲突，请重新修改')
+        # print(timecode[1:7])
+        # print(timecode[8:14])
+        # if timecode[1:7] != timecode[8:14]:
+        #   flash ("选课时间冲突，请重新选择！")
+        # else:
+        #     print(timecode)
+        #     termCourse.time = timecode
+        #     if TermCourse.query.filter(TermCourse.time.like('%' + timecode[1:7] + '%')).count() + TermCourse.query.filter(
+        #             timecode[7] != "0" and TermCourse.time.like('%' + timecode[8:14] + '%')).count():
+        #         flash('时间冲突，请重新修改')
+        #     else:
+        #         termCourse.time = timecode
+        #         db = get_db()
+        #         db.session.commit()
+        #         error = '修改成功!'
+        #         flash(error)
+
+        if timecode[7] == "0" and TermCourse.query.filter(TermCourse.time.like('%' + timecode[1:7] + '%')).count():
+            flash('时间冲突，请重新修改1')
+        elif timecode[7] != "0" and TermCourse.query.filter(TermCourse.time.like('%' + timecode[1:7] + '%')).count():
+            # TermCourse.query.filter(TermCourse.time==nb).count()) :
+            flash('时间冲突，请重新修改4')
+        elif timecode[7] != "0" and TermCourse.query.filter(TermCourse.time.like('%' + timecode[8:14] + '%')).count():
+            # TermCourse.query.filter(TermCourse.time==nb).count()):
+            flash('时间冲突，请重新修改2')
+        elif timecode[1:7] == timecode[8:14]:
+            flash('时间冲突，请重新修改3')
         else:
             termCourse.time = timecode
             db = get_db()
