@@ -185,8 +185,10 @@ def EditCourse():
     else:
         flash('修改成功')
         current_app.logger.info('课程信息修改成功！')
-
-    c = Course.query.all()
+    if(current_user.status=='教师'):
+        c=Course.query.filter(Course.teacher_id==current_user.uid).all()
+    else:
+        c = Course.query.all()
     return render_template("MessageArrange/course-search.html", courses=c)
 
 
@@ -221,11 +223,11 @@ def EditUser():
             error='不可修改已有课的教师权限！'
         elif (u.status == '教师' and status == '管理员'):
             error = '不可修改已有课的教师权限！'
-        elif(u.status=='管理员' and staus=='学生'):
+        elif(u.status=='管理员' and status=='学生'):
             NewStudent=Student(id=uid,name=name,gender=sex,major_id=1)
             db.session.add(NewStudent)
             db.session.commit()
-        elif(u.status == '管理员' and staus == '学生'):
+        elif(u.status == '管理员' and status == '学生'):
             NewTeacher = Teacher(id=uid, name=name)
             db.session.add(NewTeacher)
             db.session.commit()
@@ -293,6 +295,7 @@ def AddCourse():
     type = request.form.get('type')
     description = request.form.get('description')
     capacity = request.form.get('capacity')
+    teacherid=current_user.uid
     error = None
 
     if name == '':
@@ -311,7 +314,15 @@ def AddCourse():
         error = '未输入课程容量'
     else:
         NewCourse = Course(name=name, description=description, credit=credit, capacity=capacity, cid=cid,
-                           instructor=instructor, type=type, time=time, classroom=classroom)
+                           instructor=instructor, type=type, time=time, classroom=classroom,teacher_id=teacherid)
+
+        old = Course.query.filter(Course.cid == cid).first()
+        if(old):
+            error = '课程编号重复！'
+            flash(error)
+            current_app.logger.info('课程编号冲突！')
+            c = Course.query.all()
+            return render_template("MessageArrange/course-search.html", courses=c)
         db = get_db()
         db.session.add(NewCourse)
         db.session.commit()
@@ -321,7 +332,11 @@ def AddCourse():
         flash('成功添加')
         current_app.logger.info('成功添加课程！')
     c = Course.query.all()
-    return render_template("MessageArrange/course-search.html", courses=c)
+    if current_user.status == '教师':
+        c=Course.query.filter(Course.teacher_id==current_user.uid).all()
+        return render_template("MessageArrange/course-search.html", courses=c)
+    else:
+        return render_template("MessageArrange/course-search.html", courses=c)
 
 
 @bp.route('/user-search.html', methods=['GET', 'POST'])
