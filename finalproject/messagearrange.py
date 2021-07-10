@@ -356,6 +356,13 @@ def AddUser():
     else:
         db = get_db()
         NewUser = User(uid=uid, name=name, age=age, sex=sex, status=status, password='123456')
+        u = User.query.filter(User.uid == uid).first()
+        if(u):
+            error='用户已存在！'
+            flash(error)
+            current_app.logger.info('学工号冲突！')
+            u = User.query.all()
+            return render_template("MessageArrange/user-search.html", users=u)
         db.session.add(NewUser)
         db.session.commit()
         if(status=='学生'):
@@ -372,7 +379,7 @@ def AddUser():
         current_app.logger.error(error)
     else:
         flash('添加成功')
-        current_app.logger.info('用户添加成！')
+        current_app.logger.info('用户添加成功！')
     return render_template("MessageArrange/user-search.html", users=u)
 
 
@@ -419,6 +426,7 @@ def SubmitCsv():
         except:
             pass
     print(userToImput)
+    current_app.logger.error('批量添加用户')
     os.remove('uploads/' + csv.filename)
     u = User.query.all()
     return render_template("MessageArrange/user-search.html", users=u)
