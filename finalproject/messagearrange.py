@@ -87,7 +87,6 @@ def EditInfo():
     name = request.form.get('name')
     age = request.form.get('age')
     sex = request.form.get('sex')
-    password = request.form.get('password')
     uid = current_user.uid
     error = None
     if name == '':
@@ -96,8 +95,6 @@ def EditInfo():
         error = "未输入年龄"
     elif sex == '':
         error = "未输入性别"
-    elif password == '':
-        error = "未输入密码"
     elif age <= '0':
         error = "年龄不能小于0"
     else:
@@ -106,16 +103,20 @@ def EditInfo():
         u.name = name
         u.age = age
         u.sex = sex
-        u.password = password
+        db.session.commit()
         # current_app.logger.info(u.status)
         if(u.status=='教师'):
+            current_app.logger.info('这是一个教师')
             t = Teacher.query.filter(Teacher.id == uid).first()
+            current_app.logger.info(t.name)
             t.name=name
+            current_app.logger.info(t.name)
+            db.session.commit()
         if(u.status=='学生'):
-            s = Student.query.filter(Student.id == uid).first()
+            s = Student.query.filter(Student.uid == uid).first()
             s.name=name
             s.gender=sex
-        db.session.commit()
+            db.session.commit()
     if (error):
         flash(error)
         current_app.logger.error(error)
@@ -215,23 +216,7 @@ def EditUser():
     else:
         db = get_db()
         u = User.query.filter(User.uid == uid).first()
-        if(status==u.status):
-            if (u.status == '教师'):
-                t = Teacher.query.filter(Teacher.id == uid).first()
-                t.name = name
-            if (u.status == '学生'):
-                s = Student.query.filter(Student.id == uid).first()
-                s.name = name
-                s.gender = sex
-        else:
-            if(u.status=='学生' and status=='教师'):
-                delete_student=Student.query.filter(Student.id == uid).first()
-                db.session.delete(delete_student)
-                NewTeacher=Teacher(id=uid,name=name)
-                db.session.add(NewTeacher)
-                db.session.commit()
-            elif(u.status=='教师' and status=='学生'):
-                error='不能提升学生权限！'
+        print((name))
         u.name = name
         u.age = age
         u.sex = sex
@@ -266,14 +251,8 @@ def DeleteCourse(cid):
 @bp.route('/user-delete/<uid>', methods=['GET', 'POST'])
 @login_required
 def DeleteUser(uid):
-    db = get_db()
     delete_user = User.query.filter(User.uid == uid).first()
-    if(delete_user.status=='学生'):
-        delete_stu = Student.query.filter(Student.id == uid).first()
-        db.session.delete(delete_stu)
-    if (delete_user.status == '教师'):
-        delete_tea = Teacher.query.filter(Teacher.id == uid).first()
-        db.session.delete(delete_tea)
+    db = get_db()
     db.session.delete(delete_user)
     db.session.commit()
     flash('成功删除')
@@ -358,14 +337,6 @@ def AddUser():
         db = get_db()
         NewUser = User(uid=uid, name=name, age=age, sex=sex, status=status, password='123456')
         db.session.add(NewUser)
-        db.session.commit()
-        if(status=='教师'):
-            NewTeacher = Teacher(id=uid,name=name)
-            db.session.add(NewTeacher)
-        if(status=='学生'):
-            NewStudent = Student(id=uid,name=name,gender=sex,major_id=1)
-            db.session.add(NewStudent)
-
         db.session.commit()
     u = User.query.all()
     if (error):

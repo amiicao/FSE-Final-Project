@@ -20,7 +20,7 @@ import os
 # app.config['UPLOAD_FOLDER'] = "培养方案"
 
 # db = SQLAlchemy(app)
-from models import Student, StudentToCourse, Course, BEApplication, Teacher, Major, User
+from models import Student, StudentToCourse, Course, BEApplication, Major, User
 from database import get_db
 
 SelCourseStart = datetime(2020, 1, 1)  # Normal Course Selection 初选
@@ -147,7 +147,7 @@ def inquiry_courses():
         elif Option == "Teacher_Name":
             courses = []
             for tempc in Course.query.all():
-                if inquiry == Teacher.query.get(tempc.teacher_id).name:
+                if inquiry == Teacher_3.query.get(tempc.teacher_id).name:
                     courses.append(tempc)
 
         elif Option == "Time":
