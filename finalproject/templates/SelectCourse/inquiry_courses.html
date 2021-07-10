@@ -33,12 +33,12 @@
                         <div class="card mb-3">
                             <div class="card-body">
                                 <div class="inquiry">
-                                    {% for message in get_flashed_messages() %}
-                                    <div class="alert alert-info alert-dismissible" aria-hidden="true" >
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                                    {{ message }}
-                                    </div>
-                                    {% endfor %}
+{#                                    {% for message in get_flashed_messages() %}#}
+{#                                    <div class="alert alert-info alert-dismissible" aria-hidden="true" >#}
+{#                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>#}
+{#                                    {{ message }}#}
+{#                                    </div>#}
+{#                                    {% endfor %}#}
                                     <form action="{{ url_for('selectcourse.inquiry_courses') }}" method="POST" style= "text-align: center;">
                                         <h3>搜索引擎</h3>
                                         <select id="Option" name = "Option" >
@@ -61,6 +61,7 @@
                                                 <th>课程ID</th>
                                                 <th>课程名称</th>
                                                 <th>课程老师ID</th>
+                                                <th>老师名字</th>
                                                 <th>课程时间</th>
                                                 <th>课程容量</th>
                                                 <th class="text-center">选课</th>
@@ -75,6 +76,7 @@
                                                 <td><span class="fw-bold ms-1">{{ course.cid }}</span></td>
                                                 <td><span class="fw-bold ms-1">{{ course.name }}</span></td>
                                                 <td>{{ course.teacher_id }}</td>
+                                                <td>{{ course.teacher.name }}</td>
                                                 <td>
                                                     {{ days[course.time[1]] }}
                                                     {% if course.time[2] == "1" %}

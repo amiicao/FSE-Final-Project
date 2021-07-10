@@ -20,7 +20,7 @@ import os
 # app.config['UPLOAD_FOLDER'] = "培养方案"
 
 # db = SQLAlchemy(app)
-from models import Student, StudentToCourse, Course, BEApplication, Teacher_3, Major, User
+from models import Student, StudentToCourse, Course, BEApplication, Major, User, Teacher
 from database import get_db
 
 SelCourseStart = datetime(2020, 1, 1)  # Normal Course Selection 初选
@@ -68,12 +68,15 @@ def myclass():
 @bp.route('/acceptapp/<course_id>/<student_id>', methods=['GET', 'POST'])
 def acceptapp(student_id, course_id):
     # 更新课程容量
+    db = get_db()
     tempCourse = Course.query.get(course_id)
     tempCourse.curr_capacity = tempCourse.curr_capacity + 1
 
     BEApplication.query.filter_by(course_id=course_id, student_id=student_id).delete()
+    print(course_id)
+    print(student_id)
     s = StudentToCourse(student_id=student_id, course_id=course_id)
-    db = get_db()
+
     try:
         db.session.add(s)
         db.session.commit()
@@ -84,8 +87,8 @@ def acceptapp(student_id, course_id):
 
 @bp.route('/rejectapp/<course_id>/<student_id>', methods=['GET', 'POST'])
 def rejectapp(student_id, course_id):
-    BEApplication.query.filter_by(course_id=course_id, student_id=student_id).delete()
     db = get_db()
+    BEApplication.query.filter_by(course_id=course_id, student_id=student_id).delete()
     db.session.commit()
     return redirect(url_for('selectcourse.studentlist', course_id=course_id))
 
@@ -126,7 +129,7 @@ def inquiry_courses():
             except ValueError:
                 isValid = False  # 输入不合法
             if isValid:
-                courses = Course.query.filter(Course.id == inquiry).all()
+                courses = Course.query.filter(Course.cid == inquiry).all()
             else:
                 flash("课程ID不符合格式")
                 courses = []
@@ -147,7 +150,7 @@ def inquiry_courses():
         elif Option == "Teacher_Name":
             courses = []
             for tempc in Course.query.all():
-                if inquiry == Teacher_3.query.get(tempc.teacher_id).name:
+                if inquiry == Teacher.query.get(tempc.teacher_id).name:
                     courses.append(tempc)
 
         elif Option == "Time":
@@ -203,14 +206,14 @@ def sel_course(course_id):
     -used by Student
     -function can only run during initial course selection period
     '''
-
+    db = get_db()
     student_id = current_user.uid
     currDatetime = datetime.now()
 
     if currDatetime < SelCourseStart or currDatetime > SelCourseEnd:  # 不是选课时间
         flash("现在不是选课时间")
         return render_template("SelectCourse/inquiry_courses.html")
-
+    print(student_id)
     tempStu = Student.query.get(student_id)
     tempCourse = Course.query.get(course_id)
 
@@ -242,7 +245,7 @@ def sel_course(course_id):
     # 进行选课
     tempCourse.curr_capacity = tempCourse.curr_capacity + 1
     tempCourse.students.append(tempStu)
-    db = get_db()
+
     db.session.commit()
     flash("选课成功！")
     return redirect(url_for('selectcourse.inquiry_courses'))
@@ -255,6 +258,7 @@ def BEsel_course(course_id):
     -student must be able to fit the course into their timetable
     for this function to run
     '''
+    db = get_db()
     student_id = current_user.uid
     currDatetime = datetime.now()
 
@@ -297,7 +301,7 @@ def BEsel_course(course_id):
 
     # Creating new relation
     tempApplication = BEApplication(student_id=student_id, course_id=course_id)
-    db = get_db()
+
     db.session.add(tempApplication)
     db.session.commit()
 
@@ -319,9 +323,9 @@ def BEappManage():
 def deleteBEappl(course_id):
     '''deletes a student's by-election application for a course
     -used by Student'''
+    db = get_db()
     student_id = current_user.uid
     BEApplication.query.filter(BEApplication.student_id == student_id, BEApplication.course_id == course_id).delete()
-    db = get_db()
     db.session.commit()
 
     flash("补选申请删除成功！")
@@ -333,6 +337,7 @@ def del_course(course_id):
     '''deletes a course from a student's time table
     -used by Student
     '''
+    db = get_db()
     student_id = current_user.uid
     currDatetime = datetime.now()
 
@@ -358,7 +363,7 @@ def del_course(course_id):
     # 进行退课
     tempCourse.students.remove(tempStu)
     tempCourse.curr_capacity = tempCourse.curr_capacity - 1
-    db = get_db()
+
     db.session.commit()
     flash("退课成功！")
     return redirect(url_for('selectcourse.inquiry_courses'))
@@ -370,6 +375,7 @@ def del_course2(course_id):
     '''deletes a course from a student's time table
     -used by Student
     '''
+    db = get_db()
     student_id = current_user.uid
     currDatetime = datetime.now()
 
@@ -386,7 +392,7 @@ def del_course2(course_id):
     # 进行退课
     tempCourse.students.remove(tempStu)
     tempCourse.curr_capacity = tempCourse.curr_capacity - 1
-    db = get_db()
+
     db.session.commit()
     flash("退课成功！")
     return redirect(url_for('selectcourse.mycurriculum'))
@@ -469,7 +475,7 @@ def admin_sel_course():
     -used by admins
     -used anytime
     '''
-
+    db = get_db()
     student_id = None
     course_id = None
     isFresh = True
@@ -527,7 +533,7 @@ def admin_sel_course():
 
     tempCourse.curr_capacity = tempCourse.curr_capacity + 1
     tempCourse.students.append(tempStu)
-    db = get_db()
+
     db.session.commit()
 
     flash("手动选课成功！" + tempCourse.name + "加入了" + tempStu.name + "的课表")
@@ -540,7 +546,7 @@ def admin_del_course():
     -used by admins
     -used anytime
     '''
-
+    db = get_db()
     student_id = None
     course_id = None
     isFresh = True
@@ -579,7 +585,7 @@ def admin_del_course():
 
     tempCourse.students.remove(tempStu)
     tempCourse.curr_capacity = tempCourse.curr_capacity - 1
-    db = get_db()
+
     db.session.commit()
 
     flash("手动退课成功！")

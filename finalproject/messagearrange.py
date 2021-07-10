@@ -9,7 +9,7 @@ import os
 UPLOAD_FOLDER = 'uploads'
 bp = Blueprint('messagearrange', __name__, url_prefix='/messagearrange')
 from database import get_db
-from models import User, Course
+from models import User, Course,Student,Teacher
 from flask_login import LoginManager, current_user, login_user, logout_user, login_required
 import logging
 # app = Flask(__name__)
@@ -98,13 +98,22 @@ def EditInfo():
     elif age <= '0':
         error = "年龄不能小于0"
     else:
+        db = get_db()
         u = User.query.filter(User.uid == uid).first()
         u.name = name
         u.age = age
         u.sex = sex
-        db = get_db()
         db.session.commit()
-
+        # current_app.logger.info(u.status)
+        if(u.status=='教师'):
+            t = Teacher.query.filter(Teacher.id == uid).first()
+            t.name=name
+            db.session.commit()
+        if(u.status=='学生'):
+            s = Student.query.filter(Student.uid == uid).first()
+            s.name=name
+            s.gender=sex
+            db.session.commit()
     if (error):
         flash(error)
         current_app.logger.error(error)
@@ -176,8 +185,10 @@ def EditCourse():
     else:
         flash('修改成功')
         current_app.logger.info('课程信息修改成功！')
-
-    c = Course.query.all()
+    if(current_user.status=='教师'):
+        c=Course.query.filter(Course.teacher_id==current_user.uid).all()
+    else:
+        c = Course.query.all()
     return render_template("MessageArrange/course-search.html", courses=c)
 
 
@@ -204,7 +215,22 @@ def EditUser():
     else:
         db = get_db()
         u = User.query.filter(User.uid == uid).first()
-        print((name))
+        if(u.status=='学生' and status=='教师'):
+            error='不可提高已选课学生权限！'
+        elif(u.status=='学生' and status=='管理员'):
+            error = '不可提高已选课学生权限！'
+        elif(u.status=='教师' and status=='学生'):
+            error='不可修改已有课的教师权限！'
+        elif (u.status == '教师' and status == '管理员'):
+            error = '不可修改已有课的教师权限！'
+        elif(u.status=='管理员' and status=='学生'):
+            NewStudent=Student(id=uid,name=name,gender=sex,major_id=1)
+            db.session.add(NewStudent)
+            db.session.commit()
+        elif(u.status == '管理员' and status == '学生'):
+            NewTeacher = Teacher(id=uid, name=name)
+            db.session.add(NewTeacher)
+            db.session.commit()
         u.name = name
         u.age = age
         u.sex = sex
@@ -239,8 +265,16 @@ def DeleteCourse(cid):
 @bp.route('/user-delete/<uid>', methods=['GET', 'POST'])
 @login_required
 def DeleteUser(uid):
-    delete_user = User.query.filter(User.uid == uid).first()
     db = get_db()
+    delete_user = User.query.filter(User.uid == uid).first()
+    if(delete_user.status=='学生'):
+        s=Student.query.filter(User.uid == uid).first()
+        db.session.delete(s)
+        db.session.commit()
+    elif(delete_user.status=='教师'):
+        t=Teacher.query.filter(User.uid == uid).first()
+        db.session.delete(t)
+        db.session.commit()
     db.session.delete(delete_user)
     db.session.commit()
     flash('成功删除')
@@ -261,6 +295,7 @@ def AddCourse():
     type = request.form.get('type')
     description = request.form.get('description')
     capacity = request.form.get('capacity')
+    teacherid=current_user.uid
     error = None
 
     if name == '':
@@ -279,7 +314,15 @@ def AddCourse():
         error = '未输入课程容量'
     else:
         NewCourse = Course(name=name, description=description, credit=credit, capacity=capacity, cid=cid,
-                           instructor=instructor, type=type, time=time, classroom=classroom)
+                           instructor=instructor, type=type, time=time, classroom=classroom,teacher_id=teacherid)
+
+        old = Course.query.filter(Course.cid == cid).first()
+        if(old):
+            error = '课程编号重复！'
+            flash(error)
+            current_app.logger.info('课程编号冲突！')
+            c = Course.query.all()
+            return render_template("MessageArrange/course-search.html", courses=c)
         db = get_db()
         db.session.add(NewCourse)
         db.session.commit()
@@ -289,7 +332,11 @@ def AddCourse():
         flash('成功添加')
         current_app.logger.info('成功添加课程！')
     c = Course.query.all()
-    return render_template("MessageArrange/course-search.html", courses=c)
+    if current_user.status == '教师':
+        c=Course.query.filter(Course.teacher_id==current_user.uid).all()
+        return render_template("MessageArrange/course-search.html", courses=c)
+    else:
+        return render_template("MessageArrange/course-search.html", courses=c)
 
 
 @bp.route('/user-search.html', methods=['GET', 'POST'])
@@ -324,15 +371,30 @@ def AddUser():
     else:
         db = get_db()
         NewUser = User(uid=uid, name=name, age=age, sex=sex, status=status, password='123456')
+        u = User.query.filter(User.uid == uid).first()
+        if(u):
+            error='用户已存在！'
+            flash(error)
+            current_app.logger.info('学工号冲突！')
+            u = User.query.all()
+            return render_template("MessageArrange/user-search.html", users=u)
         db.session.add(NewUser)
         db.session.commit()
+        if(status=='学生'):
+            NewStudent = Student(id=uid, name=name, gender=sex, major_id=1)
+            db.session.add(NewStudent)
+            db.session.commit()
+        elif(status=='教师'):
+            NewTeacher = Teacher(id=uid, name=name)
+            db.session.add(NewTeacher)
+            db.session.commit()
     u = User.query.all()
     if (error):
         flash(error)
         current_app.logger.error(error)
     else:
         flash('添加成功')
-        current_app.logger.info('用户添加成！')
+        current_app.logger.info('用户添加成功！')
     return render_template("MessageArrange/user-search.html", users=u)
 
 
@@ -351,13 +413,17 @@ from pandas import read_csv
 import os
 @bp.route('/SubmitCsv', methods=['GET', 'POST'])
 def SubmitCsv():
+    # if 'file' not in request.files:
+    #     flash('No file part')
+    #     u = User.query.all()
+    #     return render_template("MessageArrange/user-search.html", users=u)
     db = get_db()
     csv = request.files['csv']
     # basedir = os.path.abspath(os.path.dirname(__file__))
     # file_path = basedir + "\\static\\assets\\images\\lg\\" + u.uid + '.jpg'
     csv.save('uploads/'+csv.filename)
     # 读取相关的数据
-    data = read_csv('uploads/' + csv.filename)
+    data = read_csv('uploads/' + csv.filename,encoding='gb2312')
     # print(data)
     userToImput = []
     for i in range(0,data['uid'].size):
@@ -375,6 +441,7 @@ def SubmitCsv():
         except:
             pass
     print(userToImput)
+    current_app.logger.error('批量添加用户')
     os.remove('uploads/' + csv.filename)
     u = User.query.all()
     return render_template("MessageArrange/user-search.html", users=u)

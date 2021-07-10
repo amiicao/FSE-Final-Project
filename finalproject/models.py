@@ -9,15 +9,24 @@ from sqlalchemy.orm import relationship
 from database import db
 
 
+# class Teacher(db.Model):
+#     __bind_key__ = 'course_arrangement_system'
+#     __tablename__ = 'teacherinclassarrange'
+#     teacher_name = db.Column(db.String(45))
+#     teacher_id = db.Column(db.Integer,db.ForeignKey('user.uid',ondelete='CASCADE'),primary_key=True)
+#
+#     def __repr__(self):
+#         return '<teacher>{}:{}'.format(self.teacher_name, self.teacher_id)
+
 class Teacher(db.Model):
-    __bind_key__ = 'course_arrangement_system'
-    __tablename__ = 'teacherinclassarrange'
-    teacher_name = db.Column(db.String(45))
-    teacher_id = db.Column(db.Integer,db.ForeignKey('user.uid',ondelete='CASCADE'),primary_key=True)
+    __bind_key__ = 'message_management_system'
+    __tablename__ = 'teacher'
+    name = db.Column(db.String(45))
+    id = db.Column(db.Integer, db.ForeignKey('user.uid'), primary_key=True)
+    courses = relationship('Course', backref='teacher')
 
     def __repr__(self):
-        return '<teacher>{}:{}'.format(self.teacher_name, self.teacher_id)
-
+        return '<teacher>{}:{}'.format(self.name, self.id)
 
 class TermCourse(db.Model):
     __bind_key__ = 'course_arrangement_system'
@@ -160,13 +169,13 @@ class BEApplication(db.Model):  # student's application for by-election
     course_id = db.Column(db.Integer, db.ForeignKey("course.cid"))
 
 
-class Teacher_3(db.Model):
-    __bind_key__ = 'select_course'
-    __tablename__ = 'teacher'
-    __table_args__ = {'extend_existing': True}
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(16), unique=True)
-    courses = relationship('Course', backref='teacher_3')
+# class Teacher_3(db.Model):
+#     __bind_key__ = 'select_course'
+#     __tablename__ = 'teacher'
+#     __table_args__ = {'extend_existing': True}
+#     id = db.Column(db.Integer, primary_key=True)
+#     name = db.Column(db.String(16), unique=True)
+#     courses = relationship('Course', backref='teacher_3')
 
 
 class Major(db.Model):

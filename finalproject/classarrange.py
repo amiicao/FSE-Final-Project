@@ -145,22 +145,54 @@ def classmodify():
         print('hhh', request.form['daytime1'], request.form['daytime2'], request.form['periods1'])
         if request.form['daytime1']:
             timecode[1] = str(int(request.form['daytime1']) + 1)
-        if request.form['daytime2']:
+        if request.form['daytime2'] :
             timecode[1 + 7] = str(int(request.form['daytime2']) + 1)
         if request.form['periods1']:
             print(request.form['periods1'])
             timecode[2] = periods[request.form['periods1']]
+        print("111111")
+        print(request.form['periods2'])
         if request.form['periods2']:
             timecode[2 + 7] = periods[request.form['periods2']]
         timecode = ''.join(timecode)
-        print(timecode)
-        termCourse.time = timecode
+        # print(timecode[1:7])
+        # print(timecode[8:14])
+        # if timecode[1:7] != timecode[8:14]:
+        #   flash ("选课时间冲突，请重新选择！")
+        # else:
+        #     print(timecode)
+        #     termCourse.time = timecode
+        #     if TermCourse.query.filter(TermCourse.time.like('%' + timecode[1:7] + '%')).count() + TermCourse.query.filter(
+        #             timecode[7] != "0" and TermCourse.time.like('%' + timecode[8:14] + '%')).count():
+        #         flash('时间冲突，请重新修改')
+        #     else:
+        #         termCourse.time = timecode
+        #         db = get_db()
+        #         db.session.commit()
+        #         error = '修改成功!'
+        #         flash(error)
 
-        db = get_db()
-        db.session.commit()
-
-        error = '修改成功!'
-        flash(error)
+        if timecode[7] == "0" and TermCourse.query.filter(TermCourse.time.like('%' + timecode[1:7] + '%')).count():
+            flash('时间冲突，请重新修改1')
+        elif timecode[7] != "0" and TermCourse.query.filter(TermCourse.time.like('%' + timecode[1:7] + '%')).count():
+            # TermCourse.query.filter(TermCourse.time==nb).count()) :
+            flash('时间冲突，请重新修改4')
+        elif timecode[7] != "0" and TermCourse.query.filter(TermCourse.time.like('%' + timecode[8:14] + '%')).count():
+            # TermCourse.query.filter(TermCourse.time==nb).count()):
+            flash('时间冲突，请重新修改2')
+        elif timecode[1:7] == timecode[8:14]:
+            flash('时间冲突，请重新修改3')
+        else:
+            termCourse.time = timecode
+            db = get_db()
+            db.session.commit()
+            error = '修改成功!'
+            flash(error)
+        # db = get_db()
+        # db.session.commit()
+        #
+        # error = '修改成功!'
+        # flash(error)
     return redirect(url_for('classarrange.department'))
     # return render_template('department.html')
 
@@ -905,33 +937,35 @@ def TeacherCourse():
             tmp.append(" ")
         a.append(tmp)
     b = [1, 2, 4, 6, 7]  # 221 212 21
-    teacher = User.query.filter(User.name == request.args.get('name')).first()
-    print(teacher)
+    try:
+        teacher = User.query.filter(User.name == request.args.get('name')).first()
+        print(teacher)
+    except:
+        pass
     if not teacher:
         teacher = User.query.filter(User.uid == current_user.uid).first()
-        applications = ModifyApplication.query.filter_by(teacher_id=teacher.uid).all()
 
-    name = teacher.name
-    error = None
+
     if teacher:
-        teacher = User.query.filter(User.name == request.args.get('name')).first()
-        #print(str(teacher.teacher_id).zfill(5))
+        name = teacher.name
+        error = None
+        applications = ModifyApplication.query.filter_by(teacher_id=teacher.uid).all()
         courses = Course.query.filter(Course.teacher_id == teacher.uid).all()
         print(courses)
-        applications = ModifyApplication.query.filter_by(teacher_id=teacher.uid).order_by(
-            ModifyApplication.id.desc()).all()
-        for c in courses:
-            for i in [0, 7]:
-                if (c.time[i] == '0'):
-                    break
-                else:
-                    a[b[int(c.time[i + 2]) - 1] - 1][int(c.time[i + 1])] = c.name
-                    if (c.time[i] == '3'):
-                        a[b[int(c.time[i + 2]) - 1]][int(c.time[i + 1])] = c.name
-                    # a[b[int(c.time[i + 1])]][int(c.time[i + 2])] = c.course_name
-                    # if(c.time[i+3]=='3'):
-                    #     a[b[int(c.time[i + 1])]+1][int(c.time[i + 2])] = c.course_name
-        print(applications)
+        applications = ModifyApplication.query.filter_by(teacher_id=teacher.uid).order_by(ModifyApplication.id.desc()).all()
+        if courses:
+            for c in courses:
+                for i in [0, 7]:
+                    if (c.time[i] == '0'):
+                        break
+                    else:
+                        a[b[int(c.time[i + 2]) - 1] - 1][int(c.time[i + 1])] = c.name
+                        if (c.time[i] == '3'):
+                            a[b[int(c.time[i + 2]) - 1]][int(c.time[i + 1])] = c.name
+                        # a[b[int(c.time[i + 1])]][int(c.time[i + 2])] = c.course_name
+                        # if(c.time[i+3]=='3'):
+                        #     a[b[int(c.time[i + 1])]+1][int(c.time[i + 2])] = c.course_name
+            print(applications)
     return render_template('ClassArrange/teachermain.html', Courses=a, applications=applications)
 
 
@@ -1050,6 +1084,7 @@ def printtable():
             teacher = User.query.filter(User.uid == current_user.uid).first()
             # teacher = Teacher.query.filter(Teacher.teacher_name == request.args.get('name')).first()
             courses = Course.query.filter(Course.teacher_id == teacher.uid).all()
+            print(courses)
         except:
             flash('fuck')
             return redirect(url_for('classarrange.TeacherCourse'))
@@ -1058,9 +1093,9 @@ def printtable():
                 if (c.time[i] == '0'):
                     break
                 else:
-                    a[b[int(c.time[i + 2]) - 1] - 1][int(c.time[i + 1])] = c.course_name
+                    a[b[int(c.time[i + 2]) - 1] - 1][int(c.time[i + 1])] = c.name
                     if (c.time[i] == '3'):
-                        a[b[int(c.time[i + 2]) - 1]][int(c.time[i + 1])] = c.course_name
+                        a[b[int(c.time[i + 2]) - 1]][int(c.time[i + 1])] = c.name
                     # a[b[int(c.time[i + 1])]][int(c.time[i + 2])] = c.course_name
                     # if(c.time[i+3]=='3'):
                     #     a[b[int(c.time[i + 1])]+1][int(c.time[i + 2])] = c.course_name
