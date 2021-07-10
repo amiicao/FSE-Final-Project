@@ -155,12 +155,20 @@ def classmodify():
         timecode = ''.join(timecode)
         print(timecode)
         termCourse.time = timecode
-
-        db = get_db()
-        db.session.commit()
-
-        error = '修改成功!'
-        flash(error)
+        if TermCourse.query.filter(TermCourse.time.like('%' + timecode[1:7] + '%')).count() + TermCourse.query.filter(
+                timecode[7] != "0" and TermCourse.time.like('%' + timecode[8:14] + '%')).count():
+            flash('时间冲突，请重新修改')
+        else:
+            termCourse.time = timecode
+            db = get_db()
+            db.session.commit()
+            error = '修改成功!'
+            flash(error)
+        # db = get_db()
+        # db.session.commit()
+        #
+        # error = '修改成功!'
+        # flash(error)
     return redirect(url_for('classarrange.department'))
     # return render_template('department.html')
 
