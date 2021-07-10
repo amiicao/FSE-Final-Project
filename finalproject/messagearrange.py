@@ -112,8 +112,6 @@ def EditInfo():
             t.name=name
             current_app.logger.info(t.name)
             db.session.commit()
-            t = Teacher.query.filter(Teacher.id == uid).first()
-            current_app.logger.info(t.name)
         if(u.status=='学生'):
             s = Student.query.filter(Student.uid == uid).first()
             s.name=name
