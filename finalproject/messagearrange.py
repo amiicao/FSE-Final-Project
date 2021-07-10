@@ -9,7 +9,7 @@ import os
 UPLOAD_FOLDER = 'uploads'
 bp = Blueprint('messagearrange', __name__, url_prefix='/messagearrange')
 from database import get_db
-from models import User, Course
+from models import User, Course,Student,Teacher
 from flask_login import LoginManager, current_user, login_user, logout_user, login_required
 import logging
 # app = Flask(__name__)
@@ -98,13 +98,27 @@ def EditInfo():
     elif age <= '0':
         error = "年龄不能小于0"
     else:
+        db = get_db()
         u = User.query.filter(User.uid == uid).first()
         u.name = name
         u.age = age
         u.sex = sex
-        db = get_db()
         db.session.commit()
-
+        # current_app.logger.info(u.status)
+        if(u.status=='教师'):
+            current_app.logger.info('这是一个教师')
+            t = Teacher.query.filter(Teacher.id == uid).first()
+            current_app.logger.info(t.name)
+            t.name=name
+            current_app.logger.info(t.name)
+            db.session.commit()
+            t = Teacher.query.filter(Teacher.id == uid).first()
+            current_app.logger.info(t.name)
+        if(u.status=='学生'):
+            s = Student.query.filter(Student.uid == uid).first()
+            s.name=name
+            s.gender=sex
+            db.session.commit()
     if (error):
         flash(error)
         current_app.logger.error(error)
@@ -351,13 +365,17 @@ from pandas import read_csv
 import os
 @bp.route('/SubmitCsv', methods=['GET', 'POST'])
 def SubmitCsv():
+    # if 'file' not in request.files:
+    #     flash('No file part')
+    #     u = User.query.all()
+    #     return render_template("MessageArrange/user-search.html", users=u)
     db = get_db()
     csv = request.files['csv']
     # basedir = os.path.abspath(os.path.dirname(__file__))
     # file_path = basedir + "\\static\\assets\\images\\lg\\" + u.uid + '.jpg'
     csv.save('uploads/'+csv.filename)
     # 读取相关的数据
-    data = read_csv('uploads/' + csv.filename)
+    data = read_csv('uploads/' + csv.filename,encoding='gb2312')
     # print(data)
     userToImput = []
     for i in range(0,data['uid'].size):

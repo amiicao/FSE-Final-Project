@@ -26,15 +26,12 @@
                     <div class="border-0 mb-4">
                         <div class="card-header py-3 no-bg bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap">
                             <h3 class="fw-bold mb-0">课程搜索</h3>
-                            {% if current_user.is_authenticated and current_user.status =="管理员" %}
                                 <div class="col-auto d-flex w-sm-100">
                                     <button type="button" class="btn btn-dark btn-set-task w-sm-100" data-bs-toggle="modal" data-bs-target="#tickadd"><i class="icofont-plus-circle me-2 fs-6"></i>添加课程</button>
                                 </div>
-                            {% elif current_user.is_authenticated and current_user.status =="教师" %}
                                 <div class="col-auto d-flex w-sm-100">
                                     <button type="button" class="btn btn-dark btn-set-task w-sm-100" data-bs-toggle="modal" data-bs-target="#tickadd"><i class="icofont-plus-circle me-2 fs-6"></i>添加课程</button>
                                 </div>
-                            {% endif %}
                         </div>
                     </div>
                 </div> <!-- Row end  -->
