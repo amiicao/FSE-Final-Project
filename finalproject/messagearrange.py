@@ -106,11 +106,8 @@ def EditInfo():
         db.session.commit()
         # current_app.logger.info(u.status)
         if(u.status=='教师'):
-            current_app.logger.info('这是一个教师')
             t = Teacher.query.filter(Teacher.id == uid).first()
-            current_app.logger.info(t.name)
             t.name=name
-            current_app.logger.info(t.name)
             db.session.commit()
         if(u.status=='学生'):
             s = Student.query.filter(Student.uid == uid).first()
@@ -216,7 +213,22 @@ def EditUser():
     else:
         db = get_db()
         u = User.query.filter(User.uid == uid).first()
-        print((name))
+        if(u.status=='学生' and status=='教师'):
+            error='不可提高已选课学生权限！'
+        elif(u.status=='学生' and status=='管理员'):
+            error = '不可提高已选课学生权限！'
+        elif(u.status=='教师' and status=='学生'):
+            error='不可修改已有课的教师权限！'
+        elif (u.status == '教师' and status == '管理员'):
+            error = '不可修改已有课的教师权限！'
+        elif(u.status=='管理员' and staus=='学生'):
+            NewStudent=Student(id=uid,name=name,gender=sex,major_id=1)
+            db.session.add(NewStudent)
+            db.session.commit()
+        elif(u.status == '管理员' and staus == '学生'):
+            NewTeacher = Teacher(id=uid, name=name)
+            db.session.add(NewTeacher)
+            db.session.commit()
         u.name = name
         u.age = age
         u.sex = sex
@@ -251,8 +263,16 @@ def DeleteCourse(cid):
 @bp.route('/user-delete/<uid>', methods=['GET', 'POST'])
 @login_required
 def DeleteUser(uid):
-    delete_user = User.query.filter(User.uid == uid).first()
     db = get_db()
+    delete_user = User.query.filter(User.uid == uid).first()
+    if(delete_user.status=='学生'):
+        s=Student.query.filter(User.uid == uid).first()
+        db.session.delete(s)
+        db.session.commit()
+    elif(delete_user.status=='教师'):
+        t=Teacher.query.filter(User.uid == uid).first()
+        db.session.delete(t)
+        db.session.commit()
     db.session.delete(delete_user)
     db.session.commit()
     flash('成功删除')
@@ -338,6 +358,14 @@ def AddUser():
         NewUser = User(uid=uid, name=name, age=age, sex=sex, status=status, password='123456')
         db.session.add(NewUser)
         db.session.commit()
+        if(status=='学生'):
+            NewStudent = Student(id=uid, name=name, gender=sex, major_id=1)
+            db.session.add(NewStudent)
+            db.session.commit()
+        elif(status=='教师'):
+            NewTeacher = Teacher(id=uid, name=name)
+            db.session.add(NewTeacher)
+            db.session.commit()
     u = User.query.all()
     if (error):
         flash(error)
