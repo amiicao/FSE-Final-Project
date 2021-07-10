@@ -26,9 +26,15 @@
                     <div class="border-0 mb-4">
                         <div class="card-header py-3 no-bg bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap">
                             <h3 class="fw-bold mb-0">课程搜索</h3>
-                            <div class="col-auto d-flex w-sm-100">
-                                <button type="button" class="btn btn-dark btn-set-task w-sm-100" data-bs-toggle="modal" data-bs-target="#tickadd"><i class="icofont-plus-circle me-2 fs-6"></i>添加课程</button>
-                            </div>
+                            {% if current_user.is_authenticated and current_user.status =="管理员" %}
+                                <div class="col-auto d-flex w-sm-100">
+                                    <button type="button" class="btn btn-dark btn-set-task w-sm-100" data-bs-toggle="modal" data-bs-target="#tickadd"><i class="icofont-plus-circle me-2 fs-6"></i>添加课程</button>
+                                </div>
+                            {% elif current_user.is_authenticated and current_user.status =="教师" %}
+                                <div class="col-auto d-flex w-sm-100">
+                                    <button type="button" class="btn btn-dark btn-set-task w-sm-100" data-bs-toggle="modal" data-bs-target="#tickadd"><i class="icofont-plus-circle me-2 fs-6"></i>添加课程</button>
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div> <!-- Row end  -->
@@ -43,8 +49,12 @@
                                             <th>课程名</th>
                                             <th>授课教师</th> 
                                             <th>学分</th> 
-                                            <th>课程类型</th>   
-                                            <th>修改/删除课程</th> 
+                                            <th>课程类型</th>
+                                            {% if current_user.is_authenticated and current_user.status =="管理员" %}
+                                                <th>修改/删除课程</th>
+                                            {% elif current_user.is_authenticated and current_user.status =="教师" %}
+                                                <th>修改/删除课程</th>
+                                            {% endif %}
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -64,13 +74,18 @@
                                                 {{course.credit}}
                                            </td>
                                            <td><span class="badge bg-success">{{course.type}}</span></td>
-                                           <td>
-                                            
+                                            <td>
+                                                {% if current_user.is_authenticated and current_user.status =="管理员" %}
                                                     <div class="btn-group" role="group" aria-label="Basic outlined example">
                                                         <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#edittickit" ><i class="icofont-edit text-success"></i></button>
                                                         <button type="button" class="btn btn-outline-secondary deleterow" onclick="deletecourse('{{course.cid}}')" ><i class="icofont-ui-delete text-danger"></i></button>
                                                     </div>
-                                        
+                                                {% elif current_user.is_authenticated and current_user.status =="教师" %}
+                                                    <div class="btn-group" role="group" aria-label="Basic outlined example">
+                                                        <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#edittickit" ><i class="icofont-edit text-success"></i></button>
+                                                        <button type="button" class="btn btn-outline-secondary deleterow" onclick="deletecourse('{{course.cid}}')" ><i class="icofont-ui-delete text-danger"></i></button>
+                                                    </div>
+                                                {% endif %}
                                             </td>
                                         </tr>                                    
                                         {% endfor %}
