@@ -211,7 +211,7 @@ class Paper(db.Model):
     anspapers = db.relationship("Anspaper", lazy='dynamic')
     probanls = db.relationship('ProbAnalysis')
     to_class = db.Column(db.Integer, db.ForeignKey('course.cid', ondelete='CASCADE'), nullable=True)
-    teacher_id = db.Column(db.Integer, db.ForeignKey('teacherinclassarrange.teacher_id'), nullable=True)
+    teacher_id = db.Column(db.Integer, db.ForeignKey('course.teacher_id'), nullable=True)
 
 
 class Resource(db.Model):
