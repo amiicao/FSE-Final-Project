@@ -128,6 +128,9 @@ def classmodify():
         # pass
         print('fsfsfsfsfs')
         classroom = Classroom.query.filter_by(location=location).first()
+        if classroom is None:
+            flash("修改教室不存在！")
+            return redirect(url_for('classarrange.department'))
         print(classroom.location)
         ID = classroom.id
         termCourse = Course.query.filter_by(name=course_name).first()
