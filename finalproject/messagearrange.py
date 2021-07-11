@@ -110,7 +110,7 @@ def EditInfo():
             t.name=name
             db.session.commit()
         if(u.status=='学生'):
-            s = Student.query.filter(Student.uid == uid).first()
+            s = Student.query.filter(Student.id == uid).first()
             s.name=name
             s.gender=sex
             db.session.commit()
@@ -167,8 +167,6 @@ def EditCourse():
         error = '未输入课程描述'
     elif capacity == '':
         error = '未输入课程容量'
-    elif credit!='2' or credit !='3' or credit!='4':
-        error='学分不在规定范围内！'
     else:
         db = get_db()
         c = Course.query.filter(Course.cid == cid).first()
@@ -314,8 +312,6 @@ def AddCourse():
         error = '未输入课程描述'
     elif capacity == '':
         error = '未输入课程容量'
-    elif credit!='2' or credit !='3' or credit!='4':
-        error='学分不在规定范围内！'
     else:
         NewCourse = Course(name=name, description=description, credit=credit, capacity=capacity, cid=cid,
                            instructor=instructor, type=type, time=time, classroom=classroom,teacher_id=teacherid)

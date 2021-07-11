@@ -171,16 +171,16 @@ def classmodify():
         #         db.session.commit()
         #         error = '修改成功!'
         #         flash(error)
-        print(timecode)
-        if timecode[7] == "0" and TermCourse.query.filter(TermCourse.time.like('%' + timecode[1:7] + '%')).count():
+        if timecode[7] == "0" and Course.query.filter(Course.time.like('%' + str(timecode[1:6]) + '%')).count() > 0:
             flash('时间冲突，请重新修改1')
-        elif timecode[7] != "0" and TermCourse.query.filter(TermCourse.time.like('%' + timecode[1:7] + '%')).count():
+        elif timecode[7] != "0" and Course.query.filter(
+                Course.time.like('%' + timecode[1:6] + '%')).count() > 0:
             # TermCourse.query.filter(TermCourse.time==nb).count()) :
             flash('时间冲突，请重新修改4')
-        elif timecode[7] != "0" and TermCourse.query.filter(TermCourse.time.like('%' + timecode[8:14] + '%')).count():
+        elif timecode[7] != "0" and Course.query.filter(Course.time.like('%' + timecode[8:13] + '%')).count() > 0:
             # TermCourse.query.filter(TermCourse.time==nb).count()):
             flash('时间冲突，请重新修改2')
-        elif timecode[0:7] == timecode[7:14]:
+        elif timecode[1:6] == timecode[8:13]:
             flash('时间冲突，请重新修改3')
         else:
             termCourse.time = timecode
@@ -188,11 +188,6 @@ def classmodify():
             db.session.commit()
             error = '修改成功!'
             flash(error)
-        # db = get_db()
-        # db.session.commit()
-        #
-        # error = '修改成功!'
-        # flash(error)
     return redirect(url_for('classarrange.department'))
     # return render_template('department.html')
 
